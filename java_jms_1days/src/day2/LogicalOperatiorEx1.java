@@ -39,8 +39,15 @@ public class LogicalOperatiorEx1 {
 		//성적이 0보다 (크거나 같고), 성적이 100보다 (적거나 같다)
 		//성적 >= 0 && 성적 <= 100
 		System.out.println(score + "점은 올바른 성적인가? " + (score >= 0 && score <= 100));
-		
+		// 앞 결과의 반대를 출력
+		System.out.println(score + "점은 올바른 성적아닌가? " + !(score >= 0 && score <= 100));
+		/* 성적이 올바르지 않은지를 확인. 올바른지 않은 성적인 0미만, 100초과
+		 * 성적이 0미만이거나 성적이 100초과이다.
+		 * 성적이 0보다 (작)거나 성적이 100보다 (크다)
+		 * 성적 < 0 || 성적 > 100
+		 * */
 		System.out.println(score + "점은 올바른 성적아닌가? " + (score < 0 || score >100));
+		
 	}
 
 }
