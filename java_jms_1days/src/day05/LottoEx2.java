@@ -44,25 +44,27 @@ public class LottoEx2 {
 		System.out.println("보너스번호는 : " + bonus);
 		Scanner scan = new Scanner(System.in);
 		int userarray[] = new int[6];
-		int a = 0;
+		System.out.print("입력번호 : ");
 		//사용자 번호를 입력(6개)해서 배열에 저장 - 3번배열
 		for(int i = 0; i < userarray.length; i++) {
-			System.out.print("로또 번호 1개 입력 후 엔터 : ");
 			userarray[i] = scan.nextInt();
 		}
-		System.out.print("사용자 번호 확인 : ");
+		System.out.print("\n사용자 번호 확인 : ");
 		for(int i = 0; i < userarray.length; i++) {
 			System.out.print(userarray[i]+ " ");
 		}
+		scan.close();
 		//당첨 개수 확인
 		int cn = 0;
 		for(int i = 0; i<arr.length; i++) {
 			for(int j = 0; j<userarray.length; j++) {
 				if(arr[i] == userarray[j]) {
 					cn+=1;
+					break;//브레이크를 거는 이유는 사용자가 중복된 값을 입력할 수 있기에 방지차원
 				}
 			}
 		}
+		System.out.println("");
 		System.out.println("당첨 개수는 : " + cn);
 		
 		//당첨 개수에 따른 등수 출력
@@ -72,24 +74,28 @@ public class LottoEx2 {
 			break;
 		}
 		case 5: {
-			System.out.println("2등");
-			break;
+			int i;
+			// 사용자가 입력한 번호에 보너스가 있는지 확인
+			for(i = 0; i<userarray.length; i++) {
+				if(bonus == i) {
+					break;
+				}
+				//보너스 번호와 일치하는 번호가 없으면 
+				if(i == userarray.length) {
+					System.out.println("3등!");
+				}
+				else {
+					System.out.println("2등!");
+				}
+			}
 		}
 		
 		case 4: {
-			System.out.println("3등");
-			break;
-		}
-		case 3: {
 			System.out.println("4등");
 			break;
 		}
-		case 2: {
+		case 3: {
 			System.out.println("5등");
-			break;
-		}
-		case 1: {
-			System.out.println("6등");
 			break;
 		}
 		default:
