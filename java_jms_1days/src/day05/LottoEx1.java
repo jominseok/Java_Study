@@ -45,8 +45,6 @@ public class LottoEx1 {
 				arr1[count++] = r;
 			}
 		}
-		//정렬
-		Arrays.sort(arr1);
 		//출력
 		for(int i = 0; i < arr1.length; i++) {
 			System.out.print(arr1[i] + " ");
