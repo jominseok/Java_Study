@@ -83,7 +83,8 @@ public class StudentProgram {
 			switch (menu) {
 			//선택한 메뉴에 따른 기능 실행
 			case 1: {
-				
+				// 주어진 학생 정보에 추가 정보를 입력하여 학생 성적을 수정하는 메서드
+				updateScore(stds);
 				break;
 			}
 			case 2:{
@@ -104,7 +105,7 @@ public class StudentProgram {
 		while(menu != 3); 
 			
 	}
-	
+
 	public static void printMenu() {
 		System.out.println("=================");
 		System.out.println("메뉴");
@@ -112,14 +113,6 @@ public class StudentProgram {
 		System.out.println("2. 성적조회");
 		System.out.println("3. 프로그램 종료");
 		System.out.print("메뉴 선택 : ");
-		
-//		System.out.println("=================");
-//		System.out.println("--성적수정--");
-//		System.out.println("1. 국어");
-//		System.out.println("2. 영어");
-//		System.out.println("3. 수학");
-//		System.out.print("과목선택 : ");
-//		System.out.println("=================");
 	}
 	
 	
@@ -207,6 +200,26 @@ public class StudentProgram {
 		System.out.println("3. 수학");
 		System.out.print("과목 선택 : ");
 		int num = scan.nextInt();
+		
+		//다시 반복문을 이용한 출력
+		for(Student std : stds) {
+			// 입력한 과목에 맞는 성적 출력
+			switch (num) {
+			case 1: {
+				System.out.println("번호 : " + std.num + ", 국어 : " + std.kor);
+			}
+			case 2:{
+				System.out.println("번호 : " + std.num + ", 영어 : " + std.eng);
+			}
+			case 3:{
+				System.out.println("번호 : " + std.num + ", 수학 : " + std.math);
+			}
+			default:
+				System.out.println("잘못된 과목입니다.");
+			}
+		}
+		
+		
 		// 입력한 과목에 맞는 성적 출력
 		if(num == 1) {
 			//반복문 : 학생 전체
@@ -227,4 +240,58 @@ public class StudentProgram {
 			printScoreBysubject(stds);
 		}
 	}
+
+	/*
+	 * 기능 : 학생들 정보가 주어지고 추가 정보를 입력하면 학생 성적을 수정하는 메서드
+	 * 매개변수 : 학생들 정보 => Sutudent[] stds
+	 * 리턴타입 : void
+	 * updateScore
+	 * */
+	
+	public static void updateScore(Student[] stds) {
+		Scanner scan = new Scanner(System.in);
+		//과목선택
+		System.out.println("=================");
+		System.out.println("--성적수정--");
+		System.out.println("1. 국어");
+		System.out.println("2. 영어");
+		System.out.println("3. 수학");
+		System.out.print("과목선택 : ");
+		int subject = scan.nextInt();
+		System.out.println("=================");
+		//학생 번호 선택
+		System.out.println();
+		System.out.print("학생 선택 : ");
+		int stu = scan.nextInt();
+		// 성적을 입력
+		System.out.println();
+		System.out.print("점수 입력 : ");
+		int score = scan.nextInt();
+		//반복문 : 학생전체
+		for(Student std : stds) {
+			//입력한 학생 번호와 일치하는 학생 정보를 찾아서 해당하는 과목에 맞는 성적을 수정
+			if(std.num != stu) {
+				continue;
+			}
+			// 일치하는 학생이 있을때
+			switch (subject) {
+			case 1: {
+				std.setKor(score);
+				return;
+			}
+			case 2:{
+				std.setEng(score);
+				return;
+			}
+			case 3:{
+				std.setMath(score);
+				return;
+			}
+			
+		}
+			// 과목 또는 학생 변호가 잘못 되먄 안내문구 출력
+			System.out.println("과목 또는 학생 번호가 잘못 되었습니다.");
+	}
 }
+}
+
