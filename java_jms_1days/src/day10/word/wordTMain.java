@@ -23,12 +23,10 @@ public class wordTMain {
 	 * 3. 필요한 메서드
 	 * */
 	private static Scanner scan = new Scanner(System.in);
-	
 	private static WordT[] List = new WordT[10]; //단어장
 	private static int count = 0;//저장된 단어의 개수
-	private static int index = -1;
+	
 	public static void main(String[] args) {
-		
 		int menu;
 		//반복문
 		do {
@@ -42,8 +40,6 @@ public class wordTMain {
 			
 		
 	}
-	
-	
 	
 	private static void runMenu(int menu) {
 		switch (menu) {
@@ -64,22 +60,7 @@ public class wordTMain {
 		}
 		case 4: {
 			//단어 삭제
-			System.out.println("단어 삭제");
-			System.out.print("삭제할 단어를 입력해주세요 : ");
-			String delWord = scan.next();
-			
-			//삭제할 단어의 번지 찾기
-			for(int i = 0; i < count; i++) {
-				if(List[i].equals(delWord)) {
-					index = i;
-				}
-			}
-			//단어장의 개수를 줄임
-			count--;
-			WordT [] tmpList = new WordT[List.length];
-			System.arraycopy(List, 0, tmpList, 0, List.length);
-			//
-			System.arraycopy(tmpList, index+1, List, index, count -index);
+			deleteWord();
 			break;
 		}
 		case 5: {
@@ -91,24 +72,46 @@ public class wordTMain {
 		}	
 	}
 
+	private static void deleteWord() {
+		System.out.println("단어 삭제");
+		System.out.print("삭제할 단어를 입력해주세요 : ");
+		String delWord = scan.next();
+		int num = -1;
+		//삭제할 단어의 번지 찾기
+		for(int i = 0; i < count; i++) {
+			//입력한 번호와 일치하는 게시릏을 찾압번지를 저장
+			if(List[i].equals(delWord)) {
+				num = i;
+			}
+		}
+		if(num == -1) {
+			System.out.println("저장된 단어가 없습니다.");
+			return;
+		}
+		//단어장의 개수를 줄임
+		count--;
+		WordT [] tmpList = new WordT[List.length];
+		System.arraycopy(List, 0, tmpList, 0, List.length);
+		//
+		System.arraycopy(tmpList, num+1, List, num, count -num);
+		
+	}
 
 	private static void update() {
 		System.out.println("단어 수정");
 		System.out.print("수정할 단어를 입력해주세요 : ");
 		String word = scan.next();
+		System.out.print("수정할 의미를 입력해주세요 : ");
+		scan.nextLine();
+		String meaning = scan.nextLine();
 		for(int i = 0; i < count; i++) {
 			if(List[i].equals(word)) {
-				System.out.print("수정할 의미를 입력해주세요 : ");
-				String meaning = scan.next();
 				List[i].update(meaning);
 				System.out.println("영단어가 수정되었습니다.");
 				return;
 			}
-			else {
-				System.out.println("저장된단어가 없습니다.");
-				break;
-			}
 		}
+		System.out.println("저장된단어가 없습니다.");
 	}
 
 	private static void serchString() {
