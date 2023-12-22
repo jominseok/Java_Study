@@ -2,8 +2,8 @@ package day11.product2;
 
 public class Product {
 	
-	String name;
-	int amount, buyPrice, price, salePrice;
+	private String name;
+	private int amount, buyPrice, price, salePrice;
 	
 
 	public Product(String name, int amount, int buyPrice, int price) {
