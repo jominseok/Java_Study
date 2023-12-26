@@ -4,11 +4,14 @@ public class OverrideEx1 {
 
 	public static void main(String[] args) {
 		D d = new D();
+		//오버라이딩을 이용하여 재정의 괸 메서드가 호출
+		//print1()은 접근 제어자가 protected이기 때문에 같은 패키지에서는 실행하지만, 다른 패키지에서는 실행이
+		//안됨
 		d.print1();
 		System.out.println("-----------------------------");
-		d.print2();
+		d.print2();//오버라이딩을 이용하여 재정의 된 메서드가 호출
 		System.out.println("-----------------------------");
-		d.print1(20);
+		d.print1(20);//오버로딩을 이용하여 추가된 메서드가 호출
 	}
 
 }
