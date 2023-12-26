@@ -1,0 +1,1 @@
+package day12.protected1;
