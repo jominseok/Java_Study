@@ -11,7 +11,11 @@ import lombok.NonNull;
 @Data
 class Student implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8995998327150478104L;
 	@NonNull
 	Integer grade, classNum, num;
 	@NonNull

@@ -25,7 +25,7 @@ public class StudentMain {
 	static List<Student> list = new ArrayList<Student>();
 	
 	public static void main(String[] args) {
-		String fileName = "src/day16/student/student.txt";
+		String fileName = "src/day16/student/Student.txt";
 		int menu = 0;
 		do {
 			try {
@@ -41,7 +41,7 @@ public class StudentMain {
 		save(fileName);
 	}
 
-	private static void save(String fileName) {
+	public static void save(String fileName) {
 		try (FileOutputStream fos = new FileOutputStream(fileName);
 				ObjectOutputStream oos = new ObjectOutputStream(fos)
 				){
@@ -55,12 +55,13 @@ public class StudentMain {
 
 	private static void load(String fileName) {
 		try(FileInputStream fis = new FileInputStream(fileName);
-				ObjectInputStream ois = new ObjectInputStream(fis)) {
+			ObjectInputStream ois = new ObjectInputStream(fis)){
 			list = (List<Student>)ois.readObject();
-			System.out.println("학생 정보를 불러 왔습니다.");
+			System.out.println("학생 정보를 불러왔습니다.");
 		} catch (Exception e) {
-			System.out.println("불러오기 실패");
+			System.out.println("불러오기에 실패했습니다.");
 		}
+		
 	}
 
 	private static void runMenu(int menu) {
