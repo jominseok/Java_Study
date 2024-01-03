@@ -1,6 +1,6 @@
-package day15;
+package day15.homework;
 
-public class HomeworkEx1 {
+public class HomeworkMain {
 	/* 영어 단어장을 관리하는 프로그램을 작성하세요.
 	 *--------기본기능----------------
 	 * - 한 단어에 뜻이 여러개 있을 수 있음
@@ -21,8 +21,8 @@ public class HomeworkEx1 {
 	 * 기간 1월5일까지 gitgub에 업로드후 강사에게 공유(단톡방)
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		HomeworkProgram program = new HomeworkProgram();
+		program.run();
 	}
 
 }
