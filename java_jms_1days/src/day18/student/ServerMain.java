@@ -49,8 +49,6 @@ public class ServerMain {
 	}
 
 	private static void load() {
-			
-		
 		try {
 			ObjectInputStream fois = 
 					new ObjectInputStream(new FileInputStream(fileName));
