@@ -19,8 +19,8 @@ public class ServerMain {
 	
 	public static void main(String[] args) {
 		
-		int port = 5002;
-		load();
+		int port = 5002;//포트 번호를 정함
+		load();//
 		System.out.println(list);
 		try {
 			ServerSocket serverSocket = new ServerSocket(port);
@@ -47,11 +47,14 @@ public class ServerMain {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**지정된 경로에 있는 파일을 받아온다
+	 * 
+	 */
 	private static void load() {
 		try {
 			ObjectInputStream fois = 
-					new ObjectInputStream(new FileInputStream(fileName));
+					new ObjectInputStream(new FileInputStream(fileName));//
 			list = (List<Student>)fois.readObject();
 		} catch (IOException | ClassNotFoundException e) {
 			list = new ArrayList<Student>();
