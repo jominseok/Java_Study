@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 public class HomeworkProgram {
 	static Scanner scan = new Scanner(System.in);	
-	static List<Homework> list = new ArrayList<Homework>();
-	static Map<String, List<Homework>> map = new HashMap<String, List<Homework>>();
+	static Map<String, List<String>> map = new HashMap<String, List<String>>();
+	static ArrayList<String> list = new ArrayList<String>();
 	public void runMenu(int menu) {
 		switch (menu) {
 		case 1: {
@@ -24,23 +24,31 @@ public class HomeworkProgram {
 			System.out.print("수정할 단어를 입력해주세요 : ");
 			scan.nextLine();
 			String wrod = scan.nextLine();
-			int index = list.indexOf(wrod);
-			System.out.println(index);
-			if(index == -1) {
-				System.out.println("등록되지 않은 단어입니다.");
+			if(map.keySet().contains(wrod)) {
+				map.put(wrod, map.remove(wrod));
+				System.out.println("단어가 수정 되었습니다.");
 				return;
 			}
+			System.out.println("등록된 단어가 없습니다.");
 			
 			break;
 		}
 		case 3: {
 			// 단어 삭제
-			
+			System.out.print("삭제할 단어를 입력해주세요 : ");
+			scan.nextLine();
+			String wrod = scan.nextLine();
+			if(map.keySet().contains(wrod)) {
+				map.remove(wrod);
+				System.out.println("단어가 삭제되었습니다.");
+				return;
+			}
+			System.out.println("등록된 단어가 없습니다.");
 			break;
 		}
 		case 4: {
 			//뜻 추가
-			
+			System.out.println();
 			break;
 		}
 		case 5: {
@@ -72,8 +80,7 @@ public class HomeworkProgram {
 		String word = scan.nextLine();
 		System.out.print("의미를 입력해주세요 : ");
 		String meaning = scan.nextLine();
-		Homework hok = new Homework(meaning);
-		list.add(hok);
+		list.add(meaning);
 		if(!map.containsKey(word)) {
 			map.put(word, list);
 			System.out.println("단어가 추가되었습니다.");
