@@ -28,13 +28,11 @@ public class Vocabulary {
 		if(list == null){
 			return false;
 		}
+
 		
-		
-		
-		// 이미 등록된 단어이고, 뜻도 등록 되었으면
 		int index = list.indexOf(new word(word));
 		
-		//새로 추가된 단어이면
+		//새로 추가된 단어이면 단어를 추가
 		if(index < 0) {
 			list.add(new word(word, newMeanList));
 			return true;
@@ -43,7 +41,6 @@ public class Vocabulary {
 		// 등록된 단어
 		word selecWord = list.get(index);
 		
-		//이미 등록된 단어이면
 		
 		//중복된 뜻이 있으면 중복 안된 뜻들을 확인
 		// 등록된 단어의 뜻을 가져옴
