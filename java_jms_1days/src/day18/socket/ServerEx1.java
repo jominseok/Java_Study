@@ -7,14 +7,20 @@ public class ServerEx1 {
 
 	public static void main(String[] args) {
 
-		int port = 5001;
+		int port = 3000;
 		try(ServerSocket serverSocket = new ServerSocket(port)){
-			Socket socket = serverSocket.accept(); 
-			Client client = new Client(socket);
-			client.send();
-			client.receive();
+			
+			while (true) {
+				Socket socket = serverSocket.accept(); 
+				Client client = new Client(socket);
+				client.send();
+				client.receive();
+			}
+		
+			
 		}catch (Exception e) {
 			System.out.println("서버 소켓 생성에서 예외가 발생하여 종료합니다.");
+			e.printStackTrace();
 		}
 	}
 

@@ -21,7 +21,7 @@ public class Mean implements Serializable{
 	//[명사] 사과 형태로 출력하기 위해 재정의
 	@Override
 	public String toString() {
-		return "[" + partOfSpeech + "]" + mean;
+		return "[" + partOfSpeech + "] " + mean;
 	}
 
 

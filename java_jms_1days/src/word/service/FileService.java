@@ -1,6 +1,8 @@
-package word;
+package word.service;
 
 import java.util.List;
+
+import word.word;
 
 public interface FileService {
 
