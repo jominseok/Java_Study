@@ -23,13 +23,13 @@ public class wordProgram implements Program {
 	
 	private Vocabulary vocabulary = new Vocabulary(null);
 	private List<word> wrongList = new ArrayList<word>(); //오답 리스트
-	private String fileName;
 	
 	@Override
 	public void run() {
 		int menu = 0;
+		String fileName = "src/word/wordList.txt";
 		//불러오기
-		List<word> list = fileService.load("src/word/wordList.txt");
+		List<word> list = fileService.load(fileName);
 		vocabulary = new Vocabulary(list);
 		do {
 			

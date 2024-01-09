@@ -127,7 +127,7 @@ public class Vocabulary {
 	public void print() {
 		print("");
 	}
-
+	
 	public void printByViews() {
 		print("", (w1, w2) -> w1.getViews() - w1.getViews());
 	}
