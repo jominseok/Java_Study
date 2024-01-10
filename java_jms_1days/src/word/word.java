@@ -116,7 +116,7 @@ public class word implements Serializable{
 		this.word = word;
 	}
 	public word(String word2, String partOfsString, String mean) {
-		this.word = word;
+		this.word = word2;
 		meanList = new ArrayList<Mean>();
 		meanList.add(new Mean(partOfsString, mean));
 	}
