@@ -21,19 +21,24 @@ public class univercityProgram implements program{
 				menu = scan.nextInt();
 				runMenu(menu);
 			} catch (InputMismatchException e) {
-				
+				System.out.println("잘못된 입력값 입니다.");
+				scan.nextLine();
 			}
 			
 			
 		} while (menu != EXIT);
 	}
 
+	
+	
 	@Override
 	public void runMenu(int menu) {
 		switch (menu) {
 		case 1: {
 			// 학교
-			
+			int shMenu = scan.nextInt();
+			ps.printShcool();
+			shcoolRun(shMenu);
 			break;
 		}
 		case 2: {
@@ -63,6 +68,11 @@ public class univercityProgram implements program{
 		default:
 			throw new InputMismatchException();
 		}
+	}
+
+	private void shcoolRun(int shMenu) {
+		
+		
 	}
 
 }
