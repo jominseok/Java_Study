@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연습 예제2</title>
+    <style>
+        .contents{
+            border: 5px solid black;
+            width: 500px;
+            padding: 10px 10px 10px 10px;
+            /* overflow: auto; */
+            /* display: flex; */
+        }
+        .left-box{
+            border: 5px solid red;
+            height: 400px;
+            width: 200px;
+            box-sizing: border-box;
+            float: left;
+        }
+        .right-box{
+            border: 5px solid red;
+            height: 400px;
+            width: 200px;
+            box-sizing: border-box;
+            float: right;
+        }
+        .contents::after{
+            content: '';display: block;clear: both;
+        }
+    </style>
+</head>
+<body>
+    <div class="contents">
+        <div class="left-box"></div>
+        <div class="right-box"></div>
+    </div>
+</body>
+</html>
