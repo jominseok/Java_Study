@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>transform 속성</title>
+</head>
+<style>
+/* 
+transform
+- 다양한 함수들을 이용하여 요소들을 변형 시키는 속성
+- 함수
+- translate???(X, Y, Z, 등등) : 요소를 이동
+- scale??? : 요소를 비율에 맞춰 크기를 변경
+- rotate??? : 요소를 기준에 맞게 회전. 실제 요소 크기와 모양이 변경 되지 않음 . 변경되어 보일순 있음.
+- skew : 요소를 비틀어 모양을 변형
+
+perspective
+- 3d 변환을 적용할 때 원근 효과를 조절할 때 사용하는 속성
+- 값이 클수록 더 멀리 있는것처럼 보이고 작을수로 가까이 있는것 처럼 보임
+
+perspectice-origin
+- 3D 원근에 대한 시점을 조절
+- x축, y축 위치를 지정, 기본 50%, 50%으로 중심을 의미
+*/
+.container{
+    height: 200px; width: 500px; border: 1px solid black;
+    /* perspective: 600px; perspective-origin: 50% 50%; */
+}
+.box{background-color: red; width: 400px; height: 50px;}
+.translate .box1{transform: translate(100px, 100px);}
+.translate .box2{transform: translateX(50%);}
+.translate .box3{transform: translateZ(100px);}
+
+.scale .box{background : gray;}
+.scale .box1{transform: scale(2, 3); transform-origin: 0 0;}
+.scale .box2{transform: scaleX(2); transform-origin:0 0;}
+
+.rotate .box{background: pink;}
+.rotate .box1{transform: rotateX(50%);}
+.rotate .box2{transform: rotateY(45deg);}
+.rotate .box3{transform: rotateZ(45deg);}
+
+.skew .box{background: blue;}
+.skew .box1{transform : skewX(30deg);}
+.skew .box2{transform : skewY(30deg);}
+.skew .box3{transform : skew(30deg, 30deg);}
+</style>
+<body>
+    <div class="container translate">
+        <div class="box box1"></div>
+    </div>
+    <div class="container translate">
+        <div class="box box2"></div>
+    </div>
+    <div class="container translate">
+        <div class="box box3"></div>
+    </div>
+    <div class="container scale">
+        <div class="box box1"></div>
+    </div>
+    <div class="container scale">
+        <div class="box box2"></div>
+    </div>
+    <div class="container rotate">
+        <div class="box box1"></div>
+    </div>
+    <div class="container rotate">
+        <div class="box box2"></div>
+    </div>
+    <div class="container rotate">
+        <div class="box box3"></div>
+    </div>
+    <div class="container skew">
+        <div class="box box1"></div>
+    </div> 
+    <div class="container skew">
+        <div class="box box2"></div>
+    </div> 
+    <div class="container skew">
+        <div class="box box3"></div>
+    </div> 
+</body>
+</html>
