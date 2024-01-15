@@ -15,7 +15,9 @@
         /* 
         border-spacing
         - border-collapse가 seperate일 때, 테두리 사이에 여백의크기를 지정하는 속성
-        
+        table-laout
+        - 요소의 내용이 길어지는 경우 요소의 크기가 내용에 비례해서 커지게 할건지 말건지 정하는 속성
+        - fixed이면 내용이 길어져도 크기가 고정
         */
         table{
             caption-side: bottom;
@@ -24,6 +26,7 @@
             border-collapse: separate; 
             border-spacing: 20px 10px;
             vertical-align: bottom;
+            table-layout: fixed;
         }
         td, th{
             border: 1px solid black;
@@ -31,6 +34,7 @@
         tr>th:first-of-type{
             width: 40px;
         }
+        tr>td:nth-of-type(2){white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
     </style>
 </head>
 <body>
@@ -44,7 +48,7 @@
         </tr>
         <tr>
             <td>2</td>
-            <td>게시판 가입</td>
+            <td>게시판 가입 인사 게시판 가입 인사 게시판 가입 인사 게시판 가입 인사 </td>
             <td>1</td>
         </tr>
         <tr>
