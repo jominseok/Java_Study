@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>애니메이션 속성</title>
+</head>
+<style>
+    .box{background-color: yellow; font-size: 20px; font-weight: bold; width: 100px;
+    height: 100px; border: 1px solid black; text-align:center; 
+    line-height:100px;
+    /* 애니메이션 이름 가졍오기 */
+    animation-name : scale_font;
+    /* 몇초동안 애니메이션 실행할건지 */
+    animation-duration : 1s;
+    /* 몇번 반복할 것인지 */
+    animation-iteration-count: infinite;
+    /* 반대로도 함 */
+    animation-direction: alternate;
+    animation-timing-function: linear;
+    /* 윗값을 한번에 적으면 아래처럼 적을 수 있다. */
+    animation: scale_font 2s linear infinite alternate;
+}
+    @keyframes scale_font {
+        0%{
+            font-size: 20px;
+        }
+        100%{
+            font-size:50px;
+        }
+    }
+    .box1{
+        animation-timing-function: ease-in-out;
+    }
+</style>
+<body>
+    <div class="box">
+        <span>꽝</span>
+    </div>
+    <div class="box1">
+        <span>꽝</span>
+    </div>
+</body>
+</html>
