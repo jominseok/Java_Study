@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    header{
+        height: 50px;
+        background-color: gray;
+    }
+    aside{
+        width: 30%;
+        background-color: yellow;
+        height: 500px;
+        float: left;
+    }
+    section{
+        float: right;
+        background-color: red;
+        width: 70%;
+        height: 500px;
+    }
+    footer{
+        background-color: black;
+        height: 200px;
+    }
+    main::after{
+        clear: both; content:''; display:block;
+    }
+</style>
+<body>
+    <header>헤더</header>
+    <main>
+        <aside></aside>
+        <section></section>
+    </main>
+    <footer></footer>
+</body>
+</html>
