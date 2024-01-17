@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>checkbox예제</title>
+    <style>
+        /* 기존 라디오 박스를 제거 */
+        [name = gender]{display: none;}
+
+        [name = gender]+label{padding-left: 24px; height: 24px; position: relative;}
+        [name = gender]+label::before{
+            width: 24px; height: 24px; position: absolute; top: 0; left: 0;
+            content: ''; background-size: 20px 20px;
+        }
+        [name = gender]:checked+label::before{
+            background-image: url(/static/체크박스.png);
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <input type="radio" id="male" name="gender">
+        <label for="male">남성</label>
+    </div>
+    <div class="box">
+        <input type="radio" id="female" name="gender">
+        <label for="female">여성</label>
+    </div>
+</body>
+</html>
