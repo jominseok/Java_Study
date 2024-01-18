@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>콜백 함수 예제</title>
+</head>
+<body>
+    <script>
+        /*
+        - 정수를 입력받아 입력받은 정수가 양수이면 
+          0부터 입력받은 정수까지 더하고,
+          음수이면 0부터 입력받은 정수 까지 빼서
+          브라우저에 출력하는 예제
+        */
+        // var num = prompt();
+
+        // document.write(`${num} => `);
+        //=========================콜백x내가한거===========================
+        // if(num > 0){
+        //     for(let i = 1; i <= num; i++){
+        //         document.write(`${i}, `);
+        //         sum += i;
+        //     }
+        //     document.write(`= ${sum}`);
+        // }else if(num < 0){
+        //     for(let i = 0; i >= num; i--){
+        //         document.write(`${i}, `);
+        //         sum -= i;
+        //     }
+        //     document.write(`= ${sum}`);
+        // }
+            //=========================== 콜백 내가한거 ====================
+        // function sum(num, callbackA, callbackB){
+        //     if(num > 0){
+        //         callbackA();
+        //     }else if(num<0){
+        //         callbackB();
+        //     }
+        // }
+        // function plus(num){
+        //     let sum = 0;
+        //     for(let i = 1; i <= num; i++){
+        //         document.write(`${i}, `);
+        //         sum += i;
+        //     }
+        //     document.write(`=> ${sum}`);
+        //     return;
+        // }
+        // function sub(num){
+        //     let sum = 0;
+        //     for(let i = 0; i >= num; i--){
+        //         document.write(`${i}, `);
+        //         sum -= i;
+        //     }
+        //     document.write(`=> ${sum}`);
+        //     return
+        // }
+        // sum(num, plus(num), sub(num));
+
+        /**
+         * to부터 from까지 1씩 증가하면서 합을 구하는 함수
+        @param {number} from 시작 숫자
+        @param {number} to 끝 숫자
+        @return to 부터 from까지 합
+        */
+       function sum(to, from){
+        var res = 0;
+        for(let i = from; i<=to; i++){
+            res+=i;
+        }
+        return res;
+       }
+
+       function sub(to, from){
+        var res = 0;
+        for(let i = to; i<=from; i++){
+                res -= i;
+        }
+        return res;
+       }
+       var num = prompt("정수 입력", 0);
+       num = parseInt(num);
+       /** num가 양수이면 0부터 num까지 합을,
+        * num가 음수이면 0부터 num까지 차를 계산해서 알려주는 함수
+        * @param {number} num 정수
+        * @param {function} sum 합을 구하는 함수
+        * @param {function} sub 차를 구하는 함수
+        */
+       function checkNumber(num, sum, sub){
+        if(num >=0){
+            return sum(0, num);
+        }else{
+            return sub(0, num);
+        }
+       }
+       checkNumber(num, sum, sub);
+    </script>
+</body>
+</html>
