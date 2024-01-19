@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>익명객체</title>
+</head>
+<body>
+	
+	<script>
+		/*익명 객체
+		- 이름이 없이 사용되는 객체
+		- 1회용
+		- 많이 사용됨
+		- 플러그인 api등을 가져다 쓰는 경우, 동작을 위해 필요한
+		  설정 정보들을 넘겨야 하는 경우들이 많은데, 이때 익명 객체
+		  들을 이용하여 전달 해줌
+		*/
+		// 중괄호가 들어가면 객체이다.~~
+		let prop = prompt('속성명을 입력하세요');
+		let user1 = {
+			name : "홍길동",
+			age : 21,
+			[prop] : 100,
+		};
+		//height속성을 추가
+		user1.height = 180;
+		console.log(user1);
+		delete user1.height;//height 속성을 삭제
+		console.log(user1);
+		user1.sayHi = () => alert('안녕하세요');//sayHi메서드 추가
+		//user1.sayHi();
+		//in은 객체에 해당 속성이 있는지 없는지 알려줌
+		console.log('university' in user1);
+		for(prop in user1){
+			// 						이부분은 속성의 값을 가져올때는 .이 아닌 []를 이용하여 가져온다.
+			console.log(`[${prop}] : ${user1[prop]}`);
+		}
+		
+	</script>
+</body>
+</html>
