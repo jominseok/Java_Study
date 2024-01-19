@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>예제4</title>
+	<style>
+		.container{width: 600px; margin: 0 auto;}
+		.img-container{display: flex; justify-content: space-between; 
+						flex-wrap: wrap;}
+		.img-box{border: 1px solid black; width: 30%;border-radius: 5px;
+				padding: 5px; cursor: pointer;
+			}
+		.img-box img{
+			width: 100%; display: block; height: 180px;
+			border-radius: 5px;
+		}
+		.show{
+			border: 1px solid black; padding: 5px;
+			box-sizing: border-box;
+			border-radius: 5px;
+			margin-top: 10px;
+		}
+		.show img{
+			display: block;
+			height: 588px;
+			border-radius: 5px;
+			visibility: hidden;
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+	
+	<div class="container">
+		<div class="img-container">
+			<div class="img-box">
+				<img src="https://img.freepik.com/free-photo/front-view-adorable-shiba-inu-dog_23-2149457807.jpg?w=740&t=st=1705650123~exp=1705650723~hmac=f0f099c85b5c854b4c5f1608afdf8023b07ff7cd65a4cf9732f89c6aa9a05f82" 
+				alt="강아지1">
+			</div>
+			<div class="img-box">
+				<img src="https://img.freepik.com/free-photo/dog-waiting-in-the-veterinarian-office_23-2149198673.jpg?w=740&t=st=1705650133~exp=1705650733~hmac=cc986589e1fca4ef316fad6b60d751eb6c63c221176c4cc94060593c88031fcd" 
+				alt="강아지2">
+			</div>
+			<div class="img-box">
+				<img src="https://img.freepik.com/free-photo/vertical-closeup-shot-of-a-cute-white-poodle-puppy-on-a-beige-textile_181624-29296.jpg?w=740&t=st=1705650171~exp=1705650771~hmac=1c43894f73aa325cf407dd18b503657075025ab4c75b41b1a5b4aa88f4c9cf51" 
+				alt="강아지3">
+			</div>
+		</div>
+		<div class="show">
+			<img src="" alt="확대">
+		</div>
+	</div>
+	<script>
+		/*여러개의 이미지가 있고, 이미지를 클릭하면 클릭한 이미지가 
+		  크게 보이는 예제*/
+		  document.querySelectorAll('.img-box').forEach(element=>{
+			element.onclick = function(){
+				let src = this.getElementsByTagName('img')[0].src;
+				let showImg = document.querySelector('.show img');
+				showImg.src = src;
+				showImg.style.visibility = 'visible';
+			}});
+	</script>
+</body>
+</html>
