@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>표준속성 예제</title>
+</head>
+<body>
+	<input type="text" name="" id="input" placeholder="글자를 입력하세요">
+	<button onclick="fc();">클릭</button>
+	<script>
+		/*
+		input태그에 글자를 입력한 후, 클릭 버튼을 클릭하면
+		input태그에 있는 글자를 alert으로 출력
+		*/
+		function fc(){
+			let ip = document.getElementsByTagName('input');
+			alert(ip[0].value);
+
+			//id를 가져와서 하는방법
+			let ip1 = document.getElementById('input');
+			let text = ip.value;
+			alert(text);
+		}
+	</script>
+</body>
+</html>
