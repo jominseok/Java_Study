@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>예제1</title>
+	<style>
+		/* .box{
+			background-color: yellow;
+			background-color: white;
+		} */
+	</style>
+</head>
+<body>
+	
+	<div class="box"></div>
+	<button id="num1" onclick="change1('yellow')">1번</button>
+	<button id="num2" onclick="change1('white')">2번</button>
+	
+	<script>
+		/*
+		박스와 버튼 2개를 만들고, 
+		1번 버튼을 클릭하면 배경색이 노란색으로
+		2번 버튼을 클릭하면 배경색이 횐색으로 변하는 코드를 작성하세요.
+		*/
+
+		//박스의 클래스와 그 값을 가져옴
+		let boxclass = document.getElementsByClassName('box')[0];
+		// 박스를 그림
+		boxclass.style.cssText = "height: 400px; border: 1px solid black; width: 400px;"
+
+		function change1(color){
+			boxclass.style.cssText = "height: 400px; border: 1px solid black; width: 400px;"
+			boxclass.style.backgroundColor = color;
+		}
+
+		
+	</script>
+</body>
+</html>
