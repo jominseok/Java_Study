@@ -62,6 +62,7 @@
 		let btns = document.querySelectorAll(".btn");
 		btns.forEach((item)=>{
 			item.onclick = () =>{
+				// data-target 속성 값을 읽어와서 선택자로 활용
 				let target = item.getAttribute("data-target");
 				DisplayNone(".box");
 				let targetElement = document.querySelector(target);
