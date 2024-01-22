@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>입력 예제</title>
+</head>
+<body>
+	
+	<input type="text" id="input">
+	<script>
+		/*
+		input창을 추가 하고, input창에 내용이 바뀌면
+		alert으로 입력된 값을 알려주는 예제
+		*/
+		// let input = document.getElementById("input");
+		
+		// input.onkeydown = (event) =>{
+		// 	text = input.value;
+		// 	if(event.keyCode == 13){
+		// 		alert(text);
+		// 		input.value = null;
+		// 	}
+		// }
+
+		//강사님 방법
+		let txt = document.getElementById("input");
+		txt.oninput = function(){
+			let value = this.value;
+			alert(value);
+		}
+
+		/*
+		input 이벤트 : 입력이 발생하면
+		 - 붙여넣기
+		 - 키 누름 등과 같은 입력
+		  
+		*/
+	</script>
+</body>
+</html>
