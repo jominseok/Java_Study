@@ -61,6 +61,28 @@
 		
 		let btns = document.querySelectorAll(".btn");
 		let boxes = document.querySelectorAll(".box");
+
+		/*btns[0].onclick = function(){
+			boxDisplayNone();
+			boxes[0].style.display = 'block';
+		}
+		btns[1].onclick = function(){
+			boxDisplayNone();
+			boxes[1].style.display = 'block';
+		}
+		btns[2].onclick = function(){
+			boxDisplayNone();
+			boxes[2].style.display = 'block';
+		}*/
+
+		//아래 forEach문이 어떻게 돌아가는지 보여주기 위한 반복문
+		for(let i = 0; i<btns.length; i++){
+				btns[i].onclick = function(){
+				boxDisplayNone();
+				boxes[i].style.display = 'block';
+			}
+		}
+
 		brns.forEach((item, index) => {
 			item.onclick = function(){
 				boxDisplayNone();
