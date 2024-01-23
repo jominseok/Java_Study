@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>애니메이션 예제</title>
+	<style>
+		.container{
+			margin-bottom: 10px;border: 2px solid black;
+			padding: 10px;
+			width: 300px;
+			overflow: hidden;
+		}
+		.content-box{
+			width: 200%; background-color: red;
+		}
+		.box{
+			float: left;
+			height: 50px;
+			width: 50%;
+			transition:margin-left 1s;
+		}
+		.content-box::after{
+			clear: both; content: ''; display: block;
+		}
+		.bnt-left{
+			float: right;
+		}
+		.box:nth-of-type(2){background-color: yellow;}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="content-box">
+			<div class="box">1</div>
+			<div class="box">2</div>
+		</div>
+	</div>
+	<div class="btn-group">
+		<button class="prevBtn"><</button>
+		<button class="nextBtn">></button>
+	</div>
+	<script>
+		let prevBtn = document.getElementsByClassName("prevBtn")[0];
+		let nextBtn = document.getElementsByClassName("nextBtn")[0];
+		let box = document.getElementsByClassName("box")[0];
+		let firstBox = document.querySelector(".box:first-of-type");
+
+		prevBtn.onclick = () => {
+			if(!isAnimationRunning(firstBox)){
+				firstBox.style.marginLeft = "0";
+			}
+		}
+		nextBtn.onclick = () => {
+			if(!isAnimationRunning(firstBox)){
+				firstBox.style.marginLeft = "-300px";
+			}
+		}
+		//요소가 애니메이션 중인지 아닌지 확인하는 메서드
+		function isAnimationRunning(elecment){
+			let style = window.getComputedStyle(elecment);
+			return style.animationPlayState == "runing";
+		}
+	</script>
+</body>
+</html>
