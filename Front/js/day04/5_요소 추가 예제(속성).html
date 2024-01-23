@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>요소 추가 예제</title>
+</head>
+<body>
+	
+	<button id = 'btn'>이미지 추가</button>
+	<div id="box"></div>
+	<script>
+		let btn = document.getElementById("btn");
+		btn.onclick = function(){
+			//<img>
+			let img = document.createElement("img");
+			//src = ""
+			let src = document.createAttribute("src");
+			//alt = ""
+			let alt = document.createAttribute("alt")
+			//width = ""
+			let width = document.createAttribute("width");
+			
+			//src = "https://cdn.royalcanin-weshare-online.io/c1aT5m8BBKJuub5qimTa/v2/ptpc1s1-german-shepherd-puppy-chasing-after-a-ball-outdoors?w=411&fm=jpg&auto=format%2Ccompress"
+			src.value = "https://cdn.royalcanin-weshare-online.io/c1aT5m8BBKJuub5qimTa/v2/ptpc1s1-german-shepherd-puppy-chasing-after-a-ball-outdoors?w=411&fm=jpg&auto=format%2Ccompress";
+			//alt = "강아지"
+			alt.value = "강아지";
+			width.value = "100";
+			img.setAttributeNode(src);
+			img.setAttributeNode(alt);
+			img.setAttributeNode(width);
+			//<img alt= "강아지" src = "https://cdn.royalcanin-weshare-online.io/c1aT5m8BBKJuub5qimTa/v2/ptpc1s1-german-shepherd-puppy-chasing-after-a-ball-outdoors?w=411&fm=jpg&auto=format%2Ccompress"
+			let box = document.getElementById("box");
+			box.append(img);
+		}
+	</script>
+</body>
+</html>
