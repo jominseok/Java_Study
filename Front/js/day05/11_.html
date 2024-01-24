@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>연습 예제</title>
+  <style>
+	.container{
+		max-width: 500px; margin: 0 auto;
+	}
+	.box-group{
+		border: 3px solid black; margin-bottom: 20px;
+	}
+	.box{
+		height: 400px; display: none;
+	}
+	.box.select{
+		display: block;
+	}
+	.box.box1{
+		background-color: yellow;
+	}
+	.box.box2{
+		background-color: red;
+	}
+	.box.box3{
+		background-color: green;
+	}
+	.nav-group{
+		display: flex; justify-content: center; align-items: center;
+	}
+	.page-group{
+		margin: 0 10px;
+	}
+	.max-page{font-weight: bold;}
+	.prevBtn, .nextBtn{
+		width: 30px;height: 30px; border-radius: 50%;
+		border-width: 1px; background-color: #fff;
+		cursor: pointer;
+	}
+	.prevBtn:hover, .nextBtn:hover{
+		font-weight: bold; background-color: antiquewhite;
+	}
+  </style>
+</head>
+<body>
+	<div class="container">
+		<div class="box-group">
+			<div class="box box1 select"></div>
+			<div class="box box2 "></div>
+			<div class="box box3"></div>
+		</div>
+		<div class="nav-group">
+			<button class="prevBtn">&lt;</button> 
+			<span class="page-group">
+				<span class="cur-page">1</span> / <span class="max-page">3</span>
+			</span>
+			<button class="nextBtn">></button>
+		</div>
+	</div>
+
+	<script>
+		let prev_Btn = document.querySelector(".prevBtn");
+		// 이전 버튼에 클릭 이벤트 등록
+		prev_Btn.onclick= ()=>{
+			//select요소를 선택
+			let select = document.querySelector(".select")
+			//  select가 있는 요소의 앞 요소를 선택
+			let prevElement = select.previousElementSibling;
+			//  앞 요소가 없으면 종료
+			if(!prevElement){
+				return;
+			}
+			//  앞 요소의 select 클래스를 추가
+			prevElement.classList.add("select");
+			// 기존에select가 있는 요소의 select 클래스를 제거
+			select.classList.remove("select");
+			updatePage();
+		}
+		
+
+		let nextBtn = document.querySelector('.nextBtn');
+		// 다음 버튼의 클릭 이벤트를 등록
+		nextBtn.onclick = function(){
+			//select가 있는 요소 선택
+			let select = document.querySelector(".select");
+			//  select가 있는 요소의 다음 요소를 선택
+			let nextElement = select.nextElementSibling;
+			//  다음 요소가 없으면 종료
+			 if(!nextElement){
+				return;
+			 }
+			//  다음 요소에 select 클래스를 추가
+			 nextElement.classList.add("select");
+			//  이벤트가 발생한 요소에 select 클래스를 제거
+			 select.classList.remove("select");
+			 updatePage();
+		}
+
+		function updatePage(){
+			//select가 있는 요소 선택
+			let select = document.querySelector(".select");
+			//선택한 요소의 data-page를 가져옴
+			
+			//cur-page 요소를 선택
+
+			//가져온 page를 cur-page의 텍스트로 수정
+		}
+	</script>
+</body>
+</html>
