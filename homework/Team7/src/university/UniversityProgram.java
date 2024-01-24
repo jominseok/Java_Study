@@ -24,7 +24,6 @@ public class UniversityProgram implements Program {
 		printService.printPositionMenu(); //메뉴 출력
 		try {
 		int menu=scan.nextInt();
-		int EXIT=menu;
 		runMenu(menu);
 		}catch(InputMismatchException e) {
 			System.out.println("잘못된 메뉴를 입력했습니다.");
@@ -58,14 +57,6 @@ public class UniversityProgram implements Program {
 		}		
 	}
 
-	// 학생 신분 선택시 실행 메서드: 조민석
-	private void student() {
-		// TODO Auto-generated method stub
-		
-	}
- 
-
-	
 	//조민석
 	private void studentRun(int menu) {
 		switch (menu) {
@@ -120,6 +111,20 @@ public class UniversityProgram implements Program {
 		}
 		
 	}
+	// 학생 신분 선택시 실행 메서드: 조민석
+	private void student() {
+		// TODO Auto-generated method stub
+		printService.printStudentMenu();
+		try {
+			int menu = scan.nex
+			studentRun(menu);
+		} catch (InputMismatchException e) {
+			// TODO: handle exception
+		}
+	}
+ 
+
+	
 
 
 
