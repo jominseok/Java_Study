@@ -43,25 +43,31 @@ public class School {
 		return num;
 	}
 	
+	//---------------------교수기능--------------------
+	
 	//수강생 출력
 	public void selectLessonStudent(int classOf) {
-		//교수 리스트에서 이름을 가져옴
-		String name=professorName(classOf);
 		//강의(lesson)애서 해당 교수 수업이 있는지 확인 
-		int index=lessonList.indexOf(new Lesson(name));
-		if(index>=0) {
-			//있다면 강의에서 학번을 가져와서 학생과 비교해서 출력함
-			List<Integer> cl=lessonList.get(index).getClassNum();
-			for(int i=0;0<cl.size();i++){
-				index=studentList.indexOf(new Student(cl.get(i)));
-				if (index>=0) {
-					System.out.println(studentList.get(index));
+//		int index=lessonList.indexOf(new Lesson(classOf)); eqauls 때문에 못씀
+		for(Lesson tmp:lessonList) {
+			if(tmp.getProfessor()==classOf) { //같은 교번이 있다면
+				if(tmp.getScoreList().size()==0) { //학생이 없으면
+					System.out.println("수강생이 없습니다");
+					return;
+				}else {
+					//있다면 강의에서 학번을 가져와서 학생과 비교해서 출력함
+					List<Integer> cl=tmp.getClassNum();
+					System.out.println(cl);
+					for(int i=0;0<cl.size();i++){
+						if(studentEquals(cl.get(i))) {
+							System.out.println(cl.get(i));
+						}
+					}
 				}
+				return;// 출력후 종료
 			}
-		}else {
-			System.out.println("수업이 없습니다");
-		}
-	
+		}	
+		System.out.println("강의가 없습니다");
 	}
 
 	//성적 추가
@@ -73,6 +79,7 @@ public class School {
 			//addScore라는 메서드를 실행해서 등록 밑 각 안내문구출력
 			if(lessonList.get(index).addScore(score,num)) {
 				System.out.println("등록이 되었습니다");
+				System.out.println(lessonList);//태스트
 				return; //등록이 욋다고 알림
 			}else {
 				System.out.println("해당 학생의 점수가 있습니다");
@@ -89,6 +96,7 @@ public class School {
 		int index=lessonList.indexOf(new Lesson(pName));
 		if(lessonList.get(index).setScore(score,num)) {
 			System.out.println("등록이 되었습니다");
+			System.out.println(lessonList);//태스트
 			return; //등록이 욋다고 알림
 		}else {
 			System.out.println("없는 학번입니다");
@@ -100,101 +108,93 @@ public class School {
 		
 	}
 	
-	//강의 등록-병호
-	public void addLesson(String subject, String professor, int classRoom, String dayOfWeek, int sTime, int eTime,
-			int max) {
-		//강의명이 중복되면 메세지 출력후 종료
-//		int index=lessonList.indexOf(new Lesson(subject));
-		if(lessonList.contains(new Lesson(subject))) {
-			System.out.println("같은 강의가 있습니다");
-			return;
-		}
-		int count=0;
-		//시간을 배열을이용하여 같은값이 있는지 확인하기위해
-		int[] tl=new int[(eTime-sTime)+1];
-		for(int i=sTime;i<=eTime;i++) {
-			tl[count++]=i;
-		}
-		//요일 시간 강의실 비교
-		for(Lesson tmp:lessonList) {
-			if(tmp.compa(subject,classRoom,tl)) {
-				lessonList.add(new Lesson(subject, professor, dayOfWeek, sTime, eTime, classRoom, max));
-			}else {
-				System.out.println("시간때가 맞지 않습니다");
-			}
-		}
-		
-	}
+
 	
-	//================================== 조민석 ========================================
+	//================================== 학생기능 ========================================
 	
-	//수강신청 - 조민석
-		public void Enrolment(String name, String selection, int classOf, String subject) {
-			//수강 과목이 뭐뭐가 있는지 조회 합니다.
-			Lesson ls = new Lesson();
-			boolean new_subject = ls.Discrimination(subject);
+		//수강신청 - 조민석
+		public void Enrolment(int classOf, String subject) {
 			
-			//수강 할수 없는 과목이면 리턴시킴
-			if(!new_subject) {
-				System.out.println("해당 과목이 없거나 개설 되지 않았습니다.");
+			//등록된 학생인지 판별
+			int indexStudent = studentList.indexOf(new Student(classOf));
+			if(indexStudent == -1) {
+				System.out.println("등록 되지 않은 학생입니다.");
 				return;
 			}
 			
-			//학생 객체를 생성
-			Student st = new Student(classOf, name, selection);
-
-			//Student리스트에 학생 추가
-			studentList.add(st);
-			System.out.println("학생 리스트에 학생을 추가 하엿습니다.");
+			//해당과목이 있는지 없는지 판별
+			int index = lessonList.indexOf(new Lesson(subject));
+			if(index == -1) {
+				System.out.println("해당 과목은 개설 되지 않았습니다.");
+				return;
+			}
+			//Lesson클래스 안에 Score리스트를 추가함
+			System.out.println("setScoreList들어가기 전까지는 옴");
+			lessonList.get(index).setScoreList(classOf);
+			System.out.println(lessonList);
 		}
-	
-	
-	//수강 신청 취소 - 조민석
-	public void deleteEnrolment() {
-		//자신이 수강중인 수업을 조회합니다.
-		setEnrolment();
-		//자신의 학번과 수강과목을 입력합니다.
-		System.out.print("학번 : ");
-		int classOf = scan.nextInt();
-		System.out.print("취소하고 싶은 과목 이름을 입력해주세요 : ");
-		//과목을 입력 받음
-		String subject = scan.nextLine();
-		scan.nextLine();
-		Student st = new Student(classOf);
-
-		//수강 취소시키면서 안내 문자를 출력
-		System.out.println(studentList.remove(st)+" 삭제 되었습니다."); 
-	}
-
-	//수강 수업 조회 - 조민석
-	public void setEnrolment() {
-		//자신이 수강중인 수업을 조회합니다.
-		for(Lesson tmp:lessonList) {
-			System.out.println("현재 수강중인 수업은 : " + tmp.getSubject() + "입니다.");
+		
+		
+		//수강 신청 취소 - 조민석
+		public void deleteEnrolment() {
+			System.out.print("학번 입력 : ");
+			int classOf = scan.nextInt();
+			//등록된 학생인지 판별
+			int indexStudent = studentList.indexOf(new Student(classOf));
+			if(indexStudent == -1) {
+				System.out.println("등록 되지 않은 학생입니다.");
+				return;
+			}
+			System.out.print("취소하고 싶은 과목 이름을 입력해주세요 : ");
+			//과목을 입력 받음
+			String subject = scan.nextLine();
+			scan.nextLine();
+			int index = lessonList.indexOf(new Lesson(subject));
+			if(index == -1) {
+				System.out.println("해당 과목은 신청 되지 않았습니다.");
+				return;
+			}
+			Lesson ls = new Lesson();
+			ls.deleteScoreList(index);
+			 
 		}
-	}
-	
-	//성적 조회 - 조미석
-	public void setScore() {
-		System.out.print("학번을 입력하세요 : ");
-		int classNum = scan.nextInt();
-		Score score = new Score(classNum);
-		//등록된 학생이 아니라면
-		if(score.equals(score)) {
-			return;
-		}
-		//등록된학생이라면 조회
-		for(Score tmp:scoreList) {
-			if(tmp.equals(score)) {
-				System.out.println("점수를 출력합니다."+ tmp.toString());
+
+		//수강 수업 조회 - 조민석
+		public void selectEnrolment() {
+			System.out.print("학번을 입력해주세요 : ");
+			int classOf = scan.nextInt();
+			for(Lesson tmp:lessonList) {
+				System.out.println("여기까진 들어옴"+tmp.getScoreList().equals(new Score(classOf)));
+				if(tmp.getScoreList().equals(new Score(classOf))) {
+					System.out.println(tmp.getSubject());
+				}
 			}
 		}
-	}
+		
+		//성적 조회 - 조미석
+		public void setScore() {
+			System.out.print("학번을 입력하세요 : ");
+			int classOf = scan.nextInt();
+			//등록된 학생인지 판별
+			int indexStudent = studentList.indexOf(new Student(classOf));
+			if(indexStudent == -1) {
+				System.out.println("등록 되지 않은 학생입니다.");
+				return;
+			}
+			System.out.print("성적을 조회할 과목을 입력해 주세요 : ");
+			String subject = scan.nextLine();
+			scan.nextLine();
+			int index = lessonList.indexOf(new Lesson(subject));
+			if(index == -1) {
+				System.out.println("해당 과목은 신청 되지 않았습니다.");
+				return;
+			}
+			
+		}
+	 
+	// -------------------관리자-------------------
 	
-	
-	// ====================================조민석========================
-	
-	// -------------------관리자-------------------최병호
+	//-----------------------------관리자 교수관리----------------------
 	
 	//교수 등록 -옮김
 	public boolean addProfessor(int classOf, String name, String selection) {
@@ -204,6 +204,7 @@ public class School {
 		}
 		//교수를 등록함
 		professorList.add(new Professor(classOf,name,selection));
+		System.out.println(professorList);//태스트
 		return true;
 	}
 
@@ -212,12 +213,14 @@ public class School {
 		int index = professorList.indexOf(new Professor(classOf));
 		professorList.set(index, new Professor(classOf, name, selection));
 		System.out.println("교수 정보를 수정하였습니다.");
+		System.out.println(professorList);//태스트
 	}
 	
 	//교수 삭제 -옮김
 	public void remove(int classOf) {
 		professorList.remove(new Professor(classOf));
 		System.out.println("교수 삭제를 완료했습니다.");	
+		System.out.println(professorList);//태스트
 	}
 
 	//교수 전체조회 -옮김
@@ -254,6 +257,104 @@ public class School {
 		}
 	}
 	
+	//-----------------------------관리자 학생관리----------------------
+
+	//학생 전체조회
+	public void selectAllStudent() {
+		for(Student tmp : studentList) {
+			tmp.toString();
+		}
+	}
+
+	//관리자의 과별 학생 조회
+	public void selectStudentBySelection(String selection) {
+		boolean t= true;
+		for(Student tmp : studentList) {
+			if(tmp.getSelection()==selection) {
+				tmp.toString();
+				t=false;
+			}		
+		}
+		if(t=true) {
+		System.out.println("없는 과이거나 과에 학생이 없습니다.");
+		}
+		
+	}
+	//관리자의 학번별 학생 조회 메서드
+	public void selectStudentByName(int classOf) {
+		boolean t = true;
+		for(Student tmp : studentList) {
+			if(tmp.getClassOf()==classOf) {
+				tmp.toString();
+				t=false;
+				break;
+			}			
+		}if(t=true) {
+			System.out.println("없는 학번입니다. 다시 입력해주세요.");
+		}
+	}
+
+	// 관리자의 학생 수정 메서드 : 최지용
+	public void setStudent(int classOf) {
+		int index = studentList.indexOf(new Student(classOf));
+		System.out.println("수정할 정보들을 입력하세요."); // 학번은 수정하지 않는다
+		System.out.print("이름 : ");
+		String name = scan.nextLine();
+		System.out.print("과 : ");   
+		String selection = scan.nextLine();
+		studentList.get(index).setName(name);
+		studentList.get(index).setSelection(selection);
+		System.out.println("학생 정보를 수정하였습니다.");
+		System.out.println(studentList);//태스트
+		
+	}
+	// 관리자의 학생 삭제 메서드
+	public void deleteStudent(int classOf) {
+		studentList.remove(new Student(classOf));
+		System.out.println("학생 삭제가 완료됐습니다.");	
+		System.out.println(studentList);//태스트
+		
+	}
+	// 관리자의 학생 등록 메서드
+	public void addStudent(int classOf, String name, String selection) {
+		// 학번 중복 확인	 
+		if(studentEquals(classOf)) {
+			System.out.println("이미 등록된 학번입니다.");
+			return;
+		}
+		studentList.add(new Student(classOf,name,selection));
+		System.out.println("학생등록이 완료됐습니다.");		
+		System.out.println(studentList);//태스트
+	}
+	
+	//-----------------------------관리자 수업관리----------------------
+	
+	//강의 등록
+	public void addLesson(String subject, int professor, int classRoom, String dayOfWeek, int sTime, int eTime,
+			int max) {
+		if(lessonList.size()==0) {
+			lessonList.add(new Lesson(subject, professor, dayOfWeek, sTime, eTime, classRoom, max));
+			System.out.println(lessonList);//태스트
+			return;
+		}
+		//강의명이 중복되면 메세지 출력후 종료
+//		int index=lessonList.indexOf(new Lesson(subject));
+		if(lessonList.contains(new Lesson(subject))) {
+			System.out.println("같은 강의가 있습니다");
+			return;
+		}
+		//요일 시간 강의실 비교
+		for(Lesson tmp:lessonList) {
+			if(tmp.compa(subject,dayOfWeek,classRoom,sTime,eTime)) {
+				lessonList.add(new Lesson(subject, professor, dayOfWeek, sTime, eTime, classRoom, max));
+				System.out.println(lessonList);//태스트
+				return;
+			}		
+		}
+		System.out.println("시간때가 맞지 않습니다");
+		System.out.println(lessonList);//태스트
+		return;
+	}
 	
 
 

@@ -22,8 +22,7 @@ public class Student {
 		this.name = name;
 	}
 	
-	
-	
+
 	// 학번이 같으면 같은 학생 객체이다
 	@Override
 	public boolean equals(Object obj) {

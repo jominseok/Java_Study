@@ -23,10 +23,7 @@ public class Score {
     	this.classOf=classOf;
     }
     
-	//학번을 비교한다..... 솔직히 아직도 이부분 이해가 안됩니다 여기에 왜 학번이 멤버변수로 있어야 하는지 ㅠㅠ
-	// Student classof = new Student();
-	// int classNum; //사용자한테 입력받은 변수
-	//classof.equals(classNum); 기능을 만들때 입부분을 해야하지 않을까 싶어요...
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -43,5 +40,12 @@ public class Score {
 	public int hashCode() {
 		return Objects.hash(classOf);
 	}
+
+	@Override
+	public String toString() {
+		return "성적은 : " + score;
+	}
+	
+	
 
 }
