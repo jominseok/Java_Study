@@ -137,6 +137,7 @@ public class School {
 		
 		//수강 신청 취소 - 조민석
 		public void deleteEnrolment() {
+			System.out.println("=========수강취소============");
 			System.out.print("학번 입력 : ");
 			int classOf = scan.nextInt();
 			//등록된 학생인지 판별
@@ -149,14 +150,16 @@ public class School {
 			//과목을 입력 받음
 			String subject = scan.nextLine();
 			scan.nextLine();
+			//해당과목이 있는지 없는지 판별
 			int index = lessonList.indexOf(new Lesson(subject));
 			if(index == -1) {
-				System.out.println("해당 과목은 신청 되지 않았습니다.");
+				System.out.println("해당 과목은 개설 되지 않았습니다.");
 				return;
 			}
-			Lesson ls = new Lesson();
-			ls.deleteScoreList(index);
-			 
+			//Lesson클래스 안에 Score리스트를 삭제
+			lessonList.get(index).deleteScore(classOf);
+			System.out.println(lessonList);
+			
 		}
 
 		//수강 수업 조회 - 조민석
@@ -164,8 +167,9 @@ public class School {
 			System.out.print("학번을 입력해주세요 : ");
 			int classOf = scan.nextInt();
 			for(Lesson tmp:lessonList) {
-				System.out.println("여기까진 들어옴"+tmp.getScoreList().equals(new Score(classOf)));
-				if(tmp.getScoreList().equals(new Score(classOf))) {
+				//Lesson리스트 안에서 해당
+				boolean a = tmp.setScore(classOf);
+				if(a){
 					System.out.println(tmp.getSubject());
 				}
 			}
@@ -173,23 +177,16 @@ public class School {
 		
 		//성적 조회 - 조미석
 		public void setScore() {
-			System.out.print("학번을 입력하세요 : ");
+			System.out.print("학번을 입력해주세요 : ");
 			int classOf = scan.nextInt();
-			//등록된 학생인지 판별
-			int indexStudent = studentList.indexOf(new Student(classOf));
-			if(indexStudent == -1) {
-				System.out.println("등록 되지 않은 학생입니다.");
-				return;
+			for(Lesson tmp:lessonList) {
+				//Lesson리스트 안에서 해당
+				boolean a = tmp.setScore(classOf);
+				if(a){
+					System.out.println("과목 : " + tmp.getSubject()
+					+ "성적 : " + tmp.setIntScore(classOf));
+				}
 			}
-			System.out.print("성적을 조회할 과목을 입력해 주세요 : ");
-			String subject = scan.nextLine();
-			scan.nextLine();
-			int index = lessonList.indexOf(new Lesson(subject));
-			if(index == -1) {
-				System.out.println("해당 과목은 신청 되지 않았습니다.");
-				return;
-			}
-			
 		}
 	 
 	// -------------------관리자-------------------
