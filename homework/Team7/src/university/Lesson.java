@@ -139,6 +139,10 @@ public class Lesson {
 		return false;
 	}
 
+	//최대 정원을 확인하는 메서드 - 조민석
+	public boolean max() {
+		return max > scoreList.size() ? true : false;
+ 	}
 	
 	// 성적(int 형 반환 메서드) - 조민석
 	public int setIntScore(int classOf) {

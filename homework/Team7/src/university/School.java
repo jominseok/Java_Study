@@ -142,77 +142,87 @@ public class School {
 	//================================== 학생기능 ========================================
 	
 	//수강신청 - 조민석
-			public void Enrolment(int classOf, String subject) {
-				
-				//등록된 학생인지 판별
-				int indexStudent = studentList.indexOf(new Student(classOf));
-				if(indexStudent == -1) {
-					System.out.println("등록 되지 않은 학생입니다.");
-					return;
-				}
-				
-				//최대 인원수 비교 추가
-				
-				//해당과목이 있는지 없는지 판별
-				int index = lessonList.indexOf(new Lesson(subject));
-				if(index == -1) {
-					System.out.println("해당 과목은 개설 되지 않았습니다.");
-					return;
-				}
-				//Lesson클래스 안에 Score리스트를 추가함
-				System.out.println("setScoreList들어가기 전까지는 옴");
-				lessonList.get(index).setScoreList(classOf);
-				System.out.println(lessonList);
+		public void Enrolment(int classOf, String subject) {
+			System.out.println("=========수강신청============");
+			//등록된 학생인지 판별
+			int indexStudent = studentList.indexOf(new Student(classOf));
+			if(indexStudent == -1) {
+				System.out.println("등록 되지 않은 학생입니다.");
+				return;
 			}
 			
-			
-			//수강 신청 취소 - 조민석
-			public void deleteEnrolment(int classOf) {
-				System.out.println("=========수강취소============");
-				//등록된 학생인지 판별
-				int indexStudent = studentList.indexOf(new Student(classOf));
-				if(indexStudent == -1) {
-					System.out.println("등록 되지 않은 학생입니다.");
-					return;
-				}
-				System.out.print("취소하고 싶은 과목 이름을 입력해주세요 : ");
-				//과목을 입력 받음
-				scan.nextLine();
-				String subject = scan.nextLine();
-				//해당과목이 있는지 없는지 판별
-				int index = lessonList.indexOf(new Lesson(subject));
-				if(index == -1) {
-					System.out.println("해당 과목은 개설 되지 않았습니다.");
-					return;
-				}
-				
-				//이미 삭제된 과목이거나 신청 되지 않은 과목이면 리턴
-				for(Lesson tmp:lessonList) {
-					//Lesson리스트 안에서 해당
-					boolean a = tmp.setScore(classOf);
-					if(!a){
-						System.out.println("이미 삭제 되었거나 수강중인 과목이 아닙니다.");
+			//최대 인원수 비교 추가
+			for(Lesson tmp : lessonList) {
+				//해당 과목이면
+				if(tmp.equals(new Lesson(subject))) {
+					//max함수 호출하고 true면 신청 가능 false면 최대정원 초과
+					if(!tmp.max()) {
+						System.out.println("최대 정원을 초과하였습니다.");
 						return;
 					}
 				}
-				//Lesson클래스 안에 Score리스트를 삭제
-				lessonList.get(index).deleteScore(classOf);
-				System.out.println(lessonList);
-				
 			}
-
-			//수강 수업 조회 - 조민석
-			public void selectEnrolment() {
-				System.out.print("학번을 입력해주세요 : ");
-				int classOf = scan.nextInt();
-				for(Lesson tmp:lessonList) {
-					//Lesson리스트 안에서 해당
-					boolean a = tmp.setScore(classOf);
-					if(a){
-						System.out.println(tmp.getSubject());
-					}
+			
+			//해당과목이 있는지 없는지 판별
+			int index = lessonList.indexOf(new Lesson(subject));
+			if(index == -1) {
+				System.out.println("해당 과목은 개설 되지 않았습니다.");
+				return;
+			}
+			//Lesson클래스 안에 Score리스트를 추가함
+			System.out.println("setScoreList들어가기 전까지는 옴");
+			lessonList.get(index).setScoreList(classOf);
+			System.out.println(lessonList);
+		}
+		
+		
+		//수강 신청 취소 - 조민석
+		public void deleteEnrolment(int classOf) {
+			System.out.println("=========수강취소============");
+			//등록된 학생인지 판별
+			int indexStudent = studentList.indexOf(new Student(classOf));
+			if(indexStudent == -1) {
+				System.out.println("등록 되지 않은 학생입니다.");
+				return;
+			}
+			System.out.print("취소하고 싶은 과목 이름을 입력해주세요 : ");
+			//과목을 입력 받음
+			scan.nextLine();
+			String subject = scan.nextLine();
+			//해당과목이 있는지 없는지 판별
+			int index = lessonList.indexOf(new Lesson(subject));
+			if(index == -1) {
+				System.out.println("해당 과목은 개설 되지 않았습니다.");
+				return;
+			}
+			
+			//이미 삭제된 과목이거나 신청 되지 않은 과목이면 리턴
+			for(Lesson tmp:lessonList) {
+				//Lesson리스트 안에서 해당
+				boolean a = tmp.setScore(classOf);
+				if(!a){
+					System.out.println("이미 삭제 되었거나 수강중인 과목이 아닙니다.");
+					return;
 				}
 			}
+			//Lesson클래스 안에 Score리스트를 삭제
+			lessonList.get(index).deleteScore(classOf);
+			System.out.println(lessonList);
+			
+		}
+
+		//수강 수업 조회 - 조민석
+		public void selectEnrolment() {
+			System.out.print("학번을 입력해주세요 : ");
+			int classOf = scan.nextInt();
+			for(Lesson tmp:lessonList) {
+				//Lesson리스트 안에서 해당
+				boolean a = tmp.setScore(classOf);
+				if(a){
+					System.out.println(tmp.getSubject());
+				}
+			}
+		}
 			
 			//성적 조회 - 조미석
 			public void setScore() {
