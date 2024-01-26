@@ -1,12 +1,7 @@
 package university;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
-
-import university.Professor;
-import university.Student;
 import university.service.PrintService;
 import university.service.PrintServiceImp;
 
@@ -59,13 +54,18 @@ public class UniversityProgram implements Program {
 
 	// 학생 신분 선택시 실행 메서드: 조민석
 		private void student() {
-			
-			try {
-				printService.printStudentMenu();
-				int menu = scan.nextInt();
-				studentRun(menu);
-			} catch (Exception e) {
-				// TODO: handle exception
+			System.out.print("학번을 입력해주세요:");//로그인 비슷하게 추가함-병호
+			int classOf=scan.nextInt();
+			if(school.studentEquals(classOf)) {
+				try {
+					printService.printStudentMenu();
+					int menu = scan.nextInt();
+					studentRun(menu, classOf);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}else {
+				System.out.println("등록 되지않은 학번 입니다");
 			}
 			
 		}
@@ -73,24 +73,13 @@ public class UniversityProgram implements Program {
 
 		
 		//조민석
-		private void studentRun(int menu) {
+		private void studentRun(int menu,int classOf) {
 			switch (menu) {
 			case 1: {
 				//수강 신청
-				//자신의 이름, 학번, 과를 입력합니다.
-				System.out.print("이름 : ");
-				String name = scan.next();
-				System.out.print("과 : ");
-				String selection = scan.next();
-				System.out.print("학번 : ");
-				int classOf = scan.nextInt();
-				//수강 과목이 뭐뭐가 있는지 조회 합니다.
-				Lesson ls = new Lesson();
-				ls.toString();
 				//수강 신청 시작
 				System.out.print("수강하고 싶은 과목 이름을 입력해주세요 : ");
 				//과목을 입력 받음
-				
 				//엔터처리
 				scan.nextLine();
 				String subject = scan.nextLine();
@@ -101,7 +90,7 @@ public class UniversityProgram implements Program {
 			}
 			case 2: {
 				//수강 취소
-				school.deleteEnrolment();
+				school.deleteEnrolment(classOf);
 				break;
 			}
 			case 3: {
@@ -121,8 +110,8 @@ public class UniversityProgram implements Program {
 			default:
 				throw new InputMismatchException();
 			}
-			
 		}
+		
 
 	//교수기능
 	private void professor() {
@@ -163,12 +152,17 @@ public class UniversityProgram implements Program {
 
 	//석차조회
 	private void selectStudentScore(int classOf) {
-			
+		System.out.println("석차조회를 합니다");
+		school.selectLessonTopStudent(classOf);
 	}
 
 	//성적 수정
 	private void setScore(int classOf) {
-					
+		System.out.print("성적을 수정할 학번:");
+		int num=scan.nextInt();
+		System.out.print("수정할성적 입력:");
+		int score=scan.nextInt();
+		school.setScore(classOf, score, num);
 	}
 	
 	//성적 추가
@@ -180,7 +174,7 @@ public class UniversityProgram implements Program {
 		school.addScore(classOf,score,num);			
 	}
 	
-	//수강생 조회/오류
+	//수강생 조회
 	private void printLessonStudent(int classOf) {
 		school.selectLessonStudent(classOf);
 	}
@@ -189,14 +183,17 @@ public class UniversityProgram implements Program {
 	private void manager() {
 		System.out.println("관리자님 환영합니다.");
 		System.out.println("다음 메뉴를 선택하세요.");
+		int managerMenu=0;
+		do {
 		printService.printManagerMenu();
 		try {
-			int managerMenu = scan.nextInt();
+			managerMenu = scan.nextInt();
 			runManagerMenu(managerMenu);
 		}catch(InputMismatchException e) {
 			System.out.println("잘못된 메뉴를 입력했습니다.");
 			scan.nextLine();
 		}
+		}while(managerMenu!=4);
 	}
 		
 	// 관리자가 선택한 메뉴 실행 메서드 : 최지용
@@ -221,14 +218,17 @@ public class UniversityProgram implements Program {
 	// 관리자의 교수 관리 실행 메서드 : 최지용
 	public void professorManage() {
 		System.out.println("관리자님이 교수 관리 기능을 선택하셨습니다.");
+		int managerProfessorMenu=0;
+		do {
 		printService.printMangerProfessorMenu();
-		try {
-			int managerProfessorMenu=scan.nextInt();
+		try {		
+			managerProfessorMenu=scan.nextInt();
 			runManagerProfessorMenu(managerProfessorMenu);
 		}catch(InputMismatchException e) {
 			System.out.println("잘못된 메뉴를 입력했습니다.");
 			scan.nextLine();
-		}	
+		}
+		}while(managerProfessorMenu!=5);
 	}
 	
 	// 관리자의 교수 관리 메뉴 실행 메서드 : 최지용
@@ -265,9 +265,11 @@ public class UniversityProgram implements Program {
 		System.out.print("과 : ");
 		String selection = scan.nextLine();
 		if(school.addProfessor(classOf,name,selection)) {
+			
 			System.out.println("교수등록이 완료됐습니다.");
 		}else {
 			System.out.println("이미 등록된 교번입니다.");
+			return; // 확인
 		}	
 	}
 	
@@ -277,7 +279,7 @@ public class UniversityProgram implements Program {
 		System.out.println("수정할 교수의 정보를 입력하세요.");
 		System.out.print("교번 : ");
 		int classOf = scan.nextInt();
-		if(!school.professorEquals(classOf)) {
+		if(!(school.professorEquals(classOf))) {
 			System.out.println("없는 교번입니다. 다시 입력해주세요.");
 			return;
 		}		
@@ -288,7 +290,6 @@ public class UniversityProgram implements Program {
 		System.out.print("과 : ");   
 		String selection = scan.nextLine();
 		school.setProfessor(classOf,name,selection);
-
 	}
 		
 	
@@ -311,10 +312,20 @@ public class UniversityProgram implements Program {
 	public void selectProfessor() {
 		System.out.println("교수 조회 기능을 실행합니다.");
 		System.out.println("조회하실 방법을 선택해주세요.");
+		int managerProfessorSelectMenu=0;
+		do {
 		printService.printMangerProfessorSelectMenu();
-		int managerProfessorSelectMenu= scan.nextInt();
-		runManagerProfessorSelectMenu(managerProfessorSelectMenu);		
+		try {			
+		    managerProfessorSelectMenu= scan.nextInt();
+			runManagerProfessorSelectMenu(managerProfessorSelectMenu);
+		}catch(InputMismatchException e) {
+			System.out.println("없는 메뉴입니다. 다시 입력해주세요.");
+			scan.nextLine();
+		}
+		}while(managerProfessorSelectMenu!=4);
 	}
+	
+	
 	
 	// 관리자의 교수 조회 메뉴 실행 메서드 : 최지용
 	public void runManagerProfessorSelectMenu(int menu) {
@@ -335,13 +346,13 @@ public class UniversityProgram implements Program {
 		}
 	}
 	
-	// 관리자의 교수 전체 조회 메서드 : 최지용  /오류
+	// 관리자의 교수 전체 조회 메서드 : 최지용
 	public void selectAllProfessor() {
 		System.out.println("교수 전체 조회 기능을 실행합니다.");
 		school.selectAllProfessor();
 	}
 	
-	// 관리자의 과별 교수 조회 메서드 : 최지용 /오류
+	// 관리자의 과별 교수 조회 메서드 : 최지용
 	public void selectProfessorBySelection() {
 		System.out.println("과별 교수 조회 기능을 실행합니다.");
 		System.out.println("조회할 과를 입력하세요.");
@@ -351,7 +362,7 @@ public class UniversityProgram implements Program {
 		school.selectProfessorBySelection(selection);
 	}
 	
-	// 관리자의 이름별 교수 조회 메서드(동명이인이면 모두 조회) : 최지용 /오류
+	// 관리자의 이름별 교수 조회 메서드(동명이인이면 모두 조회) : 최지용
 	public void selectProfessorByName() {
 		System.out.println("이름별 교수 조회 기능을 실행합니다.");
 		System.out.println("조회하실 교수님의 이름을 입력하세요.");
@@ -364,14 +375,17 @@ public class UniversityProgram implements Program {
 	// 관리자의 학생 관리 실행 메서드 : 최지용
 	public void studentManage() {
 		System.out.println("관리자님이 학생 관리 기능을 선택하셨습니다.");
+		int managerStudentMenu=0;
+		do {
 		printService.printManagerStudentMenu();
-		try {
-		int managerStudentMenu= scan.nextInt();
-		runManagerStudentMenu(managerStudentMenu);
+		try {		
+		    managerStudentMenu= scan.nextInt();	    
+		    runManagerStudentMenu(managerStudentMenu);    
 		}catch(InputMismatchException e) {
 			System.out.println("잘못된 메뉴를 입력했습니다.");
 			scan.nextLine();
 		}
+		}while(managerStudentMenu!=5);
 	}
 	
 	// 관리자의 학생 관리 메뉴 실행 메서드 : 최지용
@@ -396,19 +410,17 @@ public class UniversityProgram implements Program {
 		}
 	}
 	
-	// 관리자의 학생 등록 메서드 : 최지용
+	// 관리자의 학생 등록 메서드 : 최지용 
 	public void addStudent() {
 		System.out.println("학생 등록 기능을 실행합니다.");
 		System.out.println("새로 등록할 학생의 정보를 입력하세요.");
 		System.out.print("학번 : ");
 		int classOf= scan.nextInt();
-		scan.nextLine();
 		System.out.print("이름 : ");
-		String name = scan.nextLine();
 		scan.nextLine();
+		String name = scan.nextLine();
 		System.out.print("과 : ");
 		String selection = scan.nextLine();
-		
 		school.addStudent(classOf,name,selection);
 	}
 	
@@ -442,9 +454,18 @@ public class UniversityProgram implements Program {
 	public void selectStudent() {
 		System.out.println("학생 조회 기능을 실행합니다.");
 		System.out.println("조회하실 방법을 선택해주세요.");
+		int managerStudentSelectMenu=0;
+		do {
 		printService.printManagerStudentSelectMenu();
-		int managerStudentSelectMenu= scan.nextInt();
-		runManagerStudentSelectMenu(managerStudentSelectMenu);		
+
+		try {			
+		    managerStudentSelectMenu= scan.nextInt();
+		runManagerStudentSelectMenu(managerStudentSelectMenu);
+		}catch(InputMismatchException e) {
+			System.out.println("없는 메뉴입니다.");
+			scan.nextLine();
+		}
+		}while(managerStudentSelectMenu!=4);
 	}
 	
 	// 관리자의 학생 조회 메뉴 실행 메서드 : 최지용
@@ -466,13 +487,13 @@ public class UniversityProgram implements Program {
 		}
 	}
 	
-	// 관리자의 학생 전체 조회 메서드 : 최지용  /오류
+	// 관리자의 학생 전체 조회 메서드 : 최지용
 	public void selectAllStudent() {
 		System.out.println("학생 전체 조회 기능을 실행합니다.");
 		school.selectAllStudent();
 	}
 	
-	// 관리자의 과별 학생 조회 메서드 : 최지용 /오류
+	// 관리자의 과별 학생 조회 메서드 : 최지용
 	public void selectStudentBySelection() {
 		System.out.println("과별 학생 조회 기능을 실행합니다.");
 		System.out.println("조회할 과를 입력하세요.");
@@ -482,7 +503,7 @@ public class UniversityProgram implements Program {
 		school.selectStudentBySelection(selection);
 	}
 	
-	// 관리자의 학번별 학생 조회 메서드(학생은 동명인이 많을 수 있어서 학번으로 조회하기로 함) : 최지용 /오류
+	// 관리자의 학번별 학생 조회 메서드(학생은 동명인이 많을 수 있어서 학번으로 조회하기로 함) : 최지용
 	public void selectStudentByName() {
 		System.out.println("학번별 학생 조회 기능을 실행합니다.");
 		System.out.println("조회하실 학생의 학번을 입력하세요.");
@@ -491,18 +512,23 @@ public class UniversityProgram implements Program {
 		school.selectStudentByName(classOf);
 	}
 	
+
 	// 관리자의 수업 관리 실행 메서드 : 최지용
 	public void classManage() {
 		System.out.println("관리자님이 수업 관리 기능을 선택하셨습니다.");
-		printService.printManagerLessonMenu();
+		int managerLessonMenu=0;
+		do {
+			printService.printManagerLessonMenu();
 		try {
-		int managerLessonMenu=scan.nextInt();
+			managerLessonMenu=scan.nextInt();
 		runManagerLessonMenu(managerLessonMenu);
 		}catch(InputMismatchException e) {
 			System.out.println("잘못된 메뉴를 입력했습니다.");
 			scan.nextLine();
 		}
+		}while(managerLessonMenu!=4);
 	}
+	
 	
 	// 관리자의 수업 관리 메뉴 실행 메서드 : 최지용
 	public void runManagerLessonMenu(int managerLessonMenu) {
@@ -525,6 +551,7 @@ public class UniversityProgram implements Program {
 			
 	// 관리자의 수업 등록 메서드 : 최병호
 	public void addLesson() {
+		System.out.println("수업 등록 기능을 실행합니다.");
 		System.out.print("등록할 강의명:");
 		scan.nextLine();
 		String subject=scan.nextLine();
@@ -546,14 +573,45 @@ public class UniversityProgram implements Program {
 	
 	// 관리자의 수업 수정 메서드 : 최지용
 	public void setLesson() {
-		
+		System.out.println("수업 수정 기능을 실행합니다.");
+		System.out.print("수정할 강의명 :");
+		scan.nextLine();
+		String subject = scan.nextLine();
+		if(!(school.lessonNameEquals(subject))) {
+			System.out.println("없는 강의입니다.");
+			scan.nextLine();
+		}
+		int index = school.lessonList.indexOf(new Lesson(subject)); // 되는지 확인... 되면 수정 여러번 하게 고쳐보기
+		System.out.println("수정할 메뉴를 입력하세요.");
+		System.out.println("메뉴");
+		System.out.println("1.강의명");
+		System.out.println("2.담당 교수 교번");
+		System.out.println("3.최대 정원");
+		System.out.println("4.강의실, 강의시간");
+		System.out.print("메뉴 선택 : ");
+		int menu = scan.nextInt();
+		school.runSetLessonMenu( menu, index);
 	}
-	
+
 	// 관리자의 수업 삭제 메서드 : 최지용
-	public void deleteLesson() {
-		
-	}
 	
+	public void deleteLesson() {
+		System.out.println("수업 삭제 기능을 실행합니다.");
+		System.out.println("삭제할 강의의 이름을 입력하세요 ");
+		System.out.print("강의명 입력 : ");
+		scan.nextLine();
+		String subject = scan.nextLine();
+		boolean t=true;
+		if(school.lessonNameEquals(subject)) {
+			school.lessonList.remove(new Lesson(subject)); // 되는지 확인
+			System.out.println("수업 삭제를 완료했습니다.");
+			t=false;		
+		}
+		if(t==true) {
+			System.out.println("없는 수업입니다. 다시 입력해주세요.");
+			return;
+		}
+	}
 	
 }
 

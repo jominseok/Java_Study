@@ -62,7 +62,7 @@ public class UniversityMain {
 		 *   3. 수업 클래스(Lesson)
 		 *      멤버 변수 : 수업 이름(subject), 교수(professor), 요일(dayOfWeek), 시작 시간(startTime), 종료 시간(endTime),
 		 *               강의실(classroom), 최대정원(max), 수강인원
-		 *               # 수강인원은 변수가 아니라 scoreList의 size로 다룬다
+		 *               # 수강인원은 변수가 아니라 scoreList의 size 로 다룬다
 		 *               
 		 *   4. 성적 클래스(Score)
 		 *      멤버 변수 : 학번(classOf), 점수 리스트(pointList) 

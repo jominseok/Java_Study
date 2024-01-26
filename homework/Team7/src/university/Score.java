@@ -43,9 +43,7 @@ public class Score {
 
 	@Override
 	public String toString() {
-		return "성적은 : " + score;
+		return classOf+" 성적은 : " + score;
 	}
-	
-	
 
 }

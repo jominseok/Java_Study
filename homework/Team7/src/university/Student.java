@@ -14,6 +14,7 @@ public class Student {
 	
 	// 학번 초기화 생성자
 	public Student(int classOf) {
+		
 		this.classOf=classOf;
 	}
 
