@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="/static/jquery.js"></script>
+	<title>게시글 등록</title>
+	<style>
+		.container{
+			margin: 0 auto; width: 80%;
+			align-items: center;
+			max-width: 500px;
+		}
+		.input-box>.label{
+			display: block;
+		}
+		.input-box{
+			margin-top: 10px;
+		}
+		.input-box>input{
+			display: block; width: 100%; height: 30px;
+			border-radius: 5px; border: 1px solid black;
+			margin-top: 5px; padding-left: 10px; box-sizing: border-box;
+		}
+
+		.input-box>.text-area{
+			height: 200px;
+		}
+		.btn{
+			width: 100%; box-sizing: border-box; background-color: white;
+			border: 1px solid tomato; border-radius: 5px; margin-top: 10px;
+			height: 30px; line-height: 28px; display: block; cursor: pointer;
+		}
+		.table{
+			width: 100%; border-collapse: collapse;
+		}
+		.table tr{
+			border: 1px solid black; border-width: 1px 0;
+			height: 30px;
+		}
+		.table.table-hover>tbody>tr:hover{
+			background-color: aliceblue;
+		}
+		.modal-box{
+			position: fixed; top: 0; bottom: 0; left: 0; right: 0;
+			background-color: rgba(0, 0, 0, 0.3); display: none;
+		}
+		.modal-box .inner-box{
+			background-color: #fff; max-width: 500px;
+			height: 400px; margin: 50px auto; position: relative;
+		}
+		.modal-box .btn-close{
+			position: absolute; top: 0; right: 0; left : 0;width: 30px; height: 30px;
+			text-align: center; text-decoration: none; color: black; 
+			line-height: 30px;
+		}
+	</style>
+</head>
+<body>
+	<form action="" class="container" onsubmit="return false">
+			<h1>게시글 등록</h1>
+			<div class="input-box">
+				<label class="label" for="title">제목 : </label>
+				<input type="text" name="title" id="title" class="input" placeholder="제목을 입력하세요.">
+			</div>
+			<div class="input-box">
+				<label class="label" for="writer">작성자 : </label>
+				<input type="text" name="writer" id="writer" class="input" placeholder="작성자를 입력하세요.">
+			</div>
+			<div class="input-box">
+				<label class="label" for="content">내용 : </label>
+				<input type="text" name="content" id="content" class="input text-area" rows = "10" placeholder="내용을 입력하세요">
+			</div>
+				<button class="btn">등록</button>
+	</form>
+	<hr>
+	<div class="container">
+			<h1>게시글 리스트</h1>
+			<table class="table table-hover">
+				<thead class="thead">
+					<tr>
+						<th>번호</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>조회수</th>
+					</tr>
+				</thead>
+				<tbody class="tbody">
+				</tbody>
+			</table>
+	</div>
+	<div class="modal-box">
+		<div class="inner-box">
+			<a href="" class="btn-close">X</a>
+			<div class="content-box"></div>
+		</div>
+	</div>
+	<script>
+		//==========강사님 자바스크립트 버전==============
+		//게시글 리스트를 관리할 배열
+		let list = [];
+		display(list);
+
+
+		//버튼을 선택
+		const btn = document.querySelector(".btn");
+		const closeBtn = document.querySelector(".btn-close");
+		const modal  = document.querySelector(".modal-box");
+
+		//버튼 클릭 이벤트 등록
+		btn.onclick = () => {
+			//입력한 제목, 내용, 작성자를 가져옴
+			let title = document.querySelector("#title").value;
+			let writer = document.querySelector("#writer").value;
+			let content = document.querySelector("#content").value;
+			
+			//가져온 제목, 내용, 작성자와 번호(계산), 조회수(0)를 이용해서 객체를 생성
+			let num;
+			if(!list.length){
+				num = 1;
+			}else{
+				num = parseInt(list[0]["num"])+1;
+			}
+			let view = 0
+			let	obj = {
+				num,
+				title, //title : title이랑 똑같은거임 key랑 value랑 변수명이 같으면 하나만 써도됨
+				content,
+				writer,
+				view
+			}
+			if(!checkBorder(obj)){
+				alert("모든 항목은 필수 항목입니다.");
+				return false;
+			}
+			//생성된 객체를 배열에 앞에 추가
+			list.unshift(obj);
+			//display함수 호출 : 테이블에 list를 출력하는 함수
+			display(list);
+			//return false를 통해 서버로 전송 되는것을 막아줌
+			initForm();
+			return false;
+		}
+
+		//리스트에서 num와 일차하는 게시글 번호를 가진 게시글을 반환하는 함수
+		function getBoard(list, num){
+			for(board of list){
+				if(board["num"] == num){
+					return board;
+				}
+			}
+			return null;
+		}
+
+		closeBtn.onclick = function(){
+         modal.style.display = "none";
+		 display();
+      	}
+      
+      function linkClick(){
+		 modal.style.display = "block";
+		 let num = this.getAttribute("data-num");
+		 let board = getBoard(list, num);
+		 let modalIn = modal.querySelector(".inner-box .content-box");
+		 if(board){
+			++board["view"];
+			//번호, 제목, 작성자, 조회수, 내용을 구성 후 모델 창에 출력
+			let html = 
+			`<h1>게시글 상세</h1>
+			<div class="input-box">
+				<label class="label">번호 : </label>
+				<input type="text" name="num" class="input" readonly value ="${board.num}">
+			</div>
+			<div class="input-box">
+				<label class="label">제목 : </label>
+				<input type="text" name="title" class="input" readonly value ="${board.title}">
+			</div>
+			<div class="input-box">
+				<label class="label">작성자 : </label>
+				<input type="text" name="writer" class="input" readonly value ="${board.writer}">
+			</div>
+			<div class="input-box">
+				<label class="label">조회수 : </label>
+				<input type="text" name="view" class="input" readonly value ="${board.view}">
+			</div>
+			<div class="input-box">
+				<label class="label">내용 : </label>
+				<textarea type="text" name="content"" class="input text-area" rows = "10" readonly value ="${board.content}">
+			</div>`;
+			modalIn.innerHTML = html;
+		 }else{
+			//ㅇ없는 개시글 입니다를 구성해 모델창에 출력
+			modalIn.innerHTML = "<h1>없는 게시글입니다.</h1>"
+		 }
+      	}
+
+		
+		//display함수
+		function display(list){
+				//tbody에 있는 tr태그들을 제거
+				let tbody = document.querySelector("tbody");
+				tbody.innerText = "";
+				//list가 비어 있으면 
+				if(!list.length){
+					//tr태그 생성
+					let tr = createElement("tr")
+					//th태그 생성. 등록된 게시글이 없습니다.
+					let th = createElement("th", "등록된 게시글이 없습니다.", {colspan:"4"})
+					//tr태그에 th태그를 추가
+					tr.append(th);
+					//tbody태그에 tr태그 추가
+					tbody.append(tr);
+					return;
+				}
+
+				
+				//리스트가 비어있지 않으면
+				//반복문 : list 전체를
+				for(let i = 0; i < list.length; i++){
+					//tr태그 생성
+					let tr = createElement("tr");
+					//반복문 : list[i] 객체를[i] 반복문으로 속성 값을 꺼냄, for in
+					for(let key in list[i]){
+						if(key == "content"){
+							continue;
+						}
+						let obj = list[i];
+						if(key != "title"){
+							//td 태그 생성
+							let td = createElement("td", String(obj[key]), {class:key});
+							//tr 태그에 추가
+							tr.append(td);
+						}else{
+							//td 태그 생성
+							let td = createElement("td", null, {class:key});
+							//a 태그 생성
+							let a = createElement("a", String(obj[key]), {class:"link", href:"#"});
+							a.onclick = linkClick;
+							//td 태그에 a태그 추가
+							td.append(a);
+							tr.append(td);
+						}
+					}
+					//tbody테그에 tr태그 추가
+					tbody.append(tr);
+				}
+			}
+		function createElement(tegName, text, attributes){
+				let element = document.createElement(tegName);
+				if(text){
+					let textNode = document.createTextNode(text);
+					element.append(textNode);
+				}
+				if(attributes){
+					for(let key in attributes){
+						let attrNode = document.createAttribute(key);
+						attrNode.value = attributes[key];
+						element.setAttributeNode(attrNode);
+					}
+				}
+				return element;
+			}
+		
+		//게시글에 빈 항목이 있는지 없는지 알려주는 함수
+		function checkBorder(board){
+			if(!board){
+				return false;
+			}
+			if(typeof board != "object"){
+				return false;
+			}
+			//제목체크 trim은 시작, 뒤 공백 없애주는 함수
+			if(!board["title"].trim().length){
+				return false;
+			}
+			//작성자 체크
+			if(!board["writer"].trim().length){
+				return false;
+			}
+			//내용 체크
+			if(!board["content"].trim().length){
+				return false;
+			}
+			return true;
+		}
+			
+		//form태그의 입력값들을 초기화 하는 함수
+		function initForm(){
+			document.querySelector("#title").value = "";
+			document.querySelector("#writer").value = "";
+			document.querySelector("#content").value = "";
+		}
+		//==============================================
+		$(".btn").click(function(){
+			let title = $("#title").val();
+			let writer = $("#writer").val();
+			let content = $("#content").val();
+		});
+	</script>
+</body>
+</html>
