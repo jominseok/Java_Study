@@ -101,8 +101,6 @@ public class UniversityProgram implements Program {
 			}
 			case 2: {
 				//수강 취소
-				System.out.println("===============");
-				System.out.println("현재 수강 신청중인 수업입니다.");
 				school.deleteEnrolment();
 				break;
 			}

@@ -111,16 +111,33 @@ public class Lesson {
 			System.out.println("해당 수강 신청 과목이 등록 되었습니다.");
 		}
 		
-		//수강 신청때 추가할 메서드 - 조민석
-		public void deleteScoreList(int index) {
-			//Shool클래스 안에 수강 신청 과목이 있는리스트랑 같은 인덱스 번호 리스트에 학번을 추가 하였습니다.
-			System.out.println(scoreList.remove(index) + "과목이 삭제되었습니다.");
+		//수강 신청 취소 메서드 - 조민석
+		public void deleteScore(int classOf) {
+			scoreList.remove(new Score(classOf));
+			System.out.println(scoreList);
 		}
 		
-		//성적 조회 메서드
-		public int setScore(int index) {
-			
-			return index;
+		//성적 조회 메서드 - 조민석
+		public boolean setScore(int classOf) {
+			//입력받은 학번이 
+			for(Score tmp : scoreList) {
+				if(tmp.equals(new Score(classOf))) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		
+		// 성적(int 형 반환 메서드) - 조민석
+		public int setIntScore(int classOf) {
+			//입력받은 학번이 
+			for(Score tmp : scoreList) {
+				if(tmp.equals(new Score(classOf))) {
+					return tmp.getScore();
+				}
+			}
+			return 0;
 		}
 
 	//강의 이름비교-병호
