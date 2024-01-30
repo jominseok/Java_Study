@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>시험문제2</title>
+	<style>
+		.container{
+			width: 100%; margin: 0 auto; background: rgb(186, 182, 169);
+			text-align: center; height: 1000px; padding: 100px;
+		}
+		.box{
+			width: 100%; display: block;margin-top: 10px;
+			align-items: center; text-align: left; 
+		}
+		.box::after{content: ''; display: block; clear: both;}
+		.input{
+			border-width: 0 0 4px; border-bottom: 2px dashed rgba(120, 120, 120);
+			background: aquamarine; margin-top: 10px;
+			outline: none;float: left;
+			width: calc(100% - 160px); box-sizing: border-box; 
+		}
+		.box-group{
+			width: 500px; height: 500px; padding: 30px;
+			margin: 0 auto; background-color: aquamarine;
+		}
+		.box label{
+			float: left;width: 110px; margin-top: 10px;
+		}
+
+		.error{
+			color: red; width: 1000px;
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="box-group">
+			<div class="box">
+				<label for="id">아이디</label>
+				<input type="text" class="input" name="id" id="id">
+				<label for="" style="display:none;" class="error">필수 항목입니다.</label>
+			</div>
+			<div class="box" id="boxId">
+				<label for="pw">패스워드</label>
+				<input type="password" class="input" name="pw" id="pw">
+				<label for="" style="display:none;" class="error">필수 항목입니다.</label>
+			</div>
+			<div class="box">
+				<label for="pw2">패스워드 확인</label>
+				<input type="password" class="input" name="pw2" id="pw2">
+				<label for="" style="display:none;" class="error">필수 항목입니다.</label>
+			</div>
+			<div class="box">
+				<label for="email">이메일</label>
+				<div class="email-box">
+					<input type="text" class="input" name="email" id="email">
+				</div>
+			</div>
+			<div class="box">
+				<label for="address">주소</label>
+				<input type="text" class="input" name="address" id="address">
+				<input type="text" class="input" name="address">
+			</div>
+		</div>
+	</div>
+
+	<script>
+		let input1 = document.querySelector("[name=id]");
+		input1.onblur = function(){
+			if(this.value == ""){
+				this.nextElementSibling.style.display = "block"
+			}else{
+				this.nextElementSibling.style.display = "none"
+			}
+		}
+		let input2 = document.querySelector("[name=pw]");
+		input2.onblur = function(){
+			if(this.value == ""){
+				this.nextElementSibling.style.display = "block"
+			}else{
+				this.nextElementSibling.style.display = "none"
+			}
+		}
+		let input3 = document.querySelector("[name=pw2]");
+		input3.onblur = function(){
+			if(this.value == ""){
+				this.nextElementSibling.style.display = "block"
+			}else{
+				this.nextElementSibling.style.display = "none"
+			}
+		}
+		
+		let box = document.querySelector("#boxId");
+		box.innerText="";
+		input2.addEventListener("click", function(){
+			let label = createElement("label", "영문자 대/소문자 특수문자, 숫자 포함 8 ~ 32자", {class:"error"});
+			box.append(label);
+		})
+
+		function createElement(tegName, text, attributes){
+				let element = document.createElement(tegName);
+				if(text){
+					let textNode = document.createTextNode(text);
+					element.append(textNode);
+				}
+				if(attributes){
+					for(let key in attributes){
+						let attrNode = document.createAttribute(key);
+						attrNode.value = attributes[key];
+						element.setAttributeNode(attrNode);
+					}
+				}
+				return element;
+			}
+	</script>
+
+</body>
+</html>
