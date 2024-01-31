@@ -38,29 +38,17 @@ public class Lesson {
 	public Lesson(String subject) {
 		this.subject=subject;	}
 	
-	
 	//교번 비교를 위한 생성자
 	public Lesson(int professor) {
 		this.professor = professor;
 	}
 	
-
 	// 강의의 강의실, 수업시간 생성자
 	public Lesson(String dayOfWeek, int startTime, int endTime, int classroom) {
 		this.dayOfWeek=dayOfWeek;
 		this.startTime=startTime;
 		this.endTime=endTime;
 		this.classroom=classroom;
-	}
-	
-	
-	//이건 필요 없을 것 같음(Course 클래스)
-	//수강 신청(학생 기준) 수업이름, 교수,날짜 학생정보
-	public Lesson(String subject, int professor, String dayOfWeek, List<Score> scoreList) {
-		this.subject = subject;
-		this.professor = professor;
-		this.dayOfWeek = dayOfWeek;
-		this.scoreList = scoreList;
 	}
 	
 	//태스트용 출력
@@ -82,18 +70,15 @@ public class Lesson {
 		return cl;
 	}
 	
-
-
 	//성적 추가-병호
 	public boolean addScore(int score, int num) {
 		//학번이 있고 점수가 없다면
 		for(Score tmp:scoreList) {
-			if(tmp.equals(new Score(num,0))) {
+			if(tmp.equals(new Score(num))&&tmp.getScore()==0) {
 				tmp.setScore(score);
 				return true; //등록 완료
 			}
-		}			
-		
+		}				
 		return false; //점수가 있음으로 false
 	}
 	
@@ -102,23 +87,17 @@ public class Lesson {
 		for(Score tmp:scoreList) {
 			if(tmp.equals(new Score(num))&&tmp.getScore()!=0) {
 				tmp.setScore(score);
-				return true; //수정 완료
+				return true; 
 			}
 		}
 		return false;
 	}
 	
 	//=================조민석===================
-	
-	public Lesson() {
-		
-	}
 	//수강 신청때 추가할 메서드 - 조민석
 	public void setScoreList(int classOf) {
-		System.out.println("setScoreList까지는 들어옴");
 		//Shool클래스 안에 수강 신청 과목이 있는리스트랑 같은 인덱스 번호 리스트에 학번을 추가 하였습니다.
 		scoreList.add(new Score(classOf, 0));
-		System.out.println(scoreList);
 		System.out.println("해당 수강 신청 과목이 등록 되었습니다.");
 	}
 	
@@ -168,11 +147,11 @@ public class Lesson {
 		return Objects.equals(subject, other.subject);
 	}
 
-	
 	@Override
 	public int hashCode() {
 		return Objects.hash(subject);
 	}
+	
 	//강의 명 강의실 시간떄 비교-병호
 	public boolean compa(String subject,String dayOfWeek, int classroom, int sTime,int eTime) {
 		if(this.subject.equals(subject)) { //강의명이 같다면
@@ -187,11 +166,11 @@ public class Lesson {
 		if(this.classroom==classroom&&this.dayOfWeek.equals(dayOfWeek)) { //클래스룸,요일이 같다면
 			for(int i=0; i<tl.length;i++) {
 				//강의시간때가 시작시간 또는 종료시간이 있으면 false를 리턴
-				if(tl[i]==startTime||tl[i]==endTime) {
+				if(tl[i]==startTime||tl[i]==endTime) { 
 					return false;
 				}
 			}
-		}
+		}                      
 		return true;
 	}
 	
@@ -199,6 +178,7 @@ public class Lesson {
 	public void sortScore() {
 		Collections.sort(scoreList,(o1,o2)->o2.getScore()-o1.getScore());
 	}
+	
 	//학번을 리턴함
 	public List<Integer> getScoreClassOf() {
 		List<Integer> list=new ArrayList<Integer>();
@@ -212,6 +192,28 @@ public class Lesson {
 	public int equalsScore(int num) {
 		int index=scoreList.indexOf(new Score(num));
 		return scoreList.get(index).getScore();
+	}
+	
+	// 수업 객체와 입력한 수업 시간(요일,시간대) 와 강의실이 겹치는지 확인하는 메서드 : 겹치면 false...
+	public boolean compaLesson(String dayOfWeek, int sTime, int eTime, int classroom) {
+		boolean t;
+		int sCount=0;
+		int count=0;
+		int[] tl=new int[(eTime-sTime)+1];
+		for(int i=sTime;i<=eTime;i++) {
+			tl[count++]=i;
+		}
+		for(int i=0;i<tl.length;i++) {
+			if(tl[i]==this.startTime||tl[i]==this.endTime) {
+				sCount=sCount+1;
+			}
+		}
+		if(this.dayOfWeek.equals(dayOfWeek)&&this.classroom==classroom&&sCount>0) {
+			t =false;
+		}else {
+			t=true;		
+		}
+		return t;	
 	}
 
 }

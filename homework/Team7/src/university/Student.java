@@ -11,10 +11,8 @@ public class Student {
 	private String name; // 이름
 	private String selection; // 과
 	
-	
 	// 학번 초기화 생성자
 	public Student(int classOf) {
-		
 		this.classOf=classOf;
 	}
 
@@ -23,7 +21,6 @@ public class Student {
 		this.name = name;
 	}
 	
-
 	// 학번이 같으면 같은 학생 객체이다
 	@Override
 	public boolean equals(Object obj) {
@@ -41,11 +38,8 @@ public class Student {
 	public int hashCode() {
 		return Objects.hash(classOf);
 	}
-	 
-	
 	
 	// 출력 메서드
-	
 	@Override
 	public String toString() {
 		return "학번: " + classOf + ", 이름: " + name + ", 과: " + selection;

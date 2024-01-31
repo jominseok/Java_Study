@@ -124,11 +124,19 @@ public class PrintServiceImp implements PrintService {
 		
 	}
 	
+	// 관리자가 수업 수정 시 수정 메뉴 출력 메서드
 	
-
-	
-	
-
-	
+	@Override
+	public void printManagerSetLessonMenu() {
+		System.out.println("수정할 메뉴를 입력하세요.");
+		System.out.println("--메뉴--");
+		System.out.println("1.강의명");
+		System.out.println("2.담당 교수 교번");
+		System.out.println("3.최대 정원");
+		System.out.println("4.강의실, 강의시간");
+		System.out.println("---------------");
+		System.out.print("메뉴 선택 : ");
+	}
+		
 
 }

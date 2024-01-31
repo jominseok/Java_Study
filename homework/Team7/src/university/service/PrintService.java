@@ -11,5 +11,5 @@ public interface PrintService {
 	void printManagerLessonMenu();
 	void printMangerProfessorSelectMenu();
 	void printManagerStudentSelectMenu();
-    
+    void printManagerSetLessonMenu();
 }

@@ -29,8 +29,6 @@ public class Professor {
 		this.name=name;
 	}
 	
-	
-	
 	// 교수는 교번이 같아야 같은 객체이다.
 	@Override
 	public boolean equals(Object obj) {
@@ -49,11 +47,8 @@ public class Professor {
 		return Objects.hash(classOf);
 	}
 	
-	
 	@Override
 	public String toString() {
 		return "교번: " + classOf + ", 이름: " + name + ", 과: " + selection;
 	}
-	
 }
-	
