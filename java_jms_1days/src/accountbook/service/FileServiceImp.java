@@ -7,8 +7,6 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 
 import accountbook.model.Item;
-import word.Word;
-
 public class FileServiceImp implements FileService {
 
 	@Override
