@@ -1,4 +1,4 @@
-package accountbook;
+package accountbook.main;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
