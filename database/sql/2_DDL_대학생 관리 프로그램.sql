@@ -1,53 +1,59 @@
-create database if not exists university;
+# 대학생 관리 프로그램 물리적 설계
 
-use university;
-drop table if exists student; -- 강사님이랑 할 때 잘못된거 있으면 빠르게 수정하기 위한 삭제 쿼리
-create table if not Exists student( -- 학생 테이블 
-	st_num CHAR(10) primary key,
-    st_name varchar(10) not null,
-    st_major varchar(15) not null,
-    st_grade int(11) not null default 1
+# DB 생성
+DROP DATABASE IF EXISTS university;
+CREATE DATABASE IF NOT EXISTS university;
+
+# DB 선택
+USE university;
+
+# student 테이블 삭제 후 추가
+DROP TABLE IF EXISTS student;
+CREATE TABLE IF NOT EXISTS student(
+	st_num CHAR(10) PRIMARY KEY,
+    st_name VARCHAR(30) NOT NULL,
+    st_major VARCHAR(15) NOT NULL,
+    st_grade INT NOT NULL DEFAULT 1
 );
 
-
-drop table if exists professor; -- 강사님이랑 할 때 잘못된거 있으면 빠르게 수정하기 위한 삭제 쿼리
-create table if not Exists professor( -- 교수 테이블 
-	pr_num char(10) not null primary key,
-    pr_name varchar(30) not null,
-    pr_room  varchar(100),
-    pr_major  varchar(15) not null
+# professor 테이블 삭제 후 추가
+DROP TABLE IF EXISTS professor;
+CREATE TABLE IF NOT EXISTS professor(
+	pr_num CHAR(10) PRIMARY KEY,
+    pr_name VARCHAR(30) NOT NULL,
+    pr_room VARCHAR(100),
+    pr_major VARCHAR(15) NOT NULL
 );
 
-drop table if exists lecture; -- 강사님이랑 할 때 잘못된거 있으면 빠르게 수정하기 위한 삭제 쿼리
-create table if not Exists lecture( -- 강의 테이블 
-	le_num int primary key,
-    le_title varchar(30) not null,
-    le_room varchar(20),
-    le_schedule varchar(50) not null,
-    le_point int not null default 0,
-    le_time int not null default 0,
+# lecture 테이블 삭제 후 추가
+DROP TABLE IF EXISTS lecture;
+CREATE TABLE IF NOT EXISTS lecture(
+	le_num INT PRIMARY KEY AUTO_INCREMENT,
+    le_title VARCHAR(30) NOT NULL,
+    le_room VARCHAR(20),
+    le_schedule VARCHAR(50) NOT NULL,
+    le_point INT NOT NULL DEFAULT 0,
+    le_time INT NOT NULL DEFAULT 0,
     le_pr_num CHAR(10),
-    foreign key(le_pr_num) REFERENCES professor(pr_num)
+    FOREIGN KEY(le_pr_num) REFERENCES professor(pr_num)
 );
 
-
-
-drop table if exists course; -- 강사님이랑 할 때 잘못된거 있으면 빠르게 수정하기 위한 삭제 쿼리
-create table if not Exists course( -- 수강 테이블 
-	co_num int primary key auto_increment,
-    co_st_num char(10) not null,
-    co_le_num int not null,
-    foreign key(co_st_num) REFERENCES student(st_num),
-    foreign key(co_le_num) REFERENCES lecture(le_num)
+# course 테이블 삭제 후 추가
+DROP TABLE IF EXISTS course;
+CREATE TABLE IF NOT EXISTS course(
+	co_num INT PRIMARY KEY AUTO_INCREMENT,
+    co_st_num CHAR(10) NOT NULL,
+    co_le_num INT NOT NULL,
+    FOREIGN KEY(co_st_num) REFERENCES student(st_num),
+    FOREIGN KEY(co_le_num) REFERENCES lecture(le_num)
 );
 
-
-
-drop table if exists contect; -- 강사님이랑 할 때 잘못된거 있으면 빠르게 수정하기 위한 삭제 쿼리
-create table if not Exists contect( -- 연락 테이블 
-	ct_st_num char(10) primary key,
-    ct_phone varchar(13) not null,
-    ct_addr varchar(30) not null,
-    ct_detil varchar(30) not null default "",
-    foreign key(ct_st_num) references student(st_num)
+#contact 테이블 삭제 후 추가
+DROP TABLE IF EXISTS contact;
+CREATE TABLE IF NOT EXISTS contact(
+	ct_st_num CHAR(10) PRIMARY KEY,
+    ct_phone VARCHAR(13) NOT NULL,
+    ct_addr VARCHAR(30) NOT NULL,
+    ct_detail VARCHAR(30) NOT NULL DEFAULT "",
+    FOREIGN KEY(ct_st_num) REFERENCES student(st_num)
 );
