@@ -1,121 +1,119 @@
-drop database if exists shoppingmall;
-create database if not exists shoppingmall;
 
-use shoppingmall;
+DROP DATABASE IF EXISTS shoppingmall;
+CREATE DATABASE IF NOT EXISTS shoppingmall;
+
+USE shoppingmall;
 
 DROP TABLE IF EXISTS `member`;
 
 CREATE TABLE `member` (
-	`me_id`	varchar(13)	primary key,
-	`me_password`	varchar(20) not	NULL,
-	`me_email`	varchar(30) not	NULL,
-	`me_phone`	varchar(13) not	NULL,
-	`me_authority`	varchar(10) not NULL default "USER",
-	`me_try_count`	int not null default 0
+	`me_id`	varchar(13)	PRIMARY KEY,
+	`me_pw`	varchar(20) NOT	NULL,
+	`me_email`	varchar(30) NOT	NULL,
+	`me_phone`	varchar(13) NOT	NULL,
+	`me_authority`	varchar(10) NOT NULL DEFAULT "USER",
+	`me_try_count`	int NOT NULL DEFAULT 0
 );
 
-DROP TABLE IF EXISTS `Certification`;
+DROP TABLE IF EXISTS `certification`;
 
-CREATE TABLE `Certification` (
-	`ce_num`	int primary key,
-	`ce_code`	char(6) not	NULL,
-	`ce_limit`	datetime not NULL,
-	`ce__me_id`	varchar(30)	NOT NULL
+CREATE TABLE `certification` (
+	`ce_num`	int	PRIMARY KEY,
+	`ce_code`	char(6) NOT	NULL,
+	`ce_limit`	datetime NOT NULL,
+	`ce_me_id`	varchar(13)	NOT NULL
+);
+
+DROP TABLE IF EXISTS `category`;
+
+CREATE TABLE `category` (
+	`ca_num`	int	PRIMARY KEY,
+	`ca_name`	varchar(10) NOT	NULL
 );
 
 DROP TABLE IF EXISTS `product`;
 
 CREATE TABLE `product` (
-	`productcode`	varchar(30)	primary key,
-	`content`	text not NULL,
-	`cf_num`	int	NOT NULL,
-	`price`	int not NULL default 0,
-	`bag_num`	int	NOT NULL,
-	`productname`	varchar(50) not	NULL
+	`pr_code`	varchar(15)	PRIMARY KEY,
+	`pr_title`	varchar(50) NOT	NULL,
+	`pr_content`	text NOT NULL,
+	`pr_price`	int NOT NULL DEFAuLT 0,
+	`pr_ca_num`	int	NOT NULL
 );
 
-DROP TABLE IF EXISTS `classification`;
+DROP TABLE IF EXISTS `image`;
 
-CREATE TABLE `classification` (
-	`cf_num`	int primary key auto_increment,
-	`cf_name`	varchar(10) not	NULL
+CREATE TABLE `image` (
+	`im_num`	int	PRIMARY KEY AUTO_INCREMENT,
+	`im_file`	varchar(50) NOT	NULL,
+	`im_pr_code`	varchar(15)	NOT NULL
+);
+
+DROP TABLE IF EXISTS `basket`;
+
+CREATE TABLE `basket` (
+	`ba_num`	int	PRIMARY KEY AUTO_INCREMENT,
+	`ba_amount`	int NOT NULL DEFAULT 0,
+	`ba_me_id`	varchar(13)	NOT NULL,
+	`ba_pr_code`	varchar(15)	NOT NULL
 );
 
 DROP TABLE IF EXISTS `order`;
 
 CREATE TABLE `order` (
-	`od_num`	int	primary key auto_increment,
-	`od_date`	datetime not NULL  default current_timestamp,
-	`od_situation`	varchar(10) not NULl default "결제완료",
-	`od_quantity`	int not NULL default 0,
-	`buy_price`	int not	NULL,
-	`id`	varchar(30)	NOT NULL,
-	`productcode`	varchar(30)	NOT NULL
+	`or_num`	int	PRIMARY KEY AUTO_INCREMENT,
+	`or_date`	datetime NOT NULL DEFAULT current_timestamp,
+	`or_state`	varchar(10) NOT NULL DEFAULT "결제완료"	NULL,
+	`or_amount`	int NOT NULL DEFAULT 0	NULL,
+	`or_total_price`	int NOT	NULL,
+	`or_me_id`	varchar(13)	NOT NULL,
+	`or_pr_code`	varchar(15)	NOT NULL
 );
 
-DROP TABLE IF EXISTS `bag`;
-
-CREATE TABLE `bag` (
-	`bag_num`	int	primary key auto_increment,
-	`bn_quantity`	int not NULL default 0,
-	`id`	varchar(30)	NOT NULL
-);
-
-DROP TABLE IF EXISTS `thumbnail`;
-
-CREATE TABLE `thumbnail` (
-	`tn_num`	int	primary key Auto_increment,
-	`file_name`	varchar(50) not	NULL,
-	`productcode`	varchar(15)	NOT NULL
-);
-
-
-ALTER TABLE `Certification` ADD CONSTRAINT `FK_member_TO_Certification_1` FOREIGN KEY (
-	`ce__me_id`
+ALTER TABLE `certification` ADD CONSTRAINT `FK_member_TO_certification_1` FOREIGN KEY (
+	`ce_me_id`
 )
 REFERENCES `member` (
 	`me_id`
 );
 
-ALTER TABLE `product` ADD CONSTRAINT `FK_classification_TO_product_1` FOREIGN KEY (
-	`cf_num`
+ALTER TABLE `product` ADD CONSTRAINT `FK_category_TO_product_1` FOREIGN KEY (
+	`pr_ca_num`
 )
-REFERENCES `classification` (
-	`cf_num`
+REFERENCES `category` (
+	`ca_num`
 );
 
-ALTER TABLE `product` ADD CONSTRAINT `FK_bag_TO_product_1` FOREIGN KEY (
-	`bag_num`
+ALTER TABLE `image` ADD CONSTRAINT `FK_product_TO_image_1` FOREIGN KEY (
+	`im_pr_code`
 )
-REFERENCES `bag` (
-	`bag_num`
+REFERENCES `product` (
+	`pr_code`
+);
+
+ALTER TABLE `basket` ADD CONSTRAINT `FK_member_TO_basket_1` FOREIGN KEY (
+	`ba_me_id`
+)
+REFERENCES `member` (
+	`me_id`
+);
+ALTER TABLE `basket` ADD CONSTRAINT `FK_product_TO_basket_1` FOREIGN KEY (
+	`ba_pr_code`
+)
+REFERENCES `product` (
+	`pr_code`
 );
 
 ALTER TABLE `order` ADD CONSTRAINT `FK_member_TO_order_1` FOREIGN KEY (
-	`id`
+	`or_me_id`
 )
 REFERENCES `member` (
 	`me_id`
 );
 
 ALTER TABLE `order` ADD CONSTRAINT `FK_product_TO_order_1` FOREIGN KEY (
-	`productcode`
+	`or_pr_code`
 )
 REFERENCES `product` (
-	`productcode`
+	`pr_code`
 );
-
-ALTER TABLE `bag` ADD CONSTRAINT `FK_member_TO_bag_1` FOREIGN KEY (
-	`id`
-)
-REFERENCES `member` (
-	`me_id`
-);
-
-ALTER TABLE `thumbnail` ADD CONSTRAINT `FK_product_TO_thumbnail_1` FOREIGN KEY (
-	`productcode`
-)
-REFERENCES `product` (
-	`productcode`
-);
-
