@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class Type {
-	private String ty_name;
+	String ty_name;
 }

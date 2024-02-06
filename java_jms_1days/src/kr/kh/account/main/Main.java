@@ -16,8 +16,6 @@ public class Main {
 			printMenu();
 			menu = scan.nextInt();
 			runMenu(menu);
-			
-			
 		} while (menu != 2);
 	}
 
@@ -27,6 +25,7 @@ public class Main {
 		System.out.println("1. 가계부 관리");
 		System.out.println("2. 프로그램 종료");
 		System.out.println("메뉴 선택 : ");
+		
 		
 	}
 	private static void runMenu(int menu) {
