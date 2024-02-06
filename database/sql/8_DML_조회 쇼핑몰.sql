@@ -123,6 +123,54 @@ WHERE
 GROUP BY PR_CODE;
 
 
+#모든 제품을 조회하는 쿼리
+select * from product;
+
+#모든 카테고리를 조회하는 쿼리
+select * from category;
+
+#제품별 카테고리를 조회. 카테고리, 제품을 조회
+SELECT 
+    pr_title as 카테고리, ca_name as 제품명
+FROM
+    product
+        JOIN
+    category ON pr_ca_num = ca_num;
+
+# 기타 카테고리에 포함된 모든 제품을 조회
+select ca_name, product.* from category join product on pr_ca_num = ca_num where ca_name = "기타";
+
+#abc123회원이 주문한 제품 목록을 조회
+SELECT 
+    or_date, or_state,or_amount, or_me_id AS 아이디, pr_title AS 제품명
+FROM
+    `order`
+        JOIN
+    product ON or_pr_code = pr_code
+WHERE
+    or_me_id = 'abc123';
+
+#제품별 판매수량을 조회하는 쿼이
+select pr_title 제품명, ifnull(sum(or_amount), 0)  판매수량 from `order` right join product on or_pr_code = pr_code where or_state not in ('반품', '환불') or or_state is null group by pr_code;
+
+# 인기 제픔 조회. 인기제품은 누적판매량을 기준으로 상위 5개
+select pr_title 제품명, ifnull(sum(or_amount), 0)  판매수량 from `order` right join product on or_pr_code = pr_code where or_state not in ('반품', '환불') or or_state is null group by pr_code order by 판매수량 DESC,
+pr_price ASC limit 0, 5;
+
+#가격이 제일 비싼 제품을 조회하는 쿼리
+select * from product order by pr_price DESC limit 0, 1;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
