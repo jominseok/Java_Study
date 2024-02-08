@@ -147,16 +147,25 @@ CREATE TABLE `ticketing` (
 	`ti_trrnager` int not null,
 	`ti_total_price` int not NULL,
 	`ti_sh_num`	int	NOT NULL,
-	`me_id`	varchar(20)	not NULL
+	`ti_me_id`	varchar(20)	not NULL
 );
 
 DROP TABLE IF EXISTS `ticketing_list`;
 
 CREATE TABLE `ticketing_list` (
 	`tl_num` int primary key auto_increment,
-	`tl_ti_num2` int nOT NULL,
+	`tl_ti_num` int nOT NULL,
 	`ti_se_num`	int	NOT NULL
 );
+
+DROP TABLE IF EXISTS `price`;
+
+CREATE TABLE `price` (
+	`pr_num`	int	primary key auto_increment,
+	`pr_type`	varchar(20)	not NULL,
+	`pr_price`	int not NULL
+);
+
 
 ALTER TABLE `character` ADD CONSTRAINT `FK_nation_TO_character_1` FOREIGN KEY (
 	`ch_na_name`
@@ -271,14 +280,14 @@ REFERENCES `schedule` (
 );
 
 ALTER TABLE `ticketing` ADD CONSTRAINT `FK_member_TO_ticketing_1` FOREIGN KEY (
-	`me_id`
+	`ti_me_id`
 )
 REFERENCES `member` (
 	`me_id`
 );
 
 ALTER TABLE `ticketing_list` ADD CONSTRAINT `FK_ticketing_TO_ticketing_list_1` FOREIGN KEY (
-	`tl_ti_num2`
+	`tl_ti_num`
 )
 REFERENCES `ticketing` (
 	`ti_num`
