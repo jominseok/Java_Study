@@ -98,3 +98,37 @@ select * from production_nation;
 #10. 장르 포함에 영화와 장르를 추가
 insert into genre_include(gi_ge_name, gi_mo_num) values("환타지", 1),("드라마", 1);
 select * from genre_include;
+
+# 영화관의 전체 좌석수와 전체 사영관 수를 현재 데이터를 기준으로 업데이트 하는 쿼리를 작성
+update theater set th_seat = (select sum(sc_scat) from screen where sc_th_num = 1), th_screen = (select count(sc_scat) from screen where sc_th_num = 1) where th_num = 1;
+
+select sum(sc_scat) from screen where sc_th_num = 1;
+
+select * from movie_person;
+
+select * from `join`;
+
+#폴킹 감독이 웡카 영화에(1) 감독으로 참여하는 쿼리
+insert into `join` select 1, '감독', 1, mp_num from movie_person join `character` on mp_ch_num = ch_num where ch_name = "폴킹" and mp_role = '감독';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
