@@ -160,17 +160,33 @@ pr_price ASC limit 0, 5;
 #가격이 제일 비싼 제품을 조회하는 쿼리
 select * from product order by pr_price DESC limit 0, 1;
 
+# 카테고리별 등록된 제품 수를 조회하는 쿼리
+select  if(count(ca_num) > 0, count(ca_num),"제품 없음") as "카테고리 번호", ca_name as 카테고리명 from product right join category on pr_ca_num = ca_num group by ca_num;
 
+# 회원별 누적 주문 금액을 조회 하는 쿼리
+select * from `order`; 
+select * from member;
+#select or_me_id as "회원 아이디", sum(or_amount * or_total_price) as "합계" from `order` group by or_me_id;
+select me_id, ifnull(sum(or_total_price), 0) as "누적금액" from `order` right join member on or_me_id = me_id group by me_id;
 
+#회원별 등급을 조회하는 쿼리. 등급은 기본이 브론즈, 누적금액이 5만원 이상이면 실버, 누적금액이 8만원 이상이면 골드
+select * from member;
+select me_id,
+case 
+when ifnull(sum(or_total_price), 0) >= 80000 then '골드'
+when ifnull(sum(or_total_price), 0) >= 80000 then '실버'
+else '브론즈'
+end as '등급' from `order` right join member on or_me_id = me_id group by me_id;
 
-
-
-
-
-
-
-
-
+#제품 첨부파일을 추가한 후, 추가한 파일이 이미지인지 동영상인지 조회하는 쿼리
+select 
+	case right(im_file, 3) 
+	when "jpg" then '이미지'
+	when "png" then '이미지'
+	when "mp4" then '영상'
+	end as 종류, 
+    im_file
+from image;
 
 
 
