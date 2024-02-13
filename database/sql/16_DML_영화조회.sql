@@ -242,3 +242,45 @@ WHERE
 
 # 영화 제목에 카를 포함하는 조회하는 쿼리
 select * from movie where mo_title like '%카%';
+
+
+# 2월 9, 10일에 예매 가능한 영화 목록을 조회하는 쿼리
+select * from schedule join movie on sh_mo_num = mo_nuselect where sh_date between "2024-02-09" and "2024-02-10";
+
+#서브쿼리를 이용한 방법
+SELECT 
+    mo_title, sh_date, sh_time
+FROM
+(SELECT 
+	*
+FROM
+	schedule
+WHERE
+	sh_date BETWEEN '2024-02-09' AND '2024-02-10') as sh
+JOIN
+	movie ON sh_mo_num = mo_num;
+
+select * from theater;
+select * from seat;
+select * from screen;
+select distinct * from screen where sc_name between 1 and 3; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
