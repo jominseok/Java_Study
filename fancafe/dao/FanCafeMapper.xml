@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fancafe.dao.FanCafeDao">
+	<insert id="signUpMember">
+		insert into member values(#{member.me_id},#{member.me_pw},#{member.me_name},#{member.me_gender},#{member.me_birth},#{member.me_content},'비회원')
+	</insert>
+	<select id="selectMemberIdName" resultType="fancafe.model.vo.Member">
+		select me_id,me_name from member
+	</select>
+	
+	<select id="selectMemberLoginList" resultType = "fancafe.model.vo.Member">
+		select me_id, me_pw FROM member
+	</select>
+	
+	<select id="userBoardSelect" resultType = "fancafe.model.vo.Board">
+		select * from Board
+	</select>
+	
+	<insert id="postUpUser">
+		insert into post(po_title, po_content, po_date, po_bd_num, po_me_id) 
+		value(#{post.po_title},#{post.po_content}, now(),#{post.po_bd_num},#{post.po_me_id})
+	</insert>
+</mapper>
