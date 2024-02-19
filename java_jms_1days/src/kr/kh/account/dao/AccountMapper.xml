@@ -22,4 +22,8 @@
 	<delete id="deleteItem">
 		delete from item where it_num = #{it_num}
 	</delete>
+	<select id="selectItemListByDate" resultType = "kr.kh.account.model.vo.Item">
+		select item.*, ca_ty_name as it_ty_name, ca_name as it_ca_name from item join category on ca_num = it_ca_num where it_date like concat(#{cri.search}, '%') 
+		order by it_date desc limit #{cri.pageStart}, #{cri.perPageNum}  
+	</select>
 </mapper>
