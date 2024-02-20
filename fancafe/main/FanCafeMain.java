@@ -9,6 +9,7 @@ public class FanCafeMain {
 	static FanCafeController fanCafeController=new FanCafeController();
 	static Scanner scan=new Scanner(System.in);
 	public static void main(String[] args) {
+		System.out.println("kh 팬카페에 오신걸 환영합니다.");
 		int menu=0;
 		do {
 			fanCafeController.printMenu();
@@ -21,5 +22,4 @@ public class FanCafeMain {
 			}
 		}while(menu!=3);
 	}
-	
 }

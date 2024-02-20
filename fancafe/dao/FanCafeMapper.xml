@@ -3,17 +3,53 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fancafe.dao.FanCafeDao">
+
 	<insert id="signUpMember">
 		insert into member values(#{member.me_id},#{member.me_pw},#{member.me_name},#{member.me_gender},#{member.me_birth},#{member.me_content},'비회원')
 	</insert>
-	<select id="selectMemberIdName" resultType="fancafe.model.vo.Member">
-		select me_id,me_name from member
-	</select>
 	
 	<select id="selectMemberLoginList" resultType = "fancafe.model.vo.Member">
-		select me_id, me_pw FROM member
+		select me_id, me_pw from member where me_id=#{me_id}
+	</select>
+
+	<select id="selectMemberLevel" resultType = "String">
+		select me_ap_level from member where me_id=#{me_id}
 	</select>
 	
+	<select id="selectMemberIdPw" resultType="fancafe.model.vo.Member">
+		select me_id, me_pw from member where me_id=#{me_id}
+	</select>
+	
+	<update id="updatePw">
+	    update member set me_pw=#{newPw} where me_id=#{me_id}
+	</update>
+	
+	<update id="updateName">
+	    update member set me_name=#{newName} where me_id=#{me_id}
+	</update>
+	
+	<select id="selectMyPostInBoard" resultType="fancafe.model.vo.Post">
+	    select post.*,me_name as po_me_name from post join member on me_id=po_me_id
+	     where po_me_id=#{me_id} and po_bd_num=#{bd_num}
+	</select>
+
+	<select id="selectMyBoard" resultType="fancafe.model.vo.Board">
+	    select distinct bd_num, bd_title from post join board on po_bd_num=bd_num where po_me_id=#{me_id} order by bd_num
+	</select>
+	
+	<select id="countIdBdNum" resultType="Integer">
+	    select count(*)  from post where po_me_id= #{me_id} and po_bd_num= #{bd_num} 
+	</select>
+
+	<select id="selectMember" resultType="fancafe.model.vo.Member">
+	   SELECT * FROM member order by case when me_ap_level ='관리자' then 1
+		when me_ap_level ='정회원' then 2 else 3 end
+	</select>
+	
+	<delete id="deleteMemberName">
+		DELETE FROM member WHERE me_name = #{me_name}
+	</delete>
+
 	<select id="userBoardSelect" resultType = "fancafe.model.vo.Board">
 		select * from Board
 	</select>
@@ -22,4 +58,48 @@
 		insert into post(po_title, po_content, po_date, po_bd_num, po_me_id) 
 		value(#{post.po_title},#{post.po_content}, now(),#{post.po_bd_num},#{post.po_me_id})
 	</insert>
+
+	<select id="selectUserPostList">
+		select * from post where po_bd_num = #{selectBoard} order by po_num desc
+	</select>
+
+	<insert id="insertBoard">
+		insert into board value (null,#{bd_title})
+	</insert>
+	
+	<update id="updateBoardName">
+	    update board set bd_title = #{bd_title} where bd_num=#{bd_num}	
+	</update>
+	
+	<delete id="deleteBoard">
+		DELETE FROM board WHERE bd_num=#{bd_num}
+	</delete>
+	
+	<delete id="deleteUserPost">
+		delete from post where po_num = #{po_num}
+	</delete>
+	
+	<update id="updateUserPost">
+		update post set po_title = #{post.po_title}, po_content = #{post.po_content}, po_date = now() where po_num = #{post.po_num};
+	</update>
+	<update id="viwePlus">
+		update post set po_view = #{po_view} where po_num = #{po_num}
+	</update>
+	<update id="updateMemberLevel">
+		UPDATE member SET me_ap_level = '정회원' WHERE (me_name = #{me_name});
+	</update>
+	
+	<select id="selectMemberUnderLevel" resultType="fancafe.model.vo.Member">
+	   SELECT * FROM member where me_ap_level = '비회원'
+	</select>
+	
+	<select id="selectUserPostList2" resultType="fancafe.model.vo.Post">
+		select post.*,me_name as po_me_name from post post join member on me_id=po_me_id
+		where po_bd_num = #{selectBoard} order by po_num desc limit #{cri.page} , #{cri.perPageNum};
+	</select>
+	<delete id="deleteUser">
+		DELETE FROM member WHERE me_id = #{me_id}
+	</delete>
+	
+	
 </mapper>
