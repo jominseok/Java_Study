@@ -27,3 +27,6 @@ replay_pid*
 .project
 java_jms_1days/.gitignore
 /bin/
+**/.gitignore
+.settings/
+MANIFEST.MF
