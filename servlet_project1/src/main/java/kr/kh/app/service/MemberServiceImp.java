@@ -60,4 +60,5 @@ public class MemberServiceImp implements MemberService {
 		}
 		return null;
 	}
+
 }

@@ -30,9 +30,7 @@ public class LoginServelt extends HttpServlet {
 			throws ServletException, IOException {
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
-		System.out.println("아이디는 : " + id + " 비밀번호는 : " + pw);
 		MemberVo user = memberService.login(new LoginDTO(id, pw));
-		System.out.println(user);
 		if (user != null) {
 			// 세션에 회원 정보를 저장하여 로그인 유지
 			HttpSession session = request.getSession();// request에 있는 세션을 가져옴

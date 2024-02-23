@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +15,7 @@
 <body>
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="<%=request.getContextPath()%>/">Logo</a>
+			<a class="navbar-brand" href="<c:url value = "/"/>">Logo</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
 				<span class="navbar-toggler-icon"></span>
@@ -52,7 +53,7 @@
 					type="email" class="form-control" id="email" placeholder="비밀번호"
 					name="email">
 			</div>
-			<button class = "btn btn-outline-success col-12">회원가입</button>
+			<button class="btn btn-outline-success col-12">회원가입</button>
 		</form>
 	</div>
 </body>

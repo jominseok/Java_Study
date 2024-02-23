@@ -4,15 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>로그인</title>
-<!-- 부트스트랩5 css/js -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+<meta charset="UTF-8">
+<title>게시글 등록</title>
 </head>
 <body>
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -30,31 +28,39 @@
 						<li class="nav-item"><a class="nav-link"
 							href="<c:url value="/login"/>">로그인</a></li>
 					</c:if>
+					<li class="nav-item"><a class="nav-link"
+						href="<c:url value="/board/list/"/>">게시글</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
-	<div class="container">
-		<!-- id와 pw를 입력받아 서버로 전송하는 코드를 작성 post 방식으로 전송-->
-		<form action="<%request.getContextPath();%>" method="post">
-			<h1>로그인</h1>
+	<div class='container'>
+		<form action="<c:url value="/board/insert"/>" method="post">
 			<div class="mb-3 mt-3">
-				<label for="id" class="form-label">아이디 : </label> <input type="text"
-					class="form-control" id="id" placeholder="아이디" name="id">
+				<label for="community" class="form-label">게시판 : </label>
+				 <select class="from-control" id="community" name="community">
+					<c:forEach items="${list}" var="community">
+						<option value="${community.co_num}">${community.co_name}</option>
+					</c:forEach>
+				</select> 
 			</div>
 			<div class="mb-3 mt-3">
-				<label for="pw" class="form-label">비밀번호 : </label> <input
-					type="password" class="form-control" id="pw" placeholder="비밀번호"
-					name="pw">
+				<label for="title" class="form-label">제목 : </label> <input
+					type="text" class="form-control" id="title" placeholder="제목"
+					name="title">
 			</div>
-			<button class="btn btn-outline-success col-12">로그인</button>
+			<div class="mb-3 mt-3">
+				<label for="writer" class="form-label">작성자 : </label> <input
+					type="text" class="form-control" id="writer" placeholder="작성자"
+					name="writer" value="${user.me_id}">
+			</div>
+			<div class="mb-3 mt-3">
+				<label for="content" class="form-label">내용 : </label>
+				<textarea rows="10" type="text" class="form-control" id="content"
+					placeholder="내용" name="content"></textarea>
+			</div>
+			<button class="btn btn-outline-warning col-12">글 등록</button>
 		</form>
-		<!-- 
-	sesstion.setAttribute()는 세션에 정보를 저장하고,
-	request.setAttribute()는 요청에 정보를 저장
-	세션은 세션이 유지되는 동안에 다른페이지에서도 사용 가능
-	요청은 해당 url에 대해서만 사용 가능(새로고침 X) 
-	 -->
 	</div>
 </body>
 </html>
