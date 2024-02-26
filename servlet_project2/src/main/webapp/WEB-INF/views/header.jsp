@@ -21,12 +21,15 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
-				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link"
-						href="<c:url value = "/signup"/>">회원가입</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">로그인</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">게시판</a></li>
-				</ul>
+					<ul class="navbar-nav">
+				<c:if test="${user == null}">
+						<li class="nav-item"><a class="nav-link"
+							href="<c:url value = "/signup"/>">회원가입</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="<c:url value = "/login"/>">로그인</a></li>
+				</c:if>
+					<li class="nav-item"><a class="nav-link" href="<c:url value="/board"/>">게시판</a></li>
+					</ul>
 			</div>
 		</div>
 	</nav>
