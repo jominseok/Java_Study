@@ -30,13 +30,21 @@ public class SignupServlet extends HttpServlet {
 		MemberVO member = new MemberVO(id, pw, email, "이용중");
 		boolean res = memberService.signup(member);
 		if(res) {
+			request.setAttribute("msg", "회원가입에 성공하였습니다.");
+			request.setAttribute("url", "");
+		}else {
+			request.setAttribute("msg", "회원가입에 실패하였습니다.");
+			request.setAttribute("url", "signup");
+		}
+		request.getRequestDispatcher("/WEB-INF/views/message.jsp").forward(request, response);
+		/*if(res) {
 			//회원 추가에 성공하면 홈화면으로 이동
 			response.sendRedirect(request.getContextPath() + "/");
 		}else {
 			//회원 추가에 실패하면 회원가입 화면에 정지
 			//sendRedirect는 새로고침 하는거다
 			response.sendRedirect(request.getContentType() + "/signup");
-		}
+		}*/
 	}
 
 }
