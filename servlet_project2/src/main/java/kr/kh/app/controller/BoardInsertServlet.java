@@ -70,7 +70,6 @@ public class BoardInsertServlet extends HttpServlet {
 		BoardVO boardVO = new BoardVO(bo_co_num, bo_me_id, title, content);
 		//서비스에게 게시글 객체를 주면서 등록하라고 시킴
 		boolean res = boardService.Boardinsert(boardVO);
-		System.out.println(res);
 		if(res) {
 			//등록을 하면 화면에 msg로 게시글 등록했습니다 라고 전송
 			request.setAttribute("msg", "게시글을 등록했습니다.");

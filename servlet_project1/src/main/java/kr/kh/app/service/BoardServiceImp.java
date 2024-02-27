@@ -13,11 +13,12 @@ import kr.kh.app.dao.BoardDAO;
 import kr.kh.app.dao.MemberDao;
 import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.model.vo.CommunityVo;
+import kr.kh.app.pagenaination.Criteria.Criteria;
 
 public class BoardServiceImp implements BoardService {
-	
+
 	private BoardDAO boardDao;
-	
+
 	public BoardServiceImp() {
 		String resource = "kr/kh/app/config/mybatis-config.xml";
 		try {
@@ -32,13 +33,13 @@ public class BoardServiceImp implements BoardService {
 
 	@Override
 	public boolean insertBoard(BoardVO baord) {
-		if(baord == null || baord.getBo_title() == null || baord.getBo_title().length() == 0) {
+		if (baord == null || baord.getBo_title() == null || baord.getBo_title().length() == 0) {
 			return false;
 		}
-		if(baord.getBo_me_id() == null) {
+		if (baord.getBo_me_id() == null) {
 			return false;
 		}
-		if(baord.getBo_content() == null) {
+		if (baord.getBo_content() == null) {
 			return false;
 		}
 		return boardDao.insertBoard(baord);
@@ -46,29 +47,23 @@ public class BoardServiceImp implements BoardService {
 
 	@Override
 	public ArrayList<CommunityVo> selectCommunityList() {
-		
+
 		return boardDao.selectCommunityList();
 	}
 
 	@Override
-	public ArrayList<BoardVO> getBoardList() {
-		
-		return boardDao.selectBoardList();
+	public ArrayList<BoardVO> getBoardList(Criteria cri) {
+		if (cri == null) {
+			cri = new Criteria();
+		}
+		return boardDao.selectBoardList(cri);
+	}
+
+	@Override
+	public int getTotalCount(Criteria cri) {
+		if (cri == null) {
+			cri = new Criteria();
+		}
+		return boardDao.selectTotalCount(cri);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
