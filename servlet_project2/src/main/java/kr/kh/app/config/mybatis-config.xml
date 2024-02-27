@@ -5,8 +5,8 @@
 <configuration>
 	<!-- 캐시를 비활성화 -->
 	<settings>
-		<setting name="cacheEnabled" value="false" /> 
-		<setting name="localcashScope" value="STATEMENT" />
+		<setting name="cacheEnabled" value="false"/> 
+		<setting name="localCacheScope" value="STATEMENT" />
 	</settings>
 	<environments default="development">
 		<environment id="development">
