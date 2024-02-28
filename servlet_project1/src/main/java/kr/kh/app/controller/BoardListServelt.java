@@ -40,7 +40,6 @@ public class BoardListServelt extends HttpServlet {
 		request.setAttribute("pm", pm);
 		//현재 페이지 정보에 맞는 게시글 리스트를 가져옴
 		ArrayList<BoardVO> list = boardService.getBoardList(cri);
-		System.out.println(list);
 		request.setAttribute("list", list);//화면에 전송
 		request.getRequestDispatcher("/WEB-INF/views/board/list.jsp").forward(request, response);
 	}
