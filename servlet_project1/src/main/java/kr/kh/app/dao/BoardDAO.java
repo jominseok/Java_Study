@@ -10,12 +10,11 @@ import kr.kh.app.pagenaination.Criteria.Criteria;
 
 public interface BoardDAO {
 
-	boolean insertBoard(@Param("board")BoardVO baord);
+	boolean insertBoard(@Param("board")BoardVO board);
 
 	ArrayList<CommunityVo> selectCommunityList();
 
-	ArrayList<BoardVO> selectBoardList(@Param("cri") Criteria cri);
+	ArrayList<BoardVO> selectBoardList(@Param("cri")Criteria cri);
 
-	int selectTotalCount(@Param("cri") Criteria cri);
-
+	int selectTotalCount(@Param("cri")Criteria cri);
 }

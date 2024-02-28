@@ -6,16 +6,15 @@
 	<!-- resultMap은 클래스 멤버 이름과 테이블의 속성 이름이 다른 경우 맴핑하기 위해 사용 result = property는 
 		클래스 멤버 변수 이름, column은 테이블 속성 이름 -->
 	<resultMap type="kr.kh.app.model.vo.BoardVO" id="BoardMap">
-		<id property="bo_num" column="bo_num" />
-		<result property="bo_co_num" column="bo_co_num" />
-		<result property="bo_me_id" column="bo_me_id" />
-		<result property="bo_title" column="bo_title" />
-		<result property="bo_content" column="bo_content" />
-		<result property="bo_view" column="bo_view" />
-		<result property="bo_report_count" column="bo_report_count" />
-		<collection property="community"
-			ofType="kr.kh.app.model.vo.CommunityVo" column="bo_co_num"
-			select="selectCommunity" />
+		<id property="bo_num" column="bo_num"/>
+		<result property="bo_co_num" column="bo_co_num"/>
+		<result property="bo_me_id" column="bo_me_id"/>
+		<result property="bo_title" column="bo_title"/>
+		<result property="bo_content" column="bo_content"/>
+		<result property="bo_view" column="bo_view"/>
+		<result property="bo_report_count" column="bo_report_count"/>
+		<collection property="community" ofType="kr.kh.app.model.vo.CommunityVo"
+			column="bo_co_num" select="selectCommunityList"/>
 	</resultMap>
 
 	<insert id="insertBoard">
@@ -26,7 +25,7 @@
 
 	<select id="selectCommunityList"
 		resultType="kr.kh.app.model.vo.CommunityVo">
-		select * from community;
+		select * from community where co_num = #{bo_co_num}
 	</select>
 
 	<select id="selectBoardList" resultMap="BoardMap">
@@ -46,14 +45,10 @@
 		LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
 
-	<select id="selectCommunity"
-		resultType="kr.kh.app.model.vo.CommunityVo">
-		select * from community where co_num=#{bo_co_num}
-	</select>
-
+	
 	<select id="selectTotalCount" resultType="int">
 		SELECT count(*) 
-		FROM BOARD 
+		FROM board 
 		<if test='cri.type=="all"'>
 			where bo_title like concat('%', #{cri.search},'%') 
 				or bo_me_id = #{cri.search}

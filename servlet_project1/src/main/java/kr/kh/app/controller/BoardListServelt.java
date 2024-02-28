@@ -20,10 +20,7 @@ import kr.kh.app.service.BoardServiceImp;
 public class BoardListServelt extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BoardService boardService = new BoardServiceImp();
-	
-    public BoardListServelt() {
-    	
-    }
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//검색어와 검색타입을 가져옴. 현재페이지 정보도 가져옴
@@ -43,6 +40,7 @@ public class BoardListServelt extends HttpServlet {
 		request.setAttribute("pm", pm);
 		//현재 페이지 정보에 맞는 게시글 리스트를 가져옴
 		ArrayList<BoardVO> list = boardService.getBoardList(cri);
+		System.out.println(list);
 		request.setAttribute("list", list);//화면에 전송
 		request.getRequestDispatcher("/WEB-INF/views/board/list.jsp").forward(request, response);
 	}
