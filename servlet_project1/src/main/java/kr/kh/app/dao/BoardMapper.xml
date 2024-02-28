@@ -14,7 +14,7 @@
 		<result property="bo_view" column="bo_view"/>
 		<result property="bo_report_count" column="bo_report_count"/>
 		<collection property="community" ofType="kr.kh.app.model.vo.CommunityVo"
-			column="bo_co_num" select="selectCommunityList"/>
+			column="bo_co_num" select="selectCommunity"/>
 	</resultMap>
 
 	<insert id="insertBoard">
@@ -25,9 +25,14 @@
 
 	<select id="selectCommunityList"
 		resultType="kr.kh.app.model.vo.CommunityVo">
+		select * from community 
+	</select>
+	
+	<select id="selectCommunity"
+		resultType="kr.kh.app.model.vo.CommunityVo">
 		select * from community where co_num = #{bo_co_num}
 	</select>
-
+	
 	<select id="selectBoardList" resultMap="BoardMap">
 		SELECT * 
 		FROM BOARD 
@@ -45,7 +50,6 @@
 		LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
 
-	
 	<select id="selectTotalCount" resultType="int">
 		SELECT count(*) 
 		FROM board 
@@ -67,6 +71,10 @@
 	
 	<update id="updateView">
 		update board set bo_view = bo_view + 1 where bo_num = #{num}
+	</update>
+	
+	<update id="updateBoard">
+		update board set bo_title = #{board.bo_title}, bo_content = #{board.bo_content}, bo_co_num = #{board.bo_co_num} where bo_num = #{board.bo_num}
 	</update>
 	
 	<delete id="deleteBoard">
