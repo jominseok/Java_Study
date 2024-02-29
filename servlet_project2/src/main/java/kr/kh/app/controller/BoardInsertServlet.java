@@ -22,26 +22,12 @@ public class BoardInsertServlet extends HttpServlet {
 	BoardService boardService = new BoardServiceImp();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//세션에서 회원 정보를 가져오는 코드를 작성
-		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
-		//회원 정보가 없으면 로그인이 필요한 서비스 입니다 라고 출력후 게시글 리스트로 이동
-		//있으면 게시글 등록 회면을 전송
-		//화면에 msg로 로그인이 필요한 서비스 입니다라고 전송
-		//화면에 url로 /board/list를 전송
-		//message.jsp로 전송
-		if(user == null) {
-			request.setAttribute("msg", "로그인이필요한 서비스입니다.");
-			request.setAttribute("url", "board/list");
-			request.getRequestDispatcher("/WEB-INF/views/message.jsp").forward(request, response);
-		}
-		//있으면 게시글 등록
-		else {			
-			//서비스에게 게시판 리스트를 가져오라고 시킴
-			ArrayList<CommunityVO> list = boardService.getCommunityList(); 
-			//화면에 게시판 리스트를 보냄
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("/WEB-INF/views/board/insert.jsp").forward(request, response);
-		}
+		//서비스에게 게시판 리스트를 가져오라고 시킴
+		ArrayList<CommunityVO> list = boardService.getCommunityList(); 
+		//화면에 게시판 리스트를 보냄
+		request.setAttribute("list", list);
+		request.getRequestDispatcher("/WEB-INF/views/board/insert.jsp").forward(request, response);
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
@@ -50,17 +36,6 @@ public class BoardInsertServlet extends HttpServlet {
 		String content = request.getParameter("content");
 		//세션에서 회원 정보를 가져옴
 		MemberVO user = (MemberVO) request.getSession().getAttribute("user");
-		//회원 정보가 없으면 
-		if(user == null) {
-			//화면에 msg로 로그인이 필요한 서비스 입니다 라고 전송
-			request.setAttribute("msg", "로그인이필요한 서비스입니다.");
-			//화면에 url로 board/list를 전송
-			request.setAttribute("url", "board/list");
-			//message.jsp를 전송
-			request.getRequestDispatcher("/WEB-INF/views/message.jsp").forward(request, response);
-			//return;
-			return;
-		}		
 		//회원 정보가 있으면
 		//작성자에 회원 아이디를 저장
 		String bo_me_id = user.getMe_id();

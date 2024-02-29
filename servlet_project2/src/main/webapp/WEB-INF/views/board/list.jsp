@@ -27,10 +27,11 @@
 		<form action='<c:url value="/board" />'>
 			<div class="input-group mb-3">
 				<select class="form-control" name="type">
-					<option value="all <c:if test='${pm.cri.type == "all"}'>selected</c:if>">전체</option>
-					<option value="bo_title <c:if test='${pm.cri.type == "bo_title"}'>selected</c:if>">제목</option>
-					<option value="bo_me_id <c:if test='${pm.cri.type == "bo_me_id"}'>selected</c:if>">작성자</option>
-				</select> <input type="text" class="" name="search" placeholder="검색어" value="${pm.cri.search}">
+					<option value="all" <c:if test='${pm.cri.type == "all"}'>selected</c:if>>전체</option>
+					<option value="bo_title" <c:if test='${pm.cri.type == "bo_title"}'>selected</c:if>>제목</option>
+					<option value="bo_me_id" <c:if test='${pm.cri.type == "bo_me_id"}'>selected</c:if>>작성자</option>
+				</select>
+				<input type="text" class="" name="search" placeholder="검색어" value="${pm.cri.search}">
 				<button class="btn btn-outline-success">검색</button>
 			</div>
 		</form>
@@ -49,7 +50,7 @@
 					<tr>
 						<td>${board.bo_num}</td>
 						<td>${board.community.co_name}</td>
-						<td><a href="<c:url value = "#" />"> ${board.bo_title}</a></td>
+						<td><a href="<c:url value = "/detail?num=${board.bo_num}" />"> ${board.bo_title}</a></td>
 						<td><a href="<c:url value = "#" />"> ${board.bo_me_id}</a></td>
 						<td>${board.bo_view}</td>
 					</tr>
@@ -89,8 +90,8 @@
 				</c:if>
 			</ul>
 		<!-- 서버에서 보낸 PageMaker객체를 이용해 페이지 네이션 구성 -->
-		<a class="btn btn-primary" href="<c:url value="/board/insert"/>">글
-			등록</a>
+		<a class="btn btn-primary" href="<c:url value="/board/insert"/>">글등록</a>
+		
 	</div>
 </body>
 </html>

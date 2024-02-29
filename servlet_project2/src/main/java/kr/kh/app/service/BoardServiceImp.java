@@ -70,4 +70,15 @@ public class BoardServiceImp implements BoardService {
 		}
 		return BoardDao.selectTotalCount(cri);
 	}
+
+	@Override
+	public BoardVO getBoardList(int num) {
+		return BoardDao.selectBoardList(num);
+	}
+
+	@Override
+	public boolean updateView(int num) {
+		
+		return BoardDao.updateView(num);
+	}
 }
