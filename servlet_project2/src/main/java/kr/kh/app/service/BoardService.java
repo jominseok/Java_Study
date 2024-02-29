@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.model.vo.CommunityVO;
+import kr.kh.app.model.vo.MemberVO;
 import kr.kh.app.pagenation.Criteria;
 
 public interface BoardService {
@@ -19,4 +20,6 @@ public interface BoardService {
 	BoardVO getBoardList(int num);
 
 	boolean updateView(int num);
+
+	boolean Boardboard(int num, MemberVO user);
 }

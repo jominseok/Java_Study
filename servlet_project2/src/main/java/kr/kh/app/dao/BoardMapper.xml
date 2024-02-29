@@ -72,4 +72,8 @@
 	<select id="selectBoardList" resultMap="BoardMap">
 		select * from board where bo_num = #{num}
 	</select>
+	
+	<delete id="deleteBoard">
+		delete from board where bo_num = #{num}
+	</delete>
 </mapper>

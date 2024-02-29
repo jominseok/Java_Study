@@ -27,11 +27,11 @@ public class BoardDetailServelt extends HttpServlet {
 		}
 		
 		//서비스에게 게시글 번호가 num인 게시글의 조회수를 증가하라고 시킴
-		boolean res = boardService.updateView(num);
+		boardService.updateView(num);
 		//서비스에게 게시글 번호가 num인 게시글의 가져오라고 요청
 		BoardVO board = boardService.getBoardList(num);
-		request.setAttribute("board", board);
 		//화면에 게시글 전송
+		request.setAttribute("board", board);
 		request.getRequestDispatcher("/WEB-INF/views/board/BoardDetail.jsp").forward(request, response);
 	}
 

@@ -42,12 +42,16 @@
 						<label for="community" class="form-label">내용:</label> <input
 							class="form-control" readonly value="${board.bo_content}">
 					</div>
-					<button type="submit" class="btn btn-outline-success">삭제</button>
 				</c:when>
 				<c:otherwise>
 					<h1>없는 게시글이거나 삭제된 게시글 입니다.</h1>
 				</c:otherwise>
 			</c:choose>
+			<a class="btn btn-outline-primary" href="<c:url value="/board"/>">목록으로</a>
+			<c:if test="${user.me_id == board.bo_me_id}">
+				<a class="btn btn-primary"
+					href="<c:url value="/delete?num=${board.bo_num}"/>">글삭제</a>
+			</c:if>
 		</form>
 	</div>
 </body>

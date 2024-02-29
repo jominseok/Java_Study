@@ -53,7 +53,7 @@ public class BoardInsertServlet extends HttpServlet {
 			//등록하지 못하면 msg로 게시글을 등록하지 못했습니다라고 전송
 			request.setAttribute("msg", "게시글 등록을 못했습니다.");
 		}
-		request.setAttribute("url", "board/list");
+		request.setAttribute("url", "board");
 		//message.jsp를 전송
 		request.getRequestDispatcher("/WEB-INF/views/message.jsp").forward(request, response);
 	}
