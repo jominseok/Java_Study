@@ -27,12 +27,11 @@
 		<form action='<c:url value="/board" />'>
 			<div class="input-group mb-3">
 				<select class="form-control" name="type">
-					<option value="all">전체</option>
-					<option value="bo_title">제목</option>
-					<option value="bo_me_id">작성자</option>
-				</select>
-					<input type="text" class="" name="search" placeholder="검색어">
-					<button class="btn btn-outline-success">검색</button>
+					<option value="all <c:if test='${pm.cri.type == "all"}'>selected</c:if>">전체</option>
+					<option value="bo_title <c:if test='${pm.cri.type == "bo_title"}'>selected</c:if>">제목</option>
+					<option value="bo_me_id <c:if test='${pm.cri.type == "bo_me_id"}'>selected</c:if>">작성자</option>
+				</select> <input type="text" class="" name="search" placeholder="검색어" value="${pm.cri.search}">
+				<button class="btn btn-outline-success">검색</button>
 			</div>
 		</form>
 		<table class="table">
@@ -57,6 +56,39 @@
 				</c:forEach>
 			</tbody>
 		</table>
+			<ul class="pagination  justify-content-center">
+				<c:if test="${pm.prev}">
+					<li class="page-item">
+						<c:url var ="url" value="/board">
+							<c:param name="page" value = "${pm.startPage-1}"></c:param>
+							<c:param name="search" value = "${pm.cri.search}"></c:param>
+							<c:param name="type" value = "${pm.cri.type}"></c:param>
+						</c:url>
+						<a class="page-link" href="${url}">이전으로</a>
+					</li>				
+				</c:if>
+				<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">		
+						<li class="page-item <c:if test="${pm.cri.page == i}">active</c:if>" value="page">
+							<c:url var ="url" value="/board">
+							<c:param name="page" value = "${i}"></c:param>
+							<c:param name="search" value = "${pm.cri.search}"></c:param>
+							<c:param name="type" value = "${pm.cri.type}"></c:param>
+							</c:url>
+							<a class="page-link" href='${url}'>${i}</a>
+						</li>
+				</c:forEach>
+				<c:if test="${pm.next}">
+					<li class="page-item">
+						<c:url var ="url" value="/board">
+							<c:param name="page" value = "${pm.endPage+1}"></c:param>
+							<c:param name="search" value = "${pm.cri.search}"></c:param>
+							<c:param name="type" value = "${pm.cri.type}"></c:param>
+						</c:url>
+						<a class="page-link" href="${url}">다음으로</a>
+					</li>
+				</c:if>
+			</ul>
+		<!-- 서버에서 보낸 PageMaker객체를 이용해 페이지 네이션 구성 -->
 		<a class="btn btn-primary" href="<c:url value="/board/insert"/>">글
 			등록</a>
 	</div>

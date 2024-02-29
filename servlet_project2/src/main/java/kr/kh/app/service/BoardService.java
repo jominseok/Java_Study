@@ -13,4 +13,6 @@ public interface BoardService {
 	boolean Boardinsert(BoardVO boardVO);
 
 	ArrayList<CommunityVO> getCommunityList();
+
+	int getTotalCount(Criteria cri);
 }

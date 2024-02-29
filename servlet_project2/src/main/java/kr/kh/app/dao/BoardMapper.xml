@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.kh.app.dao.BoardDAO">
+	<!--  result = property는 클래스 멤버 변수 이름, column은 테이블 속성 이름 -->
 	<resultMap type="kr.kh.app.model.vo.BoardVO" id="BoardMap">
 		<id property="bo_num" column="bo_num"/><!-- 태그가 id면 기본키 -->
 		<result property="bo_co_num" column="bo_co_num"/>
@@ -14,6 +15,7 @@
 		<collection property="community" ofType="kr.kh.app.model.vo.CommunityVO"
 		 column="bo_co_num" select = "selectCommunity"/>
 	</resultMap>
+	
 	<select id="selectBoard" resultMap="BoardMap">
 	<!-- type과 검색어를 이용하여 쿼리를 구성, if태그를 활용 -->
 		select * from board 
@@ -30,7 +32,9 @@
 					${cri.type} like concat('%', #{cri.search}, '%')
 			</otherwise>
 		</choose>
-		order by bo_num desc;
+		order by bo_num desc
+		<!-- 현재 페이지 정보에 맞는 게시글을 위한 limit절 작성 -->
+		limit #{cri.page}, #{cri.perPageNum}
 	</select>
 	
 	<select id="selectCommunity" resultType="kr.kh.app.model.vo.CommunityVO">
@@ -42,5 +46,22 @@
 	</insert>
 	<select id="selectCommunityList" resultType="kr.kh.app.model.vo.CommunityVO">
 		select * from community;
+	</select>
+	
+	<select id="selectTotalCount" resultType="int">
+		select count(*) from board 
+		<choose>
+			<!-- 전체 검색 -->
+			<when test='cri.type == "all"'>
+				where 
+					bo_title like concat('%', #{cri.search}, '%') or 
+					bo_me_id like concat('%', #{cri.search}, '%')
+			</when>
+			<!-- 제목 또는 작성자 검색 -->
+			<otherwise>
+				where
+					${cri.type} like concat('%', #{cri.search}, '%')
+			</otherwise>
+		</choose>
 	</select>
 </mapper>

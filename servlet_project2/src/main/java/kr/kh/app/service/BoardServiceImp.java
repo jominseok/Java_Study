@@ -62,4 +62,12 @@ public class BoardServiceImp implements BoardService {
 	public ArrayList<CommunityVO> getCommunityList() {
 		return BoardDao.selectCommunityList();
 	}
+
+	@Override
+	public int getTotalCount(Criteria cri) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		return BoardDao.selectTotalCount(cri);
+	}
 }
