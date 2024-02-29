@@ -17,6 +17,24 @@
 	<div class="container">
 		<!-- 서버에서 보낸 데이터를 c:forEach를 이용하여 화면에 출력 -->
 		<!-- 서버에서 보낸 게시글 리스트를 간단하게 출력하는 코드 -->
+		<h1>게시글 리스트</h1>
+		<!-- 
+		form태그를 이용하여 검색창을 추가
+		타입의 name을 type으로 지정. 왜? Criteria에 type으로  되어 있어서
+		검색어의 name을 search로 지정
+		form태그의 action을 /board/list로 보냄
+		 -->
+		<form action='<c:url value="/board" />'>
+			<div class="input-group mb-3">
+				<select class="form-control" name="type">
+					<option value="all">전체</option>
+					<option value="bo_title">제목</option>
+					<option value="bo_me_id">작성자</option>
+				</select>
+					<input type="text" class="" name="search" placeholder="검색어">
+					<button class="btn btn-outline-success">검색</button>
+			</div>
+		</form>
 		<table class="table">
 			<thead>
 				<tr>
@@ -39,7 +57,8 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<a class="btn btn-primary" href="<c:url value="/board/insert"/>">글 등록</a>
+		<a class="btn btn-primary" href="<c:url value="/board/insert"/>">글
+			등록</a>
 	</div>
 </body>
 </html>
