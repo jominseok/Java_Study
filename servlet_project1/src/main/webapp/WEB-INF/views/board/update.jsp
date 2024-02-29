@@ -19,10 +19,10 @@
 		<form action="<c:url value = "/board/update" />" method="post">
 			<input type="hidden" name = "num" value="${board.bo_num}">
 			<div class="mb-3 mt-3">
-				<label for="community" class="form-label">게시판:</label> <select
-					class="form-control" id="community" name="community">
+				<label for="community" class="form-label">게시판:</label> 
+				<select	class="form-control" id="community" name="community">
 					<c:forEach items="${list}" var="community">
-						<option value="${community.co_num }">${community.co_name}</option>
+						<option value="${community.co_num}">${community.co_name}</option>
 					</c:forEach>
 				</select>
 			</div>

@@ -37,7 +37,9 @@ public class BoardUpdateServlet extends HttpServlet {
 				//세션에서 회원 정보를 가져옴
 				MemberVo user = (MemberVo)request.getSession().getAttribute("user");
 				//게시글 작성자와 회원 아이디가 같은지 확인
-				if(!board.getBo_me_id().equals(user.getMe_id()) || user == null || board == null) {
+				if(!board.getBo_me_id().equals(user.getMe_id()) ||
+						//user == null 
+						board == null) {
 					//다르면 게시글 상세로 보내고, 작성자가 아닙니다라고 메세지를 띄움
 					request.setAttribute("msg", "작성자가 아니면 수정 할 수 없습니다.");
 					request.setAttribute("url", "board/detail?num="+num);

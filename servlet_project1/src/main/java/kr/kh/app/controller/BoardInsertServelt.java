@@ -22,7 +22,9 @@ public class BoardInsertServelt extends HttpServlet {
     private BoardService boardService = new BoardServiceImp();
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//게시글은 회원만 작성 가능하기 때문에 아래 작업을 진행
+		
+		// MemberFilter 추가로 인해 불필요한 코드 주석 처리
+		/*/게시글은 회원만 작성 가능하기 때문에 아래 작업을 진행
 		//로그인한 회원 정보를 가져옴 => 세션에서 user 정보를 가져옴  
 		HttpSession session = request.getSession();
 		MemberVo user = (MemberVo)session.getAttribute("user");
@@ -31,22 +33,29 @@ public class BoardInsertServelt extends HttpServlet {
 		if(user == null) {
 			response.sendRedirect(request.getContextPath()+"/board/list");
 			return;
-		}
+		}*/
+		
 		
 		//게시판 전체를 가져옴
 		ArrayList<CommunityVo> list = boardService.selectCommunityList();
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/WEB-INF/views/board/insert.jsp").forward(request, response);
 	}
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//게시글 작성 화면에서 장시간 가만히 있으면 세션이 만료되서 로그인이 풀림 
 		//로그인이 풀리면 게시글을 작성할 수 없게 해야하기 때문에 
 		HttpSession session = request.getSession();
 		MemberVo user = (MemberVo)session.getAttribute("user");
+		
+		//MemberFilter 추가로 인해 불필요한 코드 주석 처리
+		/*
 		if(user == null) {
 			response.sendRedirect(request.getContextPath()+"/board/list");
 			return;
 		}
+		*/
+		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String writer = user.getMe_id();
