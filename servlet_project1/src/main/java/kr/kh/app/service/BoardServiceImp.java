@@ -1,8 +1,11 @@
 package kr.kh.app.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import javax.servlet.http.Part;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -10,16 +13,18 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import kr.kh.app.dao.BoardDAO;
-import kr.kh.app.dao.MemberDao;
 import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.model.vo.CommunityVo;
+import kr.kh.app.model.vo.FileVO;
 import kr.kh.app.model.vo.MemberVo;
 import kr.kh.app.pagenaination.Criteria.Criteria;
+import kr.kh.app.utils.FileUploadUtils;
 
 public class BoardServiceImp implements BoardService {
 
 	private BoardDAO boardDao;
-
+	private String uploadPath = "D:\\uploads";
+	
 	public BoardServiceImp() {
 		String resource = "kr/kh/app/config/mybatis-config.xml";
 		try {
@@ -33,17 +38,27 @@ public class BoardServiceImp implements BoardService {
 	}
 
 	@Override
-	public boolean insertBoard(BoardVO baord) {
-		if (baord == null || baord.getBo_title() == null || baord.getBo_title().length() == 0) {
+	public boolean insertBoard(BoardVO baord, Part filePart) {
+		if (baord == null || baord.getBo_title() == null || baord.getBo_title().length() == 0
+				|| !checkString(baord.getBo_content()) || !checkString(baord.getBo_title())) {
 			return false;
 		}
-		if (baord.getBo_me_id() == null) {
+		
+		if(!checkString(baord.getBo_me_id())) {
 			return false;
 		}
+
 		if (baord.getBo_content() == null) {
 			return false;
 		}
-		return boardDao.insertBoard(baord);
+		boolean res = boardDao.insertBoard(baord);
+		
+		if(!res) {
+			return false;
+		}
+		//첨부파일 업로드
+		uploadFile(filePart, baord.getBo_num());
+		return res;
 	}
 
 	@Override
@@ -116,5 +131,23 @@ public class BoardServiceImp implements BoardService {
 			return false;
 		}
 		return true;
+	}
+	private void uploadFile(Part filePart, int bo_num) {
+		//업로드할 첨부 파일이 없으면
+		if(filePart == null) {
+			return;
+		}
+		String fileOriName = FileUploadUtils.getFileName(filePart);
+		if(fileOriName == null || fileOriName.length()==0) {
+			return;
+		}
+		String fileName = FileUploadUtils.upload(uploadPath, filePart);
+		FileVO file = new FileVO(bo_num, fileName, fileOriName);
+		boardDao.insertFile(file);
+	}
+
+	@Override
+	public FileVO getFile(int num) {
+		return boardDao.selectFileByBo_num(num);
 	}
 }
