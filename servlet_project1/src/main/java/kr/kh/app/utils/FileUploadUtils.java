@@ -20,6 +20,7 @@ public class FileUploadUtils {
 		for(String item : items) {
 			//item은 다음과 같은 형태로 구성
 			//속성명 = 값
+			System.out.println(item);
 			if(item.trim().startsWith("filename")) {
 				return item.substring(item.indexOf("=")+2, item.length()-1);
 			}
@@ -42,7 +43,7 @@ public class FileUploadUtils {
 			byte [] buffer = new byte[1024*4];//4kb씩 읽어와서 덮어쓰기
 			int readCount;//읽어온 개수
 			//InputStream.read(byte[])은 읽어와서 배열에 저장 후 읽어온 개수를 반환
-			//읽어온 개수가 없으면 -1을 리턴
+			//읽어온 개수가 없으면 -1이 리턴
 			while((readCount = is.read(buffer)) != -1){
 				os.write(buffer, 0, readCount);
 			}
