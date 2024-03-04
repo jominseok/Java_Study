@@ -98,4 +98,25 @@ public class BoardServiceImp implements BoardService {
 		//게시글 삭제요청
 		return BoardDao.deleteBoard(num);
 	}
+
+	@Override
+	public boolean updateBoard(MemberVO user, BoardVO board) {
+		//게시글 null체크
+		if(board == null || !checkString(board.getBo_title()) || !checkString(board.getBo_content())) {
+			return false;
+		}
+		//회원 null체크
+		if(user == null ) {
+			return false;
+		}
+		//게시글 번호를 이용하여 게시글을 가져옴
+		BoardVO dbboard = BoardDao.selectBoardList(board.getBo_num());
+		//게시글이 없거나 게시글 작성자가 회원이 아니면 false를 리턴
+		if(dbboard==null||!dbboard.getBo_me_id().equals(user.getMe_id())) {
+			System.out.println("3번오류");
+			return false;
+		}
+		//서비스에게 게시글을 주면서 수정하라고 요청
+		return BoardDao.updateBoard(board);
+	}
 }

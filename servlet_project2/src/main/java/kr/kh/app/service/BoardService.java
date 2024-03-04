@@ -22,4 +22,6 @@ public interface BoardService {
 	boolean updateView(int num);
 
 	boolean Boardboard(int num, MemberVO user);
+
+	boolean updateBoard(MemberVO member, BoardVO board);
 }

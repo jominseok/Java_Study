@@ -22,4 +22,12 @@ public class BoardVO {
 		this.bo_title = title;
 		this.bo_content = content;
 	}
+
+	public BoardVO(int bo_num, int bo_co_num, String bo_title, String bo_content) {
+		this.bo_num = bo_num;
+		this.bo_co_num = bo_co_num;
+		this.bo_title = bo_title;
+		this.bo_content = bo_content;
+	}
+	
 }

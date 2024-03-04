@@ -52,6 +52,10 @@
 				<a class="btn btn-primary"
 					href="<c:url value="/delete?num=${board.bo_num}"/>">글삭제</a>
 			</c:if>
+			<c:if test="${user.me_id == board.bo_me_id}">
+				<a class="btn btn-primary"
+					href="<c:url value="/update?num=${board.bo_num}"/>">글수정</a>
+			</c:if>
 		</form>
 	</div>
 </body>
