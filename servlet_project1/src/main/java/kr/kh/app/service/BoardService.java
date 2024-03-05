@@ -28,7 +28,7 @@ public interface BoardService {
 
 	boolean deleteBoard(int num, MemberVo user);
 
-	boolean updateBoard(BoardVO board, MemberVo user);
+	boolean updateBoard(BoardVO board, MemberVo user, int fi_num, Part file);
 
 	FileVO getFile(int num);
 
