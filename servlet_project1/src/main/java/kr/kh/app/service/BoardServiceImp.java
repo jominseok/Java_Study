@@ -38,7 +38,7 @@ public class BoardServiceImp implements BoardService {
 	}
 
 	@Override
-	public boolean insertBoard(BoardVO baord, Part filePart) {
+	public boolean insertBoard(BoardVO baord, ArrayList<Part> partList) {
 		if (baord == null || baord.getBo_title() == null || baord.getBo_title().length() == 0
 				|| !checkString(baord.getBo_content()) || !checkString(baord.getBo_title())) {
 			return false;
@@ -57,7 +57,9 @@ public class BoardServiceImp implements BoardService {
 			return false;
 		}
 		//첨부파일 업로드
-		uploadFile(filePart, baord.getBo_num());
+		for(Part filePart : partList) {			
+			uploadFile(filePart, baord.getBo_num());
+		}
 		return res;
 	}
 

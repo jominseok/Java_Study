@@ -14,7 +14,7 @@ import kr.kh.app.pagenaination.Criteria.Criteria;
 
 public interface BoardService {
 
-	boolean insertBoard(@Param("board")BoardVO baord, @Param("filePart") Part filePart);
+	boolean insertBoard(@Param("board")BoardVO baord, @Param("partList") ArrayList<Part> partList);
 
 	ArrayList<CommunityVo> selectCommunityList();
 

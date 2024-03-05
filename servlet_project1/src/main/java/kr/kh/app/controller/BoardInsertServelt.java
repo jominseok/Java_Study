@@ -75,14 +75,14 @@ public class BoardInsertServelt extends HttpServlet {
 		BoardVO board = new BoardVO(co_num, title, content, writer);
 		
 		//첨부파일을 가져옴
-		Part filePart = request.getPart("file");
+		ArrayList<Part> partList = (ArrayList<Part>) request.getParts();
 //		//파일을 저장할 폴더를 지정
 //		String uploadPath = "D:\\uploads";
 //		
 //		FileUploadUtils.upload(uploadPath, filePart);
 		
 		//서비스에게 게시글을 주면서 등록하라고 시킴
-		if(boardService.insertBoard(board, filePart)) {
+		if(boardService.insertBoard(board, partList)) {
 			response.sendRedirect(request.getContextPath()+"/board/list/");
 		}else {
 			response.sendRedirect(request.getContextPath()+"/board/insert");
