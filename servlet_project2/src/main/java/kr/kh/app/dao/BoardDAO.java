@@ -6,12 +6,13 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.model.vo.CommunityVO;
+import kr.kh.app.model.vo.FileVO;
 import kr.kh.app.model.vo.MemberVO;
 import kr.kh.app.pagenation.Criteria;
 
 public interface BoardDAO {
 
-	ArrayList<BoardVO> selectBoard(@Param("cri") Criteria cri);
+	ArrayList<BoardVO> selectBoardList(@Param("cri") Criteria cri);
 
 	boolean insertBoard(@Param("board") BoardVO boardVO);
 
@@ -19,12 +20,14 @@ public interface BoardDAO {
 
 	int selectTotalCount(@Param("cri")Criteria cri);
 
-	BoardVO selectBoardList(@Param("num") int num);
+	BoardVO selectBoard(@Param("num") int num);
 
 	boolean updateView(@Param("num") int num);
 
 	boolean deleteBoard(@Param("num") int num);
 
 	boolean updateBoard(@Param("board") BoardVO board);
+
+	void inserFile(@Param("file") FileVO fileVo);
 
 }
