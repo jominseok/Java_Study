@@ -110,8 +110,11 @@ public class BoardServiceImp implements BoardService {
 		
 		//게시글의 첨부파일을 서버 폴더에서 삭제(실제파일)
 		//게시글에 있는 첨부파일 정보를 가져옴
-		FileVO file = boardDao.selectFileByBo_num(num);
-		deleteFile(file);
+		
+		ArrayList<FileVO> fileList = boardDao.selectFileByBo_num(num);
+		for(FileVO file : fileList) {
+			deleteFile(file);
+		}
 		
 		//게시글의 첨부파일을 DB에서 삭제
 		
@@ -120,7 +123,7 @@ public class BoardServiceImp implements BoardService {
 	}
 
 	@Override
-	public boolean updateBoard(BoardVO board, MemberVo user, int fi_num, Part file) {
+	public boolean updateBoard(BoardVO board, MemberVo user, ArrayList<Integer> nums, ArrayList<Part> fileList) {
 		if(user == null || user.getMe_id() == null) {
 			return false;
 		}
@@ -135,11 +138,15 @@ public class BoardServiceImp implements BoardService {
 		}
 		
 		//첨부파일 추가
-		uploadFile(file, board.getBo_num());
+		for(Part file : fileList) {			
+			uploadFile(file, board.getBo_num());
+		}
 		
 		//첨부파일 삭제
-		FileVO fileVo = boardDao.selectFile(fi_num);
-		deleteFile(fileVo);
+		for(int fi_num : nums) {
+			FileVO fileVo = boardDao.selectFile(fi_num);
+			deleteFile(fileVo);
+		}
 		
 		//같으면 게시글 수정
 		return boardDao.updateBoard(board);
@@ -177,9 +184,11 @@ public class BoardServiceImp implements BoardService {
 	}
 	
 	@Override
-	public FileVO getFile(int num) {
+	public ArrayList<FileVO> getFile(int num) {
 		return boardDao.selectFileByBo_num(num);
 	}
+
+
 	
 	
 }

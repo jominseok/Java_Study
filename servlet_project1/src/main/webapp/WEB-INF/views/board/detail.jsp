@@ -45,11 +45,13 @@
 							<textarea rows="10" class="form-control" id="content"
 								name="content" readonly>${board.bo_title}</textarea>
 						</div>
-						<c:if test="${file != null}">						
+						<c:if test="${fileList != null && fileList.size() != 0}">						
 							<div class="mb-3 mt-3">
 								<label for="view" class="form-label">첨부파일 : </label> 
-								<a class="form-controll" href="<c:url value="/download?filename=${file.fi_name}"/>" 
-								download="${file.fi_ori_name}">${file.fi_ori_name}</a>
+								<c:forEach items="${fileList}" var="file">
+									<a class="form-control" href="<c:url value="/download?filename=${file.fi_name}"/>"
+									download="${file.fi_ori_name}">${file.fi_ori_name}</a>
+								</c:forEach>
 							</div>
 						</c:if>
 						<a href=<c:url value = "/board/list/"/>

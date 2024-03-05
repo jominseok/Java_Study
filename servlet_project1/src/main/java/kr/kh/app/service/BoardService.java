@@ -28,8 +28,8 @@ public interface BoardService {
 
 	boolean deleteBoard(int num, MemberVo user);
 
-	boolean updateBoard(BoardVO board, MemberVo user, int fi_num, Part file);
+	boolean updateBoard(BoardVO board, MemberVo user, ArrayList<Integer> nums, ArrayList<Part> fileList);
 
-	FileVO getFile(int num);
+	ArrayList<FileVO> getFile(int num);
 
 }

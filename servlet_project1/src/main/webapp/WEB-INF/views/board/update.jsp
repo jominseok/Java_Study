@@ -14,13 +14,14 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp" />
-	<h1>게시글 수정</h1>
 	<div class="container">
-		<form action="<c:url value = "/board/update" />" method="post" enctype="multipart/form-data">
-			<input type="hidden" name = "num" value="${board.bo_num}">
+		<h1>게시글 수정</h1>
+		<form action="<c:url value = "/board/update" />" method="post"
+			enctype="multipart/form-data">
+			<input type="hidden" name="num" value="${board.bo_num}">
 			<div class="mb-3 mt-3">
-				<label for="community" class="form-label">게시판:</label> 
-				<select	class="form-control" id="community" name="community">
+				<label for="community" class="form-label">게시판:</label> <select
+					class="form-control" id="community" name="community">
 					<c:forEach items="${list}" var="community">
 						<option value="${community.co_num}">${community.co_name}</option>
 					</c:forEach>
@@ -43,33 +44,63 @@
 			</div>
 			<div class="mb-3 mt-3" id="attachment">
 				<label for="content" class="form-label">첨부파일 : </label>
-				<c:choose>
-					<c:when test="${file != null}">
-						<span class="form-control">${file.fi_ori_name} <a id="btnDel" href="#" data-target="${file.fi_num}">X</a></span>
-					</c:when>
-					<c:otherwise>
-						<input type="file" name="file" class="form-control">
-					</c:otherwise>
-				</c:choose>
+				<c:forEach items="${fileList}" var="file">
+					<span class="form-control">${file.fi_ori_name} <a
+						class="btnDel" href="#" data-target="${file.fi_num}">X</a></span>
+				</c:forEach>
+				<c:forEach begin="1" end="${3 - fileList.size()}">
+					<input type="file" name="file" class="form-control">
+				</c:forEach>
 			</div>
 			<button class="btn btn-outline-warning col-12">글 등록</button>
 		</form>
 	</div>
 	<script type="text/javascript">
-		let btnDel = document.querySelector("#btnDel");
-		let attachment = document.querySelector("#attachment")
-		btnDel.onclick = function(e){
-			e.preventDefault();			
+	let btnDel = document.querySelectorAll(".btn-del");
+	let attachment = document.querySelector("#attachment");
+	
+	btnDel.forEach((element)=>{
+		element.onclick = function(e){
+			e.preventDefault();
 			//input hidden으로 삭제할 첨부파일 번호를 추가
 			let num = this.getAttribute("data-target");
-			let str = `<input type = "hidden" name = "fi_num" value="\${num}">`;
-			attachment.innerHTML+=str;
-			//span태그를 삭제
-			let span = attachment.querySelector("span.form-control");
-			attachment.removeChild(span);
-			let input = `<input type = "file" name="file" class="form-control">`;
-			attachment.innerHTML += input;
+			let inputHidden = 
+				createElement('input', null, {
+					'type' : 'hidden',
+					'name' : 'fi_num',
+					'value': `\${num}`
+				})
+			attachment.prepend(inputHidden);
+			//sapn태그를 삭제
+			this.parentElement.remove();
+			//input file 추가
+			let inputFile =  
+				createElement('input', null, {
+					'type' : 'file',
+					'name' : 'file',
+					'class': 'form-control'
+				});
+			attachment.append(inputFile);
 		}
-	</script>
+	
+	});
+
+	function createElement(tagName, text, attrs){
+		let element = document.createElement(tagName);
+		if(text){
+			let textNode = document.createTextNode(text);
+			element.append(textNode);
+		}
+		if(!attrs){
+			return element;
+		}
+		for(key in attrs){
+			let attr = document.createAttribute(key);
+			attr.value = attrs[key];
+			element.setAttributeNode(attr);
+		}
+		return element;
+	}
+</script>
 </body>
 </html>
