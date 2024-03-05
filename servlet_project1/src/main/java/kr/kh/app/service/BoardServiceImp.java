@@ -105,6 +105,14 @@ public class BoardServiceImp implements BoardService {
 		if(!board.getBo_me_id().equals(user.getMe_id()) || board == null) {
 			return false;
 		}
+		
+		//게시글의 첨부파일을 서버 폴더에서 삭제(실제파일)
+		//게시글에 있는 첨부파일 정보를 가져옴
+		FileVO file = boardDao.selectFileByBo_num(num);
+		deleteFile(file);
+		
+		//게시글의 첨부파일을 DB에서 삭제
+		
 		//같으면 게시글 삭제후 삭제 여부를 반환
 		return boardDao.deleteBoard(num);
 	}
@@ -146,8 +154,22 @@ public class BoardServiceImp implements BoardService {
 		boardDao.insertFile(file);
 	}
 
+	private void deleteFile(FileVO fileVo) {
+		if(fileVo == null) {
+			return;
+		}
+		File file = new File(uploadPath 
+				+ fileVo.getFi_name().replace('/', File.separatorChar));
+		if(file.exists()) {
+			file.delete();
+		}
+		boardDao.deleteFile(fileVo.getFi_num());
+	}
+	
 	@Override
 	public FileVO getFile(int num) {
 		return boardDao.selectFileByBo_num(num);
 	}
+	
+	
 }
