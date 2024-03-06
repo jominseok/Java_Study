@@ -154,7 +154,7 @@ public class BoardServiceImp implements BoardService {
 
 
 	@Override
-	public boolean updateBoard(MemberVO user, BoardVO board) {
+	public boolean updateBoard(MemberVO user, BoardVO board, String[] nums, ArrayList<Part> partList) {
 		//게시글 null체크
 		if(board == null || !checkString(board.getBo_title()) || !checkString(board.getBo_content())) {
 			return false;
@@ -170,6 +170,22 @@ public class BoardServiceImp implements BoardService {
 		if(dbboard==null||!dbboard.getBo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
+		
+		//삭제할 첨부파일 삭제
+		for(String numStr : nums) {
+			try {
+				int num = Integer.parseInt(numStr);
+				FileVO fileVO = BoardDao.selectFile2(num);
+				delete(fileVO);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		//추가할 첨부파일 추가
+		for(Part part : partList) {
+			uploadFile(part, board.getBo_num());
+		}
+		
 		//서비스에게 게시글을 주면서 수정하라고 요청
 		return BoardDao.updateBoard(board);
 	}
@@ -178,12 +194,16 @@ public class BoardServiceImp implements BoardService {
 		if(fileVO == null) {
 			return;
 		}
-		File file = new File(uploadPath + 
-				fileVO.getFi_name().replace('/', File.separatorChar)); 
-		if(file.exists()) {
-			file.delete();
-		}
+		String fileName = uploadPath + fileVO.getFi_name().replace('/', File.separatorChar);
+		//서버에서 실제 파일을 삭제
+		FileUploadUtils.deleteFile(fileName);
 		BoardDao.deleteFile(fileVO.getFi_num());
+		//원래 코드
+//		File file = new File(uploadPath + 
+//				fileVO.getFi_name().replace('/', File.separatorChar)); 
+//		if(file.exists()) {
+//			file.delete();
+//		}
 	}
 
 	@Override

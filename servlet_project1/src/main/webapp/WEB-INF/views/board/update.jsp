@@ -11,12 +11,25 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <meta charset="UTF-8">
 <title>게시글 수정</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.css"
+	rel="stylesheet">
+
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp" />
 	<div class="container">
 		<h1>게시글 수정</h1>
-		<form action="<c:url value = "/board/update" />" method="post" enctype="multipart/form-data">
+		<form action="<c:url value = "/board/update" />" method="post"
+			enctype="multipart/form-data">
 			<input type="hidden" name="num" value="${board.bo_num}">
 			<div class="mb-3 mt-3">
 				<label for="community" class="form-label">게시판:</label> <select
@@ -54,6 +67,13 @@
 			<button class="btn btn-outline-warning col-12">글 등록</button>
 		</form>
 	</div>
+	<script type="text/javascript">
+		$('[name=content]').summernote({
+		    placeholder: '내용',
+		    tabsize: 2,
+		    height: 400
+		  });
+	</script>
 	<script type="text/javascript">
 	let btnDel = document.querySelectorAll(".btn-del");
 	let attachment = document.querySelector("#attachment");

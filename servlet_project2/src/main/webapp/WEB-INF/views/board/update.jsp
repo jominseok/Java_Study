@@ -15,7 +15,7 @@
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp" />
 	<div class="container">
-		<form action="<c:url value="/update"/>" method="post">
+		<form action="<c:url value="/update"/>" method="post" enctype="multipart/form-data">
 			<h1>게시글 수정</h1>
 			<input type="hidden" name = "num" value="${board.bo_num}">
 			<div class="mb-3 mt-3">
@@ -35,8 +35,43 @@
 				<textarea class="form-control" id="content" placeholder="내용"
 					name="content" rows="10">${board.bo_content}</textarea>
 			</div>
+			<div class="mb-3 mt-3" id="attachment">
+				<c:if test="${fileList!=null || fileList.size() != 0}">
+					<label class="form-label">첨부파일:</label>
+					<!-- 첨부파일을 출력할 forEach -->
+					<c:forEach items="${fileList}" var="file">
+						<span class="form-control">${file.fi_ori_name} 
+							<a class="btn-del" href="#" data-target="${file.fi_num}">&times;</a>
+						</span> 
+					</c:forEach>
+					<c:forEach begin="1" end="${3 - fileList.size()}">
+						<!-- 남은 첨부파일 자리에 출력할 input태그 forEach  -->
+						<input type="file" name="file" class="form-control">
+					</c:forEach>
+				</c:if>
+			</div>
 			<button type="submit" class="btn btn-outline-success">수정하기</button>
 		</form>
+		<script src="//code.jquery.com/jquery-3.6.1.js"></script>
+		<script type="text/javascript">
+			$(".btn-del").click(function(e){
+				e.preventDefault();
+				//X버튼의 data-target값을 가져옴
+				let fi_num = $(this).data("target");
+				
+				//input file을 추가하고
+				let inputFile = '<input type="file" class="form-control" name="file">';
+				$("#attachment").append(inputFile);
+				
+				//input hidden을 추가. 삭제하려는 첨부파일 번호를 이용하여
+				let inputHidden = `<input type="hidden" name="fi_num" value="\${fi_num}">`;
+				$("#attachment").prepend(inputHidden);
+				
+				//클릭한 X버튼이 있는 첨부파일을 삭제
+				$(this).parent().remove();
+			})
+		</script>
+		
 	</div>
 </body>
 </html>
