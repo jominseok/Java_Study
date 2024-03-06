@@ -92,7 +92,7 @@ public class BoardServiceImp implements BoardService {
 		//DB에 추가
 		FileVO fileVo = new FileVO(bo_num,fileName, fileOriginalName);
 		
-		BoardDao.inserFile(fileVo);
+		BoardDao.insertFile(fileVo);
 	}
 
 
@@ -164,6 +164,12 @@ public class BoardServiceImp implements BoardService {
 		}
 		//서비스에게 게시글을 주면서 수정하라고 요청
 		return BoardDao.updateBoard(board);
+	}
+
+	@Override
+	public ArrayList<FileVO> getFile(int num) {
+		
+		return BoardDao.selectFile(num);
 	}
 	
 }

@@ -58,7 +58,6 @@ public class BoardUpdateServelt extends HttpServlet {
 		MemberVO user = (MemberVO) request.getSession().getAttribute("user");
 		//서비스에게 회원 정보와 수정할 게시글 정보를 주면서 수정하라고 요청
 		boolean res = boardService.updateBoard(user, board);
-		System.out.println(res);
 		//수정했으면 게시글을 수정했습니다.
 		if(res) {
 			request.setAttribute("msg", "게시글을 수정하였습니다.");

@@ -42,17 +42,30 @@
 						<label for="community" class="form-label">내용:</label> <input
 							class="form-control" readonly value="${board.bo_content}">
 					</div>
+					<c:forEach items="">
+						<div class="mb-3 mt-3">
+							<label for="community" class="form-label">내용:</label> <input
+								class="form-control" readonly value="${board.bo_content}">
+						</div>
+					</c:forEach>
 				</c:when>
 				<c:otherwise>
 					<h1>없는 게시글이거나 삭제된 게시글 입니다.</h1>
 				</c:otherwise>
 			</c:choose>
+			<div class="mb-3 mt-3">
+				<c:if test="${fileList!=null || fileList.size() != 0}">
+					<label for="community" class="form-label">첨부파일:</label>
+					<c:forEach items="${fileList}" var="file">
+						<a href="<c:url value="/download?filename=${file.fi_name}"/>" class="form-control" 
+						download="${file.fi_ori_name}">${file.fi_ori_name}</a>
+					</c:forEach>
+				</c:if>
+			</div>
 			<a class="btn btn-outline-primary" href="<c:url value="/board"/>">목록으로</a>
 			<c:if test="${user.me_id == board.bo_me_id}">
 				<a class="btn btn-primary"
 					href="<c:url value="/delete?num=${board.bo_num}"/>">글삭제</a>
-			</c:if>
-			<c:if test="${user.me_id == board.bo_me_id}">
 				<a class="btn btn-primary"
 					href="<c:url value="/update?num=${board.bo_num}"/>">글수정</a>
 			</c:if>

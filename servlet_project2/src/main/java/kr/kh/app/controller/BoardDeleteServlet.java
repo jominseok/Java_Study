@@ -25,7 +25,6 @@ public class BoardDeleteServlet extends HttpServlet {
 		} catch (Exception e) {
 			num = 0;
 		}
-		
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
 		
 		boolean res = boardService.Boardboard(num, user);
