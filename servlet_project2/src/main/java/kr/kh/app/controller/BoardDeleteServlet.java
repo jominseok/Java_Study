@@ -27,7 +27,7 @@ public class BoardDeleteServlet extends HttpServlet {
 		}
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
 		
-		boolean res = boardService.Boardboard(num, user);
+		boolean res = boardService.BoardDelete(num, user);
 		if(res) {
 			request.setAttribute("msg", "글을 삭제했습니다.");
 			request.setAttribute("url", "board");	

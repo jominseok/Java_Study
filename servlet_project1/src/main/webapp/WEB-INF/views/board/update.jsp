@@ -45,7 +45,7 @@
 				<label for="content" class="form-label">첨부파일 : </label>
 				<c:forEach items="${fileList}" var="file">
 					<span class="form-control">${file.fi_ori_name} <a
-						class="btnDel" href="#" data-target="${file.fi_num}">X</a></span>
+						class="btn-del" href="#" data-target="${file.fi_num}">X</a></span>
 				</c:forEach>
 				<c:forEach begin="1" end="${3 - fileList.size()}">
 					<input type="file" name="file" class="form-control">

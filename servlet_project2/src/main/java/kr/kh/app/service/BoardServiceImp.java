@@ -129,7 +129,7 @@ public class BoardServiceImp implements BoardService {
 	}
 
 	@Override
-	public boolean Boardboard(int num, MemberVO user) {
+	public boolean BoardDelete(int num, MemberVO user) {
 		if(user==null) {
 			return false;
 		}
@@ -140,9 +140,18 @@ public class BoardServiceImp implements BoardService {
 		if(board == null || !board.getBo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
+		
+		//FileVO리스트 객체를 생성
+		ArrayList<FileVO> fileList = BoardDao.selectFile(num);
+		
+		//실제 파일을 하나씩 삭제함
+		for(FileVO file : fileList) {
+			delete(file);
+		}
 		//게시글 삭제요청
 		return BoardDao.deleteBoard(num);
 	}
+
 
 	@Override
 	public boolean updateBoard(MemberVO user, BoardVO board) {
@@ -159,11 +168,22 @@ public class BoardServiceImp implements BoardService {
 		System.out.println(board);
 		//게시글이 없거나 게시글 작성자가 회원이 아니면 false를 리턴
 		if(dbboard==null||!dbboard.getBo_me_id().equals(user.getMe_id())) {
-			System.out.println("3번오류");
 			return false;
 		}
 		//서비스에게 게시글을 주면서 수정하라고 요청
 		return BoardDao.updateBoard(board);
+	}
+	
+	private void delete(FileVO fileVO) {
+		if(fileVO == null) {
+			return;
+		}
+		File file = new File(uploadPath + 
+				fileVO.getFi_name().replace('/', File.separatorChar)); 
+		if(file.exists()) {
+			file.delete();
+		}
+		BoardDao.deleteFile(fileVO.getFi_num());
 	}
 
 	@Override
