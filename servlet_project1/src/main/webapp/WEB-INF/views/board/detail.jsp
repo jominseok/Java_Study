@@ -8,6 +8,13 @@
 <title>게시글 상세</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
@@ -97,7 +104,10 @@
 
       //해당 url로 boNum과 state 값을 보냄.
       fetch(`<c:url value="/recommend"/>?boNum=\${boNum}&state=\${state}`)
-         .then(response => response.text())
+         .then(response =>{
+        	 console.log(response);
+        	 return response.text() 
+         })
          .then(data => {
         	 let str = state == 1 ? "추천" : "비추천";
         	 initRecommend(btnUp);

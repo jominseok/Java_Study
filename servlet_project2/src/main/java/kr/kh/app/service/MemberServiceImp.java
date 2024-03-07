@@ -71,4 +71,9 @@ public class MemberServiceImp implements MemberService{
 		}
 		return null;
 	}
+	@Override
+	public String checkId(String id) {
+		MemberVO member = mamberDao.selectMember(id);
+		return member == null ? "1" : "";
+	}
 }
