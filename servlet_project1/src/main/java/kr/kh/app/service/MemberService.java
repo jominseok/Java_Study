@@ -9,4 +9,6 @@ public interface MemberService {
 
 	MemberVo login(LoginDTO loginDTO);
 
+	boolean checkId(String id);
+
 }
