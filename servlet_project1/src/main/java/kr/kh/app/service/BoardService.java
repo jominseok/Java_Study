@@ -10,6 +10,7 @@ import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.model.vo.CommunityVo;
 import kr.kh.app.model.vo.FileVO;
 import kr.kh.app.model.vo.MemberVo;
+import kr.kh.app.model.vo.RecommendVO;
 import kr.kh.app.pagenaination.Criteria.Criteria;
 
 public interface BoardService {
@@ -33,5 +34,7 @@ public interface BoardService {
 	ArrayList<FileVO> getFile(int num);
 
 	int recommend(int bo_num, int state, MemberVo user);
+
+	RecommendVO getRecommend(MemberVo user, int num);
 
 }
