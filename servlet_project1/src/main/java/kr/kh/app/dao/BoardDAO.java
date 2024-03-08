@@ -44,4 +44,6 @@ public interface BoardDAO {
 	void updateReocmmend(@Param("re") RecommendVO recommend);
 
 	boolean insertComment(@Param("cm")CommentVO comment);
+
+	ArrayList<CommentVO> selectCommentList(@Param("cri") Criteria cri);
 }

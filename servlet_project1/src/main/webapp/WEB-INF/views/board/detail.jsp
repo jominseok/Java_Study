@@ -83,16 +83,22 @@
 						</c:if>
 						<hr>
 						<div class="mt-3 comment-box">
-						<h3>댓글</h3>
+							<h3>댓글</h3>
 							<!-- 댓글 리스트를 보여주는 박스 -->
-							<div class="comment-list"></div>
+							<div class="comment-list">
+								<div class="input-group mb-3">
+									<div class="col-9"></div>
+									<div class="col-3"></div>
+								</div>
+							</div>
 							<!-- 댓글 페이지네이션 박스 -->
 							<div class="comment-pagination"></div>
 							<!-- 댓글 입력 박스 -->
 							<div class="comment-input-box">
 								<div class="input-group">
 									<textarea class="form-control comment-content"></textarea>
-									<button type="button" class="btn btn-outline-success btn-comment-insert">등록</button>
+									<button type="button"
+										class="btn btn-outline-success btn-comment-insert">등록</button>
 								</div>
 							</div>
 						</div>
@@ -174,19 +180,20 @@
    		}
    </c:if>
 </script>
-<!-- 댓글 기능 구현 -->
-<script type="text/javascript">
-	//(댓글) 등록 버튼 클릭 이벤트를 등록
-	if('${user.me_id})' == ''){
-		if(confirm("로그인이 필요한 서비스입니다. 로그인 화면으로 이동하시겠습니까?")){
-            location.href = "<c:url value='/login'/>";
-         }
-         //취소 누르면 현재 페이지에서 추천/비추천 동작을 안 함
-         else{
-            return;
-         }
-	}
+	<!-- 댓글 기능 구현 -->
+	<script type="text/javascript">
+	
 	$(".btn-comment-insert").click(function(){
+		//(댓글) 등록 버튼 클릭 이벤트를 등록
+		if('${user.me_id}' == ''){
+			if(confirm("로그인이 필요한 서비스입니다. 로그인 화면으로 이동하시겠습니까?")){
+	            location.href = "<c:url value='/login'/>";
+	         }
+	         //취소 누르면 현재 페이지에서 추천/비추천 동작을 안 함
+	         else{
+	            return;
+	         }
+		}
 		//입력받은 댓글을 가져옴
 		//입력 테그로 값을 받으면 .val()로 아니면 .text()로 받아옴
 		let content = $(".comment-content").val();
@@ -205,8 +212,44 @@
 			error : function(a, b, c){
 				
 			}
-		});
+		});//ajax end
 	});//click end
+</script>
+	<!-- 댓글 조회 구현 -->
+	<script type="text/javascript">
+
+//댓글 현재 페이지 정보
+let cri = {
+	page : 1,
+	boNum:'${board.bo_num}'
+}
+
+//댓글 리스트를 화면에 출력하는 함수
+function getCommentList(cri) {
+	$.ajax({
+		url:'<c:url value="/comment/list"/>',
+		method:"post",
+		data : cri,
+		success : function(data){
+			let str = '';
+			for(comment of data.list){
+			str+=
+			`
+				<div class="input-group mb-3">
+					<div class="col-9">\${comment.cm_me_id}</div>
+					<div class="col-3">\${comment.cm_content}</div>
+				</div>
+			`;				
+			}
+			$(".comment-list").html(str);
+		},
+		error : function(a, b, c){
+			
+		}
+	});//ajax end
+}
+
+getCommentList(cri);
 </script>
 </body>
 </html>
