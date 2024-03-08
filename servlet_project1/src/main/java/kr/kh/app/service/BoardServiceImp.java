@@ -236,11 +236,36 @@ public class BoardServiceImp implements BoardService {
 	}
 
 	@Override
-	public ArrayList<CommentVO> getCommentList(Criteria cri) {
+	public ArrayList<CommentVO> selectCommentList(Criteria cri) {
 		if(cri == null) {
 			cri = new Criteria(1, 2);
 		}
 		return boardDao.selectCommentList(cri);
+	}
+
+	@Override
+	public int getCountComment(Criteria cri) {
+		if(cri ==null) {
+			return 0;
+		}
+		return boardDao.selectTotalCountComment(cri);
+	}
+
+	@Override
+	public boolean deleteComment(int num, MemberVo user) {
+		if(user == null) {
+			return false;
+		}
+		
+		//댓글 번호와 일치하는 댓글을 가져옴
+		CommentVO comment = boardDao.selectComment(num);
+		//댓글 작성자가 회원인지 확인하여 아니면 false 리턴
+		if(comment == null || !comment.getCm_me_id().equals(user.getMe_id())) {
+			return false;
+		}
+		
+		//맞으면 삭제 요청
+		return boardDao.deleteComment(num);
 	}
 
 
