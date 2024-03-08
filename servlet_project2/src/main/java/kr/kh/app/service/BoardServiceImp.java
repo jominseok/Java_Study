@@ -26,6 +26,7 @@ public class BoardServiceImp implements BoardService {
 
 	BoardDAO BoardDao;
 	private String uploadPath = "D:\\uploads";
+
 	public BoardServiceImp() {
 		String resource = "kr/kh/app/config/mybatis-config.xml";
 		InputStream inputStream;
@@ -39,15 +40,15 @@ public class BoardServiceImp implements BoardService {
 			e.printStackTrace();
 		}
 		File file = new File(uploadPath);
-		if(file.exists()) {
+		if (file.exists()) {
 			file.mkdirs();
 		}
 	}
 
 	@Override
 	public ArrayList<BoardVO> getBoardList(Criteria cri) {
-		//현재 페이지 정보 null처리
-		if(cri == null) {
+		// 현재 페이지 정보 null처리
+		if (cri == null) {
 			cri = new Criteria();
 		}
 		return BoardDao.selectBoardList(cri);
@@ -59,44 +60,42 @@ public class BoardServiceImp implements BoardService {
 
 			return false;
 		}
-		
+
 		boolean res = BoardDao.insertBoard(board);
-		
-		//게시글 등록에 싪한 경우
-		if(!res) {
+
+		// 게시글 등록에 싪한 경우
+		if (!res) {
 			return false;
 		}
-		
-		//첨부 파일이 없는 경우
-		if(partList == null || partList.size() == 0) {
+
+		// 첨부 파일이 없는 경우
+		if (partList == null || partList.size() == 0) {
 			return true;
 		}
-		
-		for(Part part : partList) {
-			
+
+		for (Part part : partList) {
+
 			uploadFile(part, board.getBo_num());
 		}
-		
-		
+
 		return true;
 	}
-	
+
 	private void uploadFile(Part part, int bo_num) {
-		if(part == null || bo_num == 0) {
+		if (part == null || bo_num == 0) {
 			return;
 		}
-		//서버에 업로드
+		// 서버에 업로드
 		String fileOriginalName = FileUploadUtils.getFileName(part);
-		if(!checkString(fileOriginalName)) {
+		if (!checkString(fileOriginalName)) {
 			return;
 		}
 		String fileName = FileUploadUtils.upload(uploadPath, part);
-		//DB에 추가
-		FileVO fileVo = new FileVO(bo_num,fileName, fileOriginalName);
-		
+		// DB에 추가
+		FileVO fileVo = new FileVO(bo_num, fileName, fileOriginalName);
+
 		BoardDao.insertFile(fileVo);
 	}
-
 
 	// 문자열이 null이거나 빈 문자열이면 false 아니면 true를 반환하는 메서드
 	public boolean checkString(String str) {
@@ -113,7 +112,7 @@ public class BoardServiceImp implements BoardService {
 
 	@Override
 	public int getTotalCount(Criteria cri) {
-		if(cri == null) {
+		if (cri == null) {
 			cri = new Criteria();
 		}
 		return BoardDao.selectTotalCount(cri);
@@ -126,81 +125,83 @@ public class BoardServiceImp implements BoardService {
 
 	@Override
 	public boolean updateView(int num) {
-		
+
 		return BoardDao.updateView(num);
 	}
 
 	@Override
 	public boolean BoardDelete(int num, MemberVO user) {
-		if(user==null) {
+		if (user == null) {
 			return false;
 		}
-		
-		//게시글을 가져옴
+
+		// 게시글을 가져옴
 		BoardVO board = BoardDao.selectBoard(num);
-		//게시글이 없거나 작성자가 아니면 false리턴
-		if(board == null || !board.getBo_me_id().equals(user.getMe_id())) {
+		// 게시글이 없거나 작성자가 아니면 false리턴
+		if (board == null || !board.getBo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
-		
-		//FileVO리스트 객체를 생성
+
+		// FileVO리스트 객체를 생성
 		ArrayList<FileVO> fileList = BoardDao.selectFile(num);
-		
-		//실제 파일을 하나씩 삭제함
-		for(FileVO file : fileList) {
+
+		// 실제 파일을 하나씩 삭제함
+		for (FileVO file : fileList) {
 			delete(file);
 		}
-		//게시글 삭제요청
+		// 게시글 삭제요청
 		return BoardDao.deleteBoard(num);
 	}
 
-
 	@Override
 	public boolean updateBoard(MemberVO user, BoardVO board, String[] nums, ArrayList<Part> partList) {
-		//게시글 null체크
-		if(board == null || !checkString(board.getBo_title()) || !checkString(board.getBo_content())) {
+		// 게시글 null체크
+		if (board == null || !checkString(board.getBo_title()) || !checkString(board.getBo_content())) {
 			return false;
 		}
-		//회원 null체크
-		if(user == null ) {
+		// 회원 null체크
+		if (user == null) {
 			return false;
 		}
-		//게시글 번호를 이용하여 게시글을 가져옴
+		// 게시글 번호를 이용하여 게시글을 가져옴
 		BoardVO dbboard = BoardDao.selectBoard(board.getBo_num());
 		System.out.println(board);
-		//게시글이 없거나 게시글 작성자가 회원이 아니면 false를 리턴
-		if(dbboard==null||!dbboard.getBo_me_id().equals(user.getMe_id())) {
+		// 게시글이 없거나 게시글 작성자가 회원이 아니면 false를 리턴
+		if (dbboard == null || !dbboard.getBo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
-		
-		//삭제할 첨부파일 삭제
-		for(String numStr : nums) {
-			try {
-				int num = Integer.parseInt(numStr);
-				FileVO fileVO = BoardDao.selectFile2(num);
-				delete(fileVO);
-			} catch (Exception e) {
-				e.printStackTrace();
+
+		if (nums != null) {
+			// 삭제할 첨부파일 삭제
+			for (String numStr : nums) {
+				try {
+					int num = Integer.parseInt(numStr);
+					FileVO fileVO = BoardDao.selectFile2(num);
+					delete(fileVO);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
-		//추가할 첨부파일 추가
-		for(Part part : partList) {
+		
+		// 추가할 첨부파일 추가
+		for (Part part : partList) {
 			uploadFile(part, board.getBo_num());
 		}
-		
-		//서비스에게 게시글을 주면서 수정하라고 요청
+
+		// 서비스에게 게시글을 주면서 수정하라고 요청
 		return BoardDao.updateBoard(board);
 	}
-	
+
 	private void delete(FileVO fileVO) {
-		if(fileVO == null) {
+		if (fileVO == null) {
 			return;
 		}
 		String fileName = uploadPath + fileVO.getFi_name().replace('/', File.separatorChar);
-		//서버에서 실제 파일을 삭제
+		// 서버에서 실제 파일을 삭제
 		FileUploadUtils.deleteFile(fileName);
 		BoardDao.deleteFile(fileVO.getFi_num());
-		//원래 코드
+		// 원래 코드
 //		File file = new File(uploadPath + 
 //				fileVO.getFi_name().replace('/', File.separatorChar)); 
 //		if(file.exists()) {
@@ -210,36 +211,37 @@ public class BoardServiceImp implements BoardService {
 
 	@Override
 	public ArrayList<FileVO> getFile(int num) {
-		
+
 		return BoardDao.selectFile(num);
 	}
 
 	@Override
 	public int recommend(int boNum, int state, String me_id) {
-		
+
 		switch (state) {
-		case -1, 1 : break;
+		case -1, 1:
+			break;
 		default:
 			throw new RuntimeException();
 		}
-		//회원이 게시글에 추천한 내역이 있는지 확인 => 없으면 추가, 있으면 수정
-		
-		//회원이 게시글에 추천한 정보를 가져옴
+		// 회원이 게시글에 추천한 내역이 있는지 확인 => 없으면 추가, 있으면 수정
+
+		// 회원이 게시글에 추천한 정보를 가져옴
 		RecommendVO recommend = BoardDao.selectRecommend(boNum, me_id);
 		System.out.println(recommend);
-		
-		//없으면 추가
-		if(recommend == null) {
+
+		// 없으면 추가
+		if (recommend == null) {
 			recommend = new RecommendVO(me_id, boNum, state);
 			BoardDao.insertRecommend(recommend);
 			return state;
 		}
-		//있으면 수정
-		//이전 추천 상태와 현재 추천 상태가 같다 => 취소
-		if(state == recommend.getRe_state()) {
+		// 있으면 수정
+		// 이전 추천 상태와 현재 추천 상태가 같다 => 취소
+		if (state == recommend.getRe_state()) {
 			recommend.setRe_state(0);
 		}
-		//변경, 추천->비추천, 비추천->추천
+		// 변경, 추천->비추천, 비추천->추천
 		else {
 			recommend.setRe_state(state);
 		}
@@ -249,10 +251,10 @@ public class BoardServiceImp implements BoardService {
 
 	@Override
 	public RecommendVO getRecommend(int num, MemberVO user) {
-		if(user == null || num <= 0) {
+		if (user == null || num <= 0) {
 			return null;
 		}
 		return BoardDao.selectRecommend(num, user.getMe_id());
 	}
-	
+
 }
