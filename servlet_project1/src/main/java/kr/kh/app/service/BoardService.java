@@ -7,6 +7,7 @@ import javax.servlet.http.Part;
 import org.apache.ibatis.annotations.Param;
 
 import kr.kh.app.model.vo.BoardVO;
+import kr.kh.app.model.vo.CommentVO;
 import kr.kh.app.model.vo.CommunityVo;
 import kr.kh.app.model.vo.FileVO;
 import kr.kh.app.model.vo.MemberVo;
@@ -36,5 +37,7 @@ public interface BoardService {
 	int recommend(int bo_num, int state, MemberVo user);
 
 	RecommendVO getRecommend(MemberVo user, int num);
+
+	boolean insertComment(CommentVO comment);
 
 }

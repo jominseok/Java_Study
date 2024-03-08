@@ -6,15 +6,24 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 상세</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.css" rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.css"
+	rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
@@ -45,19 +54,22 @@
 								value="${board.bo_view}">
 						</div>
 						<div class="mb-3 mt-3 clearfix">
-							<button type="button" id="btnUP" data-state="1" class="btn btn-outline-danger col-5 float-start">추천</button>
-							<button type="button" id="btnDown" data-state="-1" class="btn btn-outline-danger col-5 float-end">비추천</button>
+							<button type="button" id="btnUP" data-state="1"
+								class="btn btn-outline-danger col-5 float-start">추천</button>
+							<button type="button" id="btnDown" data-state="-1"
+								class="btn btn-outline-danger col-5 float-end">비추천</button>
 						</div>
 						<div class="mb-3 mt-3">
 							<label for="content" class="form-label">내용 : </label>
 							<div class="form-control" style="min-height: 400px;">${board.bo_content }</div>
 						</div>
-						<c:if test="${fileList != null && fileList.size() != 0}">						
+						<c:if test="${fileList != null && fileList.size() != 0}">
 							<div class="mb-3 mt-3">
-								<label for="view" class="form-label">첨부파일 : </label> 
+								<label for="view" class="form-label">첨부파일 : </label>
 								<c:forEach items="${fileList}" var="file">
-									<a class="form-control" href="<c:url value="/download?filename=${file.fi_name}"/>"
-									download="${file.fi_ori_name}">${file.fi_ori_name}</a>
+									<a class="form-control"
+										href="<c:url value="/download?filename=${file.fi_name}"/>"
+										download="${file.fi_ori_name}">${file.fi_ori_name}</a>
 								</c:forEach>
 							</div>
 						</c:if>
@@ -69,6 +81,21 @@
 							<a href=<c:url value = "/board/update?num=${board.bo_num}"/>
 								class="btn btn-outline-danger">수정</a>
 						</c:if>
+						<hr>
+						<div class="mt-3 comment-box">
+						<h3>댓글</h3>
+							<!-- 댓글 리스트를 보여주는 박스 -->
+							<div class="comment-list"></div>
+							<!-- 댓글 페이지네이션 박스 -->
+							<div class="comment-pagination"></div>
+							<!-- 댓글 입력 박스 -->
+							<div class="comment-input-box">
+								<div class="input-group">
+									<textarea class="form-control comment-content"></textarea>
+									<button type="button" class="btn btn-outline-success btn-comment-insert">등록</button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</form>
 			</c:when>
@@ -77,7 +104,8 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
-<script type="text/javascript">
+	<!-- 추천 기능 구현 -->
+	<script type="text/javascript">
    let btnUp = document.getElementById("btnUP");
    let btnDown = document.getElementById("btnDown");
    
@@ -145,6 +173,40 @@
    			selectRecommendBtn(btnDown);
    		}
    </c:if>
+</script>
+<!-- 댓글 기능 구현 -->
+<script type="text/javascript">
+	//(댓글) 등록 버튼 클릭 이벤트를 등록
+	if('${user.me_id})' == ''){
+		if(confirm("로그인이 필요한 서비스입니다. 로그인 화면으로 이동하시겠습니까?")){
+            location.href = "<c:url value='/login'/>";
+         }
+         //취소 누르면 현재 페이지에서 추천/비추천 동작을 안 함
+         else{
+            return;
+         }
+	}
+	$(".btn-comment-insert").click(function(){
+		//입력받은 댓글을 가져옴
+		//입력 테그로 값을 받으면 .val()로 아니면 .text()로 받아옴
+		let content = $(".comment-content").val();
+		//게시글 번호를 가져옴
+		let num = '${board.bo_num}';
+		$.ajax({
+			url:'<c:url value="/comment/insert"/>',
+			method:"post",
+			data : {
+				"content" : content,//변수 이름과 속성 이름  같으면 content:content이런식으로 안써도 됨
+				num
+			},
+			success : function(data){
+				console.log(data);
+			},
+			error : function(a, b, c){
+				
+			}
+		});
+	});//click end
 </script>
 </body>
 </html>
