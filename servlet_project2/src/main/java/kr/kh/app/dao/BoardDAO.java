@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import kr.kh.app.model.vo.BoardVO;
+import kr.kh.app.model.vo.CommendVO;
 import kr.kh.app.model.vo.CommunityVO;
 import kr.kh.app.model.vo.FileVO;
 import kr.kh.app.model.vo.MemberVO;
@@ -44,5 +45,9 @@ public interface BoardDAO {
 	void insertRecommend(@Param("re") RecommendVO recommend);
 
 	void updateRecommend(@Param("re")RecommendVO recommend);
+
+	ArrayList<CommendVO> selectCommendList(@Param("cri")Criteria cri);
+
+	int selectTotalCommentCount(@Param("cri") Criteria cri);
 
 }

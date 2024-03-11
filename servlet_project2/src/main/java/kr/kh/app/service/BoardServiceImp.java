@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import javax.management.RuntimeErrorException;
 import javax.servlet.http.Part;
 
 import org.apache.ibatis.io.Resources;
@@ -15,6 +14,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import kr.kh.app.dao.BoardDAO;
 import kr.kh.app.model.vo.BoardVO;
+import kr.kh.app.model.vo.CommendVO;
 import kr.kh.app.model.vo.CommunityVO;
 import kr.kh.app.model.vo.FileVO;
 import kr.kh.app.model.vo.MemberVO;
@@ -255,6 +255,22 @@ public class BoardServiceImp implements BoardService {
 			return null;
 		}
 		return BoardDao.selectRecommend(num, user.getMe_id());
+	}
+
+	@Override
+	public ArrayList<CommendVO> getCommentList(Criteria cri) {
+		if(cri == null) {
+			return null;
+		}
+		return BoardDao.selectCommendList(cri);
+	}
+
+	@Override
+	public int getTotalCommentCount(Criteria cri) {
+		if(cri == null) {
+			return 0;
+		}
+		return BoardDao.selectTotalCommentCount(cri);
 	}
 
 }
