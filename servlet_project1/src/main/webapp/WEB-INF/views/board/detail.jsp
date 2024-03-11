@@ -249,16 +249,18 @@ function getCommentList(cri) {
 			if('${user.me_id}' == comment.cm_me_id){
 				btns +=					
 				`
-					<button class = "btn btn-outline-warning btn-comment-update" type="button">수정</button>
-					<button class = "btn btn-outline-danger btn-comment-delete" data-num = "\${comment.cm_num}" type="button">삭제</button>
+					<div class = "btn-comment-group">
+						<button class = "btn btn-outline-warning btn-comment-update" type="button" data-num="\${comment.cm_num}">수정</button>
+						<button class = "btn btn-outline-danger btn-comment-delete" data-num = "\${comment.cm_num}" type="button">삭제</button>
+					</div>
 				`
 			}
 				
 			str+=
 			`
-				<div class="input-group mb-3">
-					<div class="col-2">\${comment.cm_me_id}</div>
-					<div class="col-6">\${comment.cm_content}</div>
+				<div class="input-group mb-3 box-comment">
+					<div class="col-3">\${comment.cm_me_id}</div>
+					<div class="col-6 cm_content">\${comment.cm_content}</div>
 					\${btns}
 				</div>
 			`;				
@@ -310,6 +312,67 @@ getCommentList(cri);
 </script>
 
 <!-- /* 댓글 수정 기능 */ -->
+<script type="text/javascript">
+	$(document).on("click", ".btn-comment-update", function(){
+		initComment();
+		//현재 댓글 보여주는 창이 textarea태그로 변경
+		//기존 댓글 창을 감춤
+		$(this).parents(".content-box").find(".cm_content").hide();
+		let comment = $(this).parents(".box-comment").find(".cm_content").text();
+		let textarea=
+		`
+			<textarea class="form-control com-input">${comment}</textarea>
+		`;
+		$(this).parents(".box-comment").find(".cm_content").after(textarea);
+		//수정 삭제 버튼 대신 수정 완료 버튼으로 변경
+		$(this).parent().hide();
+		let num = $(this).data("num");
+		let btn =
+		`
+		<button type="button" class="btn btn-outline-seccess btn-complete" data-num="\${num}">수정완료</button>
+		`;
+		$(this).parent().after(btn);
+	});
+	
+	function initComment() {
+		//감춤 댓글 내용을 보여줌
+		$(".cm_content").show();
+		//수정 삭제 버튼을 보여줌
+		$(".btn-comment-group").show();
+		//추가했던 댓글 textarea태그를 삭제
+		$(".com-input").remove();
+		//추가했던 수정 완료 버튼을 삭제
+		$(".btn-complete").remove();
+	}
+
+<!-- 수정완료 버튼 클릭 이벤트 -->
+$(document).on("click", ".btn-complete", function(){
+	//수정하기 위해 필요한 정보를 가져옴 : 수정된 내용, 댓글 번호
+	let num = $(this).data("num");
+	let content = $(".com-input").val();
+	$.ajax({
+		url:'<c:url value="/comment/update"/>',
+		method:'post',
+		data:{
+			num, //num : num
+			content // content: content
+		},
+		success : function(data){
+			if(data == "ok"){
+				alert("댓글이 수정되었습니다.");
+				getCommentList(cri);
+			}else{
+				alert("댓글을 수정하지 못하였습니다.")
+			}
+		},
+		error : function(xhr, status, error){
+			
+		}
+	});
+});
+</script>
+
+
 <script type="text/javascript">
 //이벤트를 등록할 때 요소가 있으면 해당 요소에 이벤드를 등록. 요소가 나중에 추가 되면 동작을 하지 않음
 $("선택자").click(function(){});
