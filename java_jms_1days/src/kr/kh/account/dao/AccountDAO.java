@@ -1,6 +1,5 @@
 package kr.kh.account.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -9,7 +8,9 @@ import kr.kh.account.model.vo.Item;
 import kr.kh.account.model.vo.Type;
 import kr.kh.account.model.vo.category;
 import kr.kh.account.pagination.Criteria;
+import lombok.Data;
 
+@Data
 public interface AccountDAO {
 
 	List<Type> selectTypeList();
