@@ -14,19 +14,22 @@
 <body>
 <nav class="navbar navbar-expand-sm bg-secondary navbar-dark">
   <ul class="navbar-nav">
-	<li class="nav-item active">
-	  <a class="nav-link" href="<c:url value="/" />">Cafe</a>
-	</li>
-	<li class="nav-item">
-	  <a class="nav-link" href='<c:url value="/signup"/>'>회원가입</a>
-	</li>
-	<li class="nav-item">
-	  <a class="nav-link" href='<c:url value="/login"/>'>로그인</a>
-	</li>
+		<li class="nav-item active">
+		  <a class="nav-link" href="<c:url value="/" />">Cafe</a>
+		</li>
+  	<c:if test="${user == null}">
+		<li class="nav-item">
+		  <a class="nav-link" href='<c:url value="/signup"/>'>회원가입</a>
+		</li>
+		<li class="nav-item">
+		  <a class="nav-link" href='<c:url value="/login"/>'>로그인</a>
+		</li>
+  	</c:if>
   </ul>
 </nav>
 <div class="container">
 	<h1>메인입니다.</h1>
+	
 </div>
 </body>
 </html>
