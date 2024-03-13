@@ -28,19 +28,19 @@ public class HomeController {
 //		System.out.println(member);
 //		model.addAttribute("화면에서 사용할 이름","보낼 데이터");
 //		model.addAttribute("name", "홍길동");
-		return "home";
+		return "/main/home";
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
 
-		return "member/signup";
+		return "/member/signup";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
 
-		return "member/login";
+		return "/member/login";
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
