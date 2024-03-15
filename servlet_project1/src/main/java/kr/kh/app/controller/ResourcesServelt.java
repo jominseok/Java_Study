@@ -11,15 +11,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/download")
-public class DownloadServelt extends HttpServlet {
+@WebServlet("/resources")
+public class ResourcesServelt extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private String uploadPath = "D:\\uploads";
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String fileName = request.getParameter("filename");
-		String filePath = uploadPath + fileName.replace('/', File.separatorChar);
+		//url에서 컨텍스트 패스와 /resources를 제거하는 작업
+		//	/servlet_project1/resources/css/test.css
+		// 	=> /css/test.css
+		String path = request.getRequestURI().replace("/resouces", "");
+		path = path.replaceFirst(request.getContextPath(), "");
+		
+		String fileName = path;
+		String filePath = getServletContext().getRealPath(uploadPath) + fileName;
+		
+		
 		File file = new File(filePath);
 		try (FileInputStream fis = new FileInputStream(file);
 				OutputStream os = response.getOutputStream()){

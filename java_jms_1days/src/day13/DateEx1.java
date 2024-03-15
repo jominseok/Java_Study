@@ -28,7 +28,7 @@ public class DateEx1 {
 		
 		//String => Date
 		Date date2 = format.parse(str);
-		System.out.println(date2);
+		System.out.println(date2 + "asdqwde");
 		
 		Board board = new Board("제목", "내용", new Date());
 		System.out.println(board);
