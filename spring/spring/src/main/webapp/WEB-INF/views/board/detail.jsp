@@ -1,55 +1,60 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 <div>
-	<h1>°Ô½Ã±Û »ó¼¼</h1>
+	<h1>ê²Œì‹œê¸€ ìƒì„¸</h1>
 	<div>
-		<label>Á¦¸ñ</label>
+		<label>ì œëª©</label>
 		<div class="form-control">${board.bo_title}</div>
 	</div>
 	<div>
-		<label>ÀÛ¼ºÀÚ</label>
+		<label>ì‘ì„±ì</label>
 		<div class="form-control">${board.bo_me_id}</div>
 	</div>
 	<div>
-		<label>Á¶È¸¼ö</label>
+		<label>ì¡°íšŒìˆ˜</label>
 		<div class="form-control">${board.bo_view}</div>
 	</div>
 	<div class="input-group mb-3 mt-3">
-		<button class="btn btn-outline-success btn-up col6">ÃßÃµ(${board.bo_up})</button>
-		<button class="btn btn-outline-success btn-down col6 float-end">ºñÃßÃµ(${board.bo_down})</button>
+		<button class="btn btn-outline-success btn-up col-6">ì¶”ì²œ(${board.bo_up})</button>
+		<button class="btn btn-outline-success btn-down col-6">ë¹„ì¶”ì²œ(${board.bo_down})</button>
 	</div>
 	<div>
-		<label>³»¿ë</label>
-		<div class="form-control" style="min-height : 400px">${board.bo_content}</div>
+		<label>ë‚´ìš©</label>
+		<div class="form-control" style="min-height: 400px">${board.bo_content}</div>
 	</div>
 	<div>
-		<label>Ã·ºÎÆÄÀÏ</label>
 		<c:choose>
-			<c:when test="${fileList.size() != 0}">	
-				<div>Ã·ºÎÆÄÀÏ ¾øÀ½</div>
-				<c:forEach items="${fileList}" var="file">
+			<c:when test="${fileList.size() != 0}">
+				<label>ì²¨ë¶€íŒŒì¼</label>
+				<c:forEach items="${fileList }" var="file">
 					<a href="<c:url value="/download${file.fi_name}"/>" 
-					class="form-control" download="${file.fi_ori_name}">${file.fi_ori_name}</a>
-				</c:forEach>				
+						class="form-control"
+						download="${file.fi_ori_name}">${file.fi_ori_name}</a>
+				</c:forEach>
 			</c:when>
 			<c:otherwise>
+				<div>ì²¨ë¶€íŒŒì¼ ì—†ìŒ</div>
 			</c:otherwise>
 		</c:choose>
-		<c:url value="/board/list" var="url">
-			<c:param name="page" value="${cri.page}"/>
-			<c:param name="type" value="${cri.type}"/>
-			<c:param name="search" value="${cri.search}"/>
-		</c:url>
-		<a href="${url}" class="btn btn-outline-dark">¸ñ·ÏÀ¸·Î</a>
 	</div>
+	<c:url value="/board/list" var="url">
+		<c:param name="page" value="${cri.page}"/>
+		<c:param name="type" value="${cri.type}"/>
+		<c:param name="search" value="${cri.search}"/>
+	</c:url>
+	<a href="${url}" class="btn btn-outline-dark">ëª©ë¡ìœ¼ë¡œ</a>
+	<c:if test="${user.me_id == board.bo_me_id}">
+		<a href="<c:url value="/board/delete?boNum=${board.bo_num}"/>" class="btn btn-outline-success">ì‚­ì œ</a>
+		<a href="<c:url value="/board/update?boNum=${board.bo_num}"/>" class="btn btn-outline-warning">ìˆ˜ì •</a>
+	</c:if>
 </div>
 </body>
 </html>

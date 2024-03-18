@@ -21,10 +21,18 @@ public interface BoardDAO {
 
 	void insertFile(@Param("fi")FileVO fileVo);
 
-	BoardVO selectBoard(@Param("boNum")int boNum);
+	BoardVO selectBoard(@Param("bo_num")int boNum);
 
 	void updateView(@Param("bo_num")int boNum);
 
 	ArrayList<FileVO> selectFileList(@Param("bo_num")int boNum);
+
+	void deleteFile(@Param("fi_num")int fi_num);
+
+	boolean deleteBoard(@Param("bo_num")int num);
+
+	boolean updateBoard(@Param("bo")BoardVO board);
+
+	FileVO selectFile(@Param("fi_num")int tmp);
 
 }
