@@ -60,7 +60,7 @@ CREATE TABLE `comment` (
 
 DROP TABLE IF EXISTS `recomment`;
 
-CREATE TABLE `recomment` (
+CREATE TABLE `recommend` (
 	`re_num`	int	primary key auto_increment,
 	`re_me_id`	varchar(13)	NOT NULL,
 	`re_bo_num`	int	NOT NULL,

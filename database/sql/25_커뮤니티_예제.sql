@@ -59,9 +59,9 @@ select * from board where bo_me_id = 'abc123' order by bo_num desc limit 0,10;
 
 # qwe123회원이 1번 게시글을 추천 버튼을 클릭했을때 쿼리
 # 1. qwe123회원이 1번 게시글에 추천한 기록을 조회
-select * from recomment where re_me_id = 'abc123' and re_bo_num = 1;
+select * from recommend where re_me_id = 'abc123' and re_bo_num = 1;
 # 2-1 추천한 기록이 없다면 추천을 추가
-insert into recomment (re_me_id, re_bo_num, re_state) values('abc123', 1,1);
+insert into recommend (re_me_id, re_bo_num, re_state) values('abc123', 1,1);
 # 2-2 추천한 기록이 있다면 추천을 수정
 # 2-2-1. 추천한 기록이 추천인 경우 => 추천을 취소
 update recomment set re_state = 0 where re_bo_num = 1 and re_me_id = 'abc123';
