@@ -62,16 +62,13 @@ public class HomeController {
 		}
 		return "message";
 	}
-
 	@GetMapping(value = "/logout")
 	public String logout(Model model, HttpSession session) {
-		
-		//로그아웃 => 세션에 회원 정보를 제거 
+		//로그아웃 => 세션에 회원 정보를 제거
 		session.removeAttribute("user");
 		
 		model.addAttribute("msg", "로그아웃 했습니다.");
 		model.addAttribute("url", "/");
 		return "message";
 	}
-	
 }
