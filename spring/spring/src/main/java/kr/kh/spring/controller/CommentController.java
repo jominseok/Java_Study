@@ -41,33 +41,32 @@ public class CommentController {
 	}
 	
 	@PostMapping("/comment/insert")
-	public Map<String, Object> commentInsert(@RequestBody CommentVO comment,
+	public Map<String, Object> commentInsert(@RequestBody CommentVO comment, 
 			HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
-		MemberVO user = (MemberVO) session.getAttribute("user");
+		MemberVO user = (MemberVO)session.getAttribute("user");
 		boolean res = commentService.insertComment(comment, user);
 		map.put("result", res);
 		return map;
 	}
 	
 	@PostMapping("/comment/delete")
-	public Map<String, Object> commentDelete(@RequestBody CommentVO comment,
+	public Map<String, Object> commentDelete(@RequestBody CommentVO comment, 
 			HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
-		MemberVO user = (MemberVO) session.getAttribute("user");
-		boolean res = commentService.deleteComment(comment, user);
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res = commentService.deleteComment(comment,user);
 		map.put("result", res);
 		return map;
 	}
 	
 	@PostMapping("/comment/update")
-	public Map<String, Object> commentUpdate(@RequestBody CommentVO comment,
+	public Map<String, Object> commentUpdate(@RequestBody CommentVO comment, 
 			HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
-		MemberVO user = (MemberVO) session.getAttribute("user");
-		boolean res = commentService.updateComment(comment, user);
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res = commentService.updateComment(comment,user);
 		map.put("result", res);
-		System.out.println(comment);
 		return map;
 	}
 }
