@@ -13,4 +13,6 @@ public interface CommentDAO {
 
 	int selectTotalCount(@Param("cri")Criteria cri);
 
+	boolean insertCommet(@Param("co")CommentVO comment);
+
 }
