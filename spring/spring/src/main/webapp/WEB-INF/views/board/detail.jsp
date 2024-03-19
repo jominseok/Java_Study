@@ -116,11 +116,22 @@ function displayCommentList(list){
 		return;
 	}
 	for(item of list){
+	let boxbtns = 
+		`
+			<span class="box-btn float-right">
+				<button class = "btn btn-outline-danger btn-comment-del" data-num ="\${item.cm_num}">삭제</button>
+			</span>`;
+		let btns = '${user.me_id}' == item.cm_me_id ? boxbtns : '';
 		str += 
 		`
 			<div class="box-comment row">
 				<div class="col-3">\${item.cm_me_id}</div>
-				<div class="col-9">\${item.cm_content}</div>
+				<div class="col-9 clearfix">
+					<span>
+						\${item.cm_content}
+					</span>
+					\${btns}
+				</div>
 			</div>
 		`
 	}
@@ -160,10 +171,20 @@ $(document).on('click','.box-pagination .page-link',function(){
 <script type="text/javascript">
 //댓글 등록버튼의 클릭 이벤트를 등록
 $(".btn-comment-insert").click(function(){
+	//로그인 확인
+	if(!checkLogin()){
+		return;
+	}
 	//서버에 보낼 데이터를 생성 => 댓글 등록을 위한 정보 => 댓글내용, 게시글 번호
 	let comment = {
 			cm_content : $('.textarea-comment').val(), 
 			cm_bo_num : '${board.bo_num}'
+	}
+	
+	//내용이 비어 있으면 내용을 입력하라고 알림
+	if(comment.cm_content.length == 0){
+		alert("댓글 내용을 작성하세요");
+		return;
 	}
 	//서버에 데이터를 전송
 	$.ajax({
@@ -174,7 +195,7 @@ $(".btn-comment-insert").click(function(){
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",
 		success : function(data){
-			if(date.result){
+			if(data.result){
 				alert("댓글을 등록했습니다.");
 				$('.textarea-comment').val('');
 				cri.page=1;
@@ -186,7 +207,52 @@ $(".btn-comment-insert").click(function(){
 		error : function(xhr, textStatus, c){
 			console.log()
 		}
-	})
+	});
+});
+
+function checkLogin(){
+	//로그인 했을때
+	if('${user.me_id}' != ''){	
+		return true
+	}
+	//안했을때
+	if(confirm("로그인이 필요한 기능입니다. \n 로그인 페이지로 이동하시겠습니까?")){
+		location.href = '<c:url value = "/login"/>';
+	}
+	return false;
+}
+
+</script>
+
+<script type="text/javascript">
+/* 댓글 삭제 */
+$(document).on("click", ".btn-comment-del", function(){
+	//서버로 보낼 데이터 생성
+	let comment = {
+			cm_num : $(this).data('num')
+	}
+	//서버로 데이터를 전송
+	$.ajax({
+		async : true,
+		url : '<c:url value="/comment/delete"/>',
+		type : 'post',
+		data : JSON.stringify(comment), 
+		contentType : "application/json; charset=utf-8",
+		dataType : "json",
+		success : function(data){
+			if(data.result){
+				alert("댓글을 삭제했습니다.");
+				$('.textarea-comment').val('');
+				cri.page=1;
+				getCommentList(cri);
+			}else{
+				alert("댓글을 삭제하지 못하였습니다.")
+			}
+		},
+		error : function(xhr, textStatus, c){
+			console.log()
+		}
+	});
 })
 </script>
 </body>
