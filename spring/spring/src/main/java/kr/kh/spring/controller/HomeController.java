@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.cj.Session;
+
 import kr.kh.spring.model.dto.LoginDTO;
 import kr.kh.spring.model.vo.MemberVO;
 import kr.kh.spring.service.MemberService;
@@ -99,5 +101,39 @@ public class HomeController {
 		boolean res = memberService.findPw(id);
 		map.put("result", res);
 		return map;
+	}
+	
+	@GetMapping("/mypage")//또는 @PostMapping("경로")
+	public String mypage(){
+
+		return "/member/mypage";
+	}
+	
+	@ResponseBody
+	@PostMapping("/check/pw")//또는 @PostMapping("경로")
+	public Map<String, Object> checkPw(@RequestParam("pw") String pw, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		boolean res = memberService.pwCheck(pw, user);
+		map.put("result", res);
+		return map;
+	}
+	
+	@PostMapping("/mypage")//또는 @PostMapping("경로")
+	public String mypagePost(MemberVO member, Model model, HttpSession session){
+		System.out.println(member);
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		boolean res = memberService.updateMember(member, user);
+		if(res) {
+			model.addAttribute("msg", "회원정보를 수정했습니다.");
+			model.addAttribute("url", "/mypage");
+		}else {
+			model.addAttribute("msg", "회원정보를 수정하지 못했습니다.");
+			model.addAttribute("url", "/mypage");
+		}
+		//세션에서 회원 정보 수정
+		session.setAttribute("user", user);
+		
+		return "/message";
 	}
 }
