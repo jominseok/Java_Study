@@ -95,7 +95,7 @@ function idCheckDup(){
 	//입력된 아이디를 가져옴
 	let id = $('[name=me_id]').val();
 	let obj = {
-		id : id
+		me_id : id
 	}
 	let idRegex = /^\w{6,13}$/;
 	if(!idRegex.test(id)){
@@ -106,8 +106,9 @@ function idCheckDup(){
 	$.ajax({
 		async : false,
 		url : '<c:url value="/id/check/dup"/>', 
-		type : 'get', 
-		data : obj, 
+		type : 'post', 
+		data : JSON.stringify(obj), 
+		contentType : "application/json; charset=utf-8",
 		dataType : "json", 
 		success : function (data){
 			result = data.result;
