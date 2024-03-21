@@ -3,6 +3,7 @@ package kr.kh.spring.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.mysql.cj.Session;
 
 import kr.kh.spring.model.dto.LoginDTO;
 import kr.kh.spring.model.vo.MemberVO;
@@ -53,8 +52,14 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model) {
-
+	public String login(Model model, HttpServletRequest request) {
+		//로그인 페이지로 넘어오기 이전 경로를 가져옴
+		String url = request.getHeader("Referer");
+		
+		//이전 url에 login이 들어가는 경우 제외
+		if(url != null && !url.contains("login")) {
+			request.getSession().setAttribute("prevUrl", url);
+		}
 		return "/member/login";
 	}
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
