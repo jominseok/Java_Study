@@ -20,9 +20,6 @@
 	<form action="<c:url value="/board/list/"/>" class="mb-3 mt-3">
 		<div class="input-group">
 			<select name="type" class="form-control">
-			
-				<c:if test='${pm.cri.type == "all"}'>selected</c:if>
-				
 				<option value="all" <c:if test='${pm.cri.type == "all"}'>selected</c:if>>전체</option>
 				<option value="title" <c:if test='${pm.cri.type == "title"}'>selected</c:if>>제목</option>
 				<option value="writer" <c:if test='${pm.cri.type == "writer"}'>selected</c:if>>작성자</option>

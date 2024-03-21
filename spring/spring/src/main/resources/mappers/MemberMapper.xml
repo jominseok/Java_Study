@@ -20,4 +20,20 @@
   <update id="updateMember">
   	update member set me_pw = #{me.me_pw}, me_email = #{me.me_email} where me_id = #{me.me_id}
   </update>
+  
+  <update id="updateMemberCookie">
+		update member set
+			me_cookie = #{user.me_cookie},
+			me_cookie_limit = #{user.me_cookie_limit}
+		where
+			me_id = #{user.me_id}
+	</update>
+	
+	<select id="selectMemberByCookie" resultType="MemberVO">
+		<!-- CDATA를 사용하면 맵퍼에 있는 쿼리문을 순수하게 쿼리문으로 사용 가능 -->
+		<![CDATA[ 
+			select * from member where me_cookie = #{session_id} 
+			and me_cookie_limit >= now();
+		]]>
+	</select>
 </mapper>

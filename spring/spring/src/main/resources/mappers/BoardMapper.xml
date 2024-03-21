@@ -113,4 +113,6 @@
 		where
 			re_me_id = #{re.re_me_id} and re_bo_num = #{re.re_bo_num} 
 	</update>
+	
+	
 </mapper>
