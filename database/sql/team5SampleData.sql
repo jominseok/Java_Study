@@ -37,8 +37,7 @@ insert into `post` (p_title, p_content, p_date, p_mb_id, p_b_num) values
 ("공지2", "공지2", NOW(), "admin", 5),
 # 강아지 카테고리 - 사진
 ("리트리버", "너무큼", NOW(), "user", 6),
-("푸들", "너무 작음", NOW(), "user", 6)
-;
+("푸들", "너무 작음", NOW(), "user", 6);
 
 SELECT * FROM team5.reply;
 insert into `reply` (r_content, r_date, r_mb_id, r_p_num) values
@@ -56,3 +55,5 @@ insert into `reply` (r_content, r_date, r_mb_id, r_p_num) values
 ("댓글12", NOW(), "user", 12)
 ;
 
+Insert into authority value('admin', 111111);
+Insert into ma value('admin', 'admin');
