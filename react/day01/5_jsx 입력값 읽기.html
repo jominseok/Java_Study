@@ -11,15 +11,27 @@
 <body>
 <div id="root"></div>
 <script type="text/babel">
-    const root = document.getElementById("root");
+	const root = ReactDOM.createRoot(document.getElementById('root'));
+
+	function App(){
 		
-		function Span(){
-			return (
-				<span id={"test"}>Hi</span>
-			);
+		let [str, setStr] = React.useState("");
+
+		function inputOnChange(event){
+			//input태그에 입력된 값을 읽어와서 콘솔에 출력
+			let value = event.target.value;
+			setStr(value);
 		}
 
-    ReactDOM.render(<Span />, root);
+		return (
+			<div>
+				<input type="text" onChange={inputOnChange} />
+				<h1>{str}</h1>
+			</div>
+		)
+	}
+
+	root.render(<App />);
 </script>
 </body>
 </html>

@@ -9,7 +9,9 @@
    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
-   <div id="root"></div>
+   
+<div id="root"></div>
+
 <script type="text/babel">
   const root = ReactDOM.createRoot(document.getElementById('root'));
    let count = 0;
@@ -35,9 +37,7 @@
    }
 
 
-   root.render(
-         <App />
-   );
+   root.render(<App />);
 </script>
 </body>
 </html>
