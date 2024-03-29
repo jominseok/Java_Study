@@ -87,3 +87,4 @@ cached-antora-playbook.yml
 terget/
 test/resources/
 log4j.xml
+node_modules
