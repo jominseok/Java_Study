@@ -85,6 +85,5 @@ atlassian-ide-plugin.xml
 cached-antora-playbook.yml
 
 terget/
-test/resources/
-log4j.xml
+spring/**/test/resources/
 node_modules
