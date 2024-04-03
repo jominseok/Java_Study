@@ -51,12 +51,14 @@
 		    	<a class="page-link" href="${url}">${i}</a>
 		    </li>
 	  	</c:forEach>		    
+	  	<c:if test="${pm.next}">
 		    <li class="page-item">
 		   		<c:url var="url" value="/post/list">
 		    		<c:param name="page" value="${pm.endPage + 1}"/>
 		    	</c:url>
 		    	<a class="page-link" href="${url}">다음</a>
 		    </li>
+		</c:if>
 	  </ul>
 	</div>
 </body>
