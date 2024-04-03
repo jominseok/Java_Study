@@ -85,8 +85,53 @@
  				- url : 메인 페이지 실패하면 로그인 페이지로 이동하도록
  			- 로그인 실패하면
  				- msg : 로그인을 하지 못했습니다.
- 				- url : /logins
-  -->
+ 				- url : /login
+ 	6. MemberService/MemberServiceImp
+ 		- 메서드 추가 및 구현
+ 			- 매개변수 null처리
+ 			- 다오에게 아이디를 주고 회원정보를 가져오라고 시킴(이미 다오에 구현되어 있음. 회원가입에서 구현)
+ 			- 가져온 회원 정보가 없으면 null을 리턴
+ 			- passwordEncoder를 이용하여 회원비번과 로그인한 비번이 같은지를 확인해서 같으면 회원정보를 다르면 null을 리턴
+ 			
+ 	로그인 유지
+ 	1. Logininterceptor추가 후 코드 작성
+ 		 - HandlerInterceptorAdeptor클래스를 상속 받음
+ 		 - postHandle 메서드를 오버라이딩
+ 		 	- model에 담아서 배낸 user정보를 가져와서 null이면 건너뜀
+ 		 	- null이 아니면 user정보를 세션에 저장
+ 	2. servlet-context.xml 수정
+ 		- interceptor 등록 및 url 맵핑
+ 	3. header.jsp
+ 		- 로그인 하면 회원가입, 로그인 버튼이 안보이게 처리
+ 		
+ 	인터셉터 활용하기
+ 	1. interceptor 패키지 추가
+ 	
+ 	2. interceptor 생성
+ 		- HandlerInterceptorAdaptor클래스 상속
+ 		- postHandler 또는 preHandle오버라이딩
+ 			public class SampleInterceptor extends HandlerInterceptorAdaptor{
+				@Override
+				public void postHandle(
+				    HttpServletRequest request, 
+				    HttpServletResponse response, 
+				    Object handler, 
+				    ModelAndView modelAndView)
+				    throws Exception {
+					 //구현   
+				 }
+				@Override
+				public boolean preHandle(HttpServletRequest request, 
+						HttpServletResponse response, 
+						Object handler)
+						throws Exception {
+						
+						//구현
+				}
+			
+			}
+ 
+ -->
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   <!-- Brand/logo -->
@@ -96,12 +141,14 @@
   
   <!-- Links -->
   <ul class="navbar-nav">
-    <li class="nav-item">
-      <a class="nav-link" href="<c:url value="/signup"/>">회원가입</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="<c:url value="/login"/>">로그인</a>
-    </li>
+  <c:if test="${user==null}">
+	    <li class="nav-item">
+	      <a class="nav-link" href="<c:url value="/signup"/>">회원가입</a>
+	    </li>
+	    <li class="nav-item">
+	      <a class="nav-link" href="<c:url value="/login"/>">로그인</a>
+	    </li>
+  </c:if>
     <li class="nav-item">
       <a class="nav-link" href="#">Link 3</a>
     </li>

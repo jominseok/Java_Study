@@ -50,4 +50,25 @@ public class HomeController {
 		return "message";
 	}
 	
+	@GetMapping("/login")
+	public String login(Model model) {
+		
+		return "/member/login";
+	}
+	
+	@PostMapping("/login")
+	public String loginPost(Model model, MemberVO member) {
+		MemberVO user = memberService.login(member);
+		model.addAttribute("user", user); //user라는 이름으로 전송
+		log.info(user);
+		if(user != null) {
+			model.addAttribute("url", "/");
+			model.addAttribute("msg", "로그인을 했습니다.");
+		}else {
+			model.addAttribute("url", "/login");
+			model.addAttribute("msg", "로그인을 하지 못했습니다.");
+		}	
+		return "message";
+	}
+	
 }

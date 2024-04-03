@@ -13,18 +13,16 @@
 </head>
 <body>
 <div class="container">
-  <h2>Form control: input</h2>
-  <p>The form below contains two input elements; one of type text and one of type password:</p>
-  <form action="/action_page.php">
+  <form action="<c:url value="/login" />" method="post">
     <div class="form-group">
-      <label for="usr">Name:</label>
-      <input type="text" class="form-control" id="usr" name="username">
+      <label for="id">아이디:</label>
+      <input type="text" class="form-control" id="id" name="me_id">
     </div>
     <div class="form-group">
-      <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd" name="password">
+      <label for="pw">비밀번호:</label>
+      <input type="password" class="form-control" id="pw" name="me_pw">
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">로그인</button>
   </form>
 </div>
 </body>

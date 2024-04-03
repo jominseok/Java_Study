@@ -16,4 +16,8 @@
   <select id="selectMember" resultType="kr.kh.spring3.model.vo.MemberVO">
   		select * from member where me_id = #{me_id}
   </select>
+  
+  <select id="selectUserList" resultType="kr.kh.spring3.model.vo.MemberVO" >
+  		select * from member
+  </select>
 </mapper>
