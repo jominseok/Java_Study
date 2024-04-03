@@ -154,6 +154,9 @@
       <a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
     </li>
   </c:if>
+  	<li class="nav-item">
+      <a class="nav-link" href="<c:url value="/post/list"/>">게시글 목록</a>
+    </li>
   </ul>
 </nav>
 	
