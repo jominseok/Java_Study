@@ -1,0 +1,33 @@
+.menu-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+  }
+
+.menu-list>li{
+	float: left;
+	margin-left: 80px;
+}
+
+.menu-list>ul{
+	margin-top: 100px;
+}
+
+
+.box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+  }
+  
+  .box th,
+  .box td {
+	padding: 8px 12px;
+  }
+  .box th{
+	font-weight: bold;
+  }
+  
+  

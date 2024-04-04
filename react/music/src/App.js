@@ -1,6 +1,6 @@
 import './App.css';
 import { useState } from 'react';
-import {BrowserRouter, Route, Link, Routes, useLocation, useNavigate, Navigate} from 'react-router-dom'
+import {BrowserRouter, Route, Link, Routes, useLocation, useNavigate} from 'react-router-dom'
 
 function App() {
 
@@ -13,8 +13,8 @@ function App() {
   //   : 음악번호를 이용하여 삭제
   let [list, setList] = useState([]);
 
-  function add(music){
-    setList([music, ...list]);
+  function add(muvie){
+    setList([muvie, ...list]);
   }
   function remove(num){
     let tmpList = list.filter(item=>item.num != num);
@@ -32,31 +32,35 @@ function App() {
 }
 function Nav(){
   return (
-    <ul className="menu-list">
-      <li><Link to="/">음악 조회</Link></li>
-      <li><Link to="/add">음악 추가</Link></li>
-    </ul>
+    <div className='box'>
+      <ul className="menu-list">
+        <li><Link to="/">List</Link></li>
+        <li><Link to="/add">Add new Movie</Link></li>
+      </ul>
+    </div>
   );
 }
 function List({list, add, remove}){
 
   const location = useLocation();
-  let music = location.state;
-  if(music != null){
-    add(music);
+  let movie = location.state;
+  
+  if(movie != null){
+    add(movie);
     location.state = null;
   }
+
   return (
-    <div>
-      <h1>음악 리스트</h1>
+    <div className='box'>
+      <h1>Movies</h1>
       <table>
         <thead>
           <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>가수</th>
-            <th>장르</th>
-            <th>기능</th>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Genre</th>
+            <th>Release Date</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -66,9 +70,9 @@ function List({list, add, remove}){
                 <tr key={item.num}>
                   <td>{item.num}</td>
                   <td>{item.title}</td>
-                  <td>{item.artist}</td>
                   <td>{item.genre}</td>
-                  <td><button onClick={()=>remove(item.num)}>삭제</button></td>
+                  <td>{item.date}</td>
+                  <td><button onClick={()=>remove(item.num)}>Delete</button></td>
                 </tr>
               )
             })
@@ -81,48 +85,57 @@ function List({list, add, remove}){
 }
 function Add(){
   let [num, setNum] = useState(0);
-  let [artist, setArtist] = useState("");
   let [genre, setGenre] = useState("");
   let [title, setTitle] = useState("");
+  let [date, setDate] = useState("");
 
   const numChange = (e) => setNum(e.target.value);
-  const artistChange = (e) => setArtist(e.target.value);
   const genreChange = (e) => setGenre(e.target.value);
   const titleChange = (e) => setTitle(e.target.value);
+  const dateChange = (e) => setDate(e.target.value);
 
   const navigate = useNavigate();
 
+  function nullCheck(){
+    if(num == 0 || genre == "" || title == "" || date == ""){
+      alert("전부다 입력해주세요");
+      window.location.reload();
+      return false;
+    }
+    return true;
+  }
+
   function addMusic(){
-    navigate("/",{
-      state : {
-        title,
-        artist,
-        genre,
-        num
-      }
-    })
+    if(nullCheck()){
+      navigate("/",{
+        state : {
+          title,
+          genre,
+          num,
+          date
+        }
+      })
+    }
+   
   }
 
   return (
-    <div>
-      <h1>음악 추가</h1>
+    <div className='box'>
+      <h1>Create Movie</h1>
       <div>
-        <label>음악 번호</label>
-        <input type="number" onChange={numChange}/>
+        <input type="number" onChange={numChange} placeholder='Input movie id'/>
       </div>
       <div>
-        <label>가수</label>
-        <input type="text" onChange={artistChange}/>
+        <input type="text" onChange={titleChange} placeholder='Input movie title'/>
       </div>
       <div>
-        <label>제목</label>
-        <input type="text" onChange={titleChange}/>
+        <input type="text" onChange={genreChange} placeholder='Input movie genre'/>
       </div>
       <div>
-        <label>장르</label>
-        <input type="text" onChange={genreChange}/>
+        <label>출시일</label>
+        <input type="date" onChange={dateChange}/>
       </div>
-      <button onClick={addMusic}>음악 추가</button>
+      <button onClick={addMusic}>Add Movie</button>
     </div>
   )
 }

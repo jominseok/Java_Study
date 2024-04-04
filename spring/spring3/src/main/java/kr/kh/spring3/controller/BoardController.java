@@ -25,6 +25,7 @@ public class BoardController {
 		ArrayList<BoardVO> boardList = boardService.getBoarList(cri);
 		int totalCount = boardService.getTotalCount(cri);
 		Pagemaker pm = new Pagemaker(2, cri, totalCount);
+		log.info(cri);
 		model.addAttribute("pm", pm);
 		model.addAttribute("boardList", boardList);
 		return "/board/postlist";
