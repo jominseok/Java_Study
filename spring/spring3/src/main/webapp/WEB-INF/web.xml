@@ -26,6 +26,12 @@
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		<!-- 에러페이지 처리 코드 시작 -->
+		<init-param>
+			<param-name>throwExceptionIfNoHandlerFound</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<!-- 에러페이지 처리 코드 끝 -->
 	</servlet>
 	
 	<!-- 인코딩 설정 -->	
