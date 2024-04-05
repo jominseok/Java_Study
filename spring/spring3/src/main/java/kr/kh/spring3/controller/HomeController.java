@@ -28,9 +28,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) {
-		log.info("안녕하세요 스프링 메인입니다.");
 		int count = memberService.getMemberCount();
-		log.info("등록된 회원 수 : " + count);
 		return "/main/home";
 	}
 	
@@ -63,7 +61,6 @@ public class HomeController {
 	public String loginPost(Model model, MemberVO member) {
 		MemberVO user = memberService.login(member);
 		model.addAttribute("user", user); //user라는 이름으로 전송
-		log.info(user);
 		if(user != null) {
 			model.addAttribute("url", "/");
 			model.addAttribute("msg", "로그인을 했습니다.");
