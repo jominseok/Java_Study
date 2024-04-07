@@ -4,12 +4,10 @@
 <!doctype html>
 <html>
 <head>
-	<title>Home</title>
 </head>
 <body>
 <h1>
-	500에러페이지
+	500 에러 페이지 
 </h1>
-
 </body>
 </html>

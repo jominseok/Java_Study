@@ -47,4 +47,3 @@ public class UploadFileUtils {
         return iconName.replace(File.separatorChar, '/');
     }
 }
-

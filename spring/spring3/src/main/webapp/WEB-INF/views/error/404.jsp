@@ -4,12 +4,10 @@
 <!doctype html>
 <html>
 <head>
-	<title>Home</title>
 </head>
 <body>
 <h1>
-	404 에러페이지
+	404 에러페이지  
 </h1>
-
 </body>
 </html>

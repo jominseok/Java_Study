@@ -7,8 +7,8 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-		/WEB-INF/spring/root-context.xml
-		/WEB-INF/spring/spring-security.xml
+			/WEB-INF/spring/root-context.xml
+			/WEB-INF/spring/spring-security.xml
 		</param-value>
 	</context-param>
 	
@@ -25,20 +25,19 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
-		<load-on-startup>1</load-on-startup>
-		<!-- 에러페이지 처리 코드 시작 -->
 		<init-param>
 			<param-name>throwExceptionIfNoHandlerFound</param-name>
 			<param-value>true</param-value>
 		</init-param>
-		<!-- 에러페이지 처리 코드 끝 -->
+		<load-on-startup>1</load-on-startup>
 	</servlet>
-	
-	<!-- 인코딩 설정 -->	
+		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+
+	<!-- 인코딩 설정 -->
 	<filter>
 	    <filter-name>encoding</filter-name>
 	    <filter-class>
@@ -55,5 +54,4 @@
 	    <url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!-- 인코딩 설정 끝 -->
-
 </web-app>
