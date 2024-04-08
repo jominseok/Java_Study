@@ -86,4 +86,22 @@ public class BoardServiceImp implements BoardService {
 	public ArrayList<CommunityVO> getCommunityList() {
 		return boardDao.selectCommunityList();
 	}
+
+	@Override
+	public void updateView(int num) {
+		// TODO Auto-generated method stub
+		boardDao.updateBoardView(num);
+	}
+
+	@Override
+	public BoardVO getBoard(int num) {
+		// TODO Auto-generated method stub
+		return boardDao.selectBoard(num);
+	}
+
+	@Override
+	public ArrayList<FileVO> getFileList(int num) {
+		// TODO Auto-generated method stub
+		return boardDao.selectFileList(num);
+	}
 }
